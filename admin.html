@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutar - Inspector de Equipos (Admin)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        solutarRojo: '#E31E24',
+                        solutarNegro: '#050505',
+                        solutarGris: '#111111',
+                        solutarBorde: '#222222',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        select, input, textarea { font-size: 16px !important; }
+        /* Ocultar barra de scroll en la galería de fotos */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Asegura que el texto en los desplegables siempre sea visible */
+    select option {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    /* Mejora la apariencia del calendario nativo */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1); /* Hace que el icono del calendario sea blanco para resaltar en fondo negro */
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body class="bg-solutarNegro text-white font-sans antialiased pb-20">
+
+    <nav class="bg-solutarNegro border-b-2 border-solutarRojo sticky top-0 z-40 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logoSolutar.png" alt="Logo Solutar" class="h-10 md:h-14 object-contain">
+                <div class="hidden md:block border-l border-solutarBorde pl-4">
+                    <span class="text-sm font-bold text-solutarRojo">Portal de Inspección Técnica</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-3 mr-2">
+                    <div class="text-right">
+                        <p id="nombreNavbar" class="text-sm font-bold text-white leading-tight">Administrador</p>
+                        <p class="text-xs text-gray-500">Inspector en Turno</p>
+                    </div>
+                    <div id="avatarCirculo" class="w-10 h-10 rounded-full bg-solutarRojo flex items-center justify-center font-black text-white shadow-[0_0_10px_rgba(227,30,36,0.5)] transition-all duration-300">
+                        <span id="avatarTexto">AD</span>
+                    </div>
+                </div>
+                <button onclick="window.location.href='index.html'" class="bg-solutarBorde hover:bg-gray-800 px-4 py-2 rounded transition-colors text-sm font-bold text-gray-300 hover:text-white">
+                    Salir <i class="fa-solid fa-right-from-bracket ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
+        
+        <div class="mb-8">
+            <h1 class="text-2xl md:text-3xl font-black mb-2 uppercase tracking-wide">Generador de Actas de Inspección</h1>
+            <p class="text-gray-400 text-sm md:text-base">Completa los datos del equipo para registrar el dictamen en el sistema.</p>
+        </div>
+
+        <form id="formInspeccion" class="bg-solutarGris border border-solutarBorde rounded-xl shadow-2xl overflow-hidden">
+            
+            <div class="p-5 md:p-8 border-b border-solutarBorde bg-solutarNegro/30">
+                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-building-user mr-2"></i> 1. Datos Operativos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Empresa / Cliente *</label>
+                        <select id="clienteSelect" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:outline-none focus:border-solutarRojo transition-colors" required>
+                            <option value="">Seleccione la empresa...</option>
+                            <option value="Cliente Demo S.A.S">Cliente Demo S.A.S</option>
+                            <option value="Constructora ABC">Constructora ABC</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Inspector Autorizado *</label>
+                        <select id="inspectorSelect" onchange="actualizarInspector()" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:outline-none focus:border-solutarRojo transition-colors" required>
+                            <option value="">Seleccione quién inspecciona...</option>
+                            <option value="Kevin">Kevin (Director Técnico)</option>
+                            <option value="José">José (Inspector SST)</option>
+                            <option value="Otro" class="text-solutarRojo font-bold">+ Agregar Nuevo Inspector</option>
+                        </select>
+                        <input type="text" id="nuevoInspectorInput" oninput="actualizarAvatarPersonalizado()" class="hidden w-full bg-solutarNegro border border-solutarRojo rounded text-white px-4 py-3 mt-3 focus:outline-none" placeholder="Nombre completo del inspector...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 md:p-8 border-b border-solutarBorde">
+                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-helmet-safety mr-2"></i> 2. Identificación del Equipo</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="md:col-span-1">
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Tipo de Equipo *</label>
+                        <select id="tipoEquipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Arnés de Cuerpo Entero">Arnés de Cuerpo Entero</option>
+                            <option value="Eslinga con Absorbedor">Eslinga con Absorbedor</option>
+                            <option value="Eslinga de Posicionamiento">Eslinga de Posicionamiento</option>
+                            <option value="Punto de Anclaje">Punto de Anclaje</option>
+                            <option value="Línea de Vida">Línea de Vida</option>
+                            <option value="Mosquetón / Conector">Mosquetón / Conector</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-1">
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Marca *</label>
+                        <input type="text" id="marcaEquipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none uppercase" placeholder="Ej: 3M, INSAFE" required>
+                    </div>
+                    <div class="md:col-span-1">
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Modelo / Referencia</label>
+                        <input type="text" id="modeloEquipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none uppercase" placeholder="Opcional">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Serial Fabricante *</label>
+                        <input type="text" id="serialFabricante" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none font-mono" placeholder="SN-XXXX" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Código Interno</label>
+                        <input type="text" id="codigoInterno" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none font-mono" placeholder="ID empresa">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Lote</label>
+                        <input type="text" id="loteEquipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm font-bold mb-2">Fecha Fabricación *</label>
+                        <input type="date" id="fechaFabricacion" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 md:p-8 border-b border-solutarBorde bg-solutarNegro/30">
+                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-microscope mr-2"></i> 3. Evaluación Técnica</h2>
+                
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg">
+                    <label class="block text-gray-400 text-xs font-bold mb-2 uppercase">Textiles (Cintas/Costuras)</label>
+                    <select id="estadoTextil" class="w-full bg-transparent text-white focus:outline-none cursor-pointer">
+                        <option value="Conforme" class="text-black">Conforme (Buen estado)</option>
+                        <option value="Desgaste Leve" class="text-black">Desgaste Leve (Aceptable)</option>
+                        <option value="No Conforme" class="text-black">No Conforme (Cortes/Quemaduras)</option>
+                        <option value="N/A" class="text-black">N/A</option>
+                    </select>
+                </div>
+
+                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg">
+                    <label class="block text-gray-400 text-xs font-bold mb-2 uppercase">Herrajes / Partes Metálicas</label>
+                    <select id="estadoMetal" class="w-full bg-transparent text-white focus:outline-none cursor-pointer">
+                        <option value="Conforme" class="text-black">Conforme (Sin corrosión/golpes)</option>
+                        <option value="No Conforme" class="text-black">No Conforme (Deformación/Óxido)</option>
+                        <option value="N/A" class="text-black">N/A</option>
+                    </select>
+                </div>
+
+                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg">
+                    <label class="block text-gray-400 text-xs font-bold mb-2 uppercase">Etiquetas y Trazabilidad</label>
+                    <select id="estadoEtiqueta" class="w-full bg-transparent text-white focus:outline-none cursor-pointer">
+                        <option value="Legible" class="text-black">Conforme y Legible</option>
+                        <option value="Ilegible" class="text-black">Ilegible / Faltante</option>
+                    </select>
+                </div>
+            </div>
+
+                <div class="mb-6">
+                    <label class="block text-white font-black mb-3 text-lg border-b border-solutarBorde pb-2">DICTAMEN FINAL DEL EQUIPO *</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="dictamen" value="APROBADO" class="peer hidden" required>
+                            <div class="bg-solutarNegro border-2 border-solutarBorde peer-checked:border-green-500 peer-checked:bg-green-900/20 rounded-lg p-4 text-center transition-all">
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl mb-2"></i>
+                                <p class="font-bold text-white">APROBADO</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="dictamen" value="MANTENIMIENTO" class="peer hidden">
+                            <div class="bg-solutarNegro border-2 border-solutarBorde peer-checked:border-yellow-500 peer-checked:bg-yellow-900/20 rounded-lg p-4 text-center transition-all">
+                                <i class="fa-solid fa-triangle-exclamation text-yellow-500 text-2xl mb-2"></i>
+                                <p class="font-bold text-white">MANTENIMIENTO</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="dictamen" value="RECHAZADO" class="peer hidden">
+                            <div class="bg-solutarNegro border-2 border-solutarBorde peer-checked:border-solutarRojo peer-checked:bg-red-900/20 rounded-lg p-4 text-center transition-all">
+                                <i class="fa-solid fa-ban text-solutarRojo text-2xl mb-2"></i>
+                                <p class="font-bold text-white">RECHAZADO</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-400 text-sm font-bold mb-2">Observaciones / Hallazgos</label>
+                    <textarea id="observaciones" rows="3" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none resize-none" placeholder="Detalles de la inspección..."></textarea>
+                </div>
+            </div>
+
+            <div class="p-5 md:p-8">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-solutarRojo uppercase tracking-wider"><i class="fa-solid fa-images mr-2"></i> 4. Registro Fotográfico</h2>
+                        <p class="text-sm text-gray-400">Adjunta hasta 4 fotos (Daños, etiquetas, equipo completo).</p>
+                    </div>
+                    <span id="contadorFotos" class="bg-solutarNegro border border-solutarBorde px-3 py-1 rounded text-sm font-bold text-gray-400 hidden sm:block">0 / 4</span>
+                </div>
+                
+                <div class="border-2 border-dashed border-solutarBorde hover:border-solutarRojo rounded-xl p-6 text-center transition-colors bg-solutarNegro relative cursor-pointer">
+                    <input type="file" id="inputFotos" accept="image/*" capture="environment" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="mostrarVistaPrevia(event)">
+                    
+                    <div id="mensajeDropzone" class="pointer-events-none">
+                        <i class="fa-solid fa-camera-retro text-5xl text-gray-600 mb-3"></i>
+                        <p class="text-white font-bold text-lg">Toca aquí para abrir la cámara o galería</p>
+                        <p class="text-solutarRojo text-sm mt-1 font-bold">Puedes seleccionar varias fotos a la vez</p>
+                    </div>
+
+                    <div id="vistaPreviaFotos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pointer-events-none empty:hidden"></div>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 border-t border-solutarBorde bg-solutarNegro flex justify-end">
+                <button type="submit" id="btnGuardar" class="w-full sm:w-auto bg-solutarRojo hover:bg-red-700 text-white font-bold py-4 px-10 rounded transition duration-300 shadow-[0_0_20px_rgba(227,30,36,0.4)] text-lg">
+                    <i class="fa-solid fa-file-signature mr-2"></i> Generar y Guardar Acta
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toastExito" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-green-600 text-white px-6 py-4 rounded shadow-2xl flex items-center gap-4 z-[100] border border-green-400 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-2xl"></i>
+        <div>
+            <h4 class="font-bold text-sm">¡Acta Registrada!</h4>
+            <p class="text-xs text-green-100">La inspección se guardó correctamente en el sistema.</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. LÓGICA DEL AVATAR INTELIGENTE
+        function obtenerIniciales(nombre) {
+            if (!nombre || nombre.trim() === "") return "AD"; // Admin por defecto
+            const palabras = nombre.trim().split(" ");
+            if (palabras.length === 1) return palabras[0].substring(0, 2).toUpperCase();
+            return (palabras[0][0] + palabras[1][0]).toUpperCase();
+        }
+
+        function actualizarInspector() {
+            const select = document.getElementById('inspectorSelect');
+            const inputNuevo = document.getElementById('nuevoInspectorInput');
+            const nombreNavbar = document.getElementById('nombreNavbar');
+            const avatarTexto = document.getElementById('avatarTexto');
+
+            if (select.value === "Otro") {
+                inputNuevo.classList.remove('hidden');
+                inputNuevo.required = true;
+                nombreNavbar.innerText = "Nuevo Inspector";
+                avatarTexto.innerText = "NI";
+            } else {
+                inputNuevo.classList.add('hidden');
+                inputNuevo.required = false;
+                
+                if (select.value === "Kevin") {
+                    nombreNavbar.innerText = "Kevin";
+                    avatarTexto.innerText = "KE";
+                } else if (select.value === "José") {
+                    nombreNavbar.innerText = "José";
+                    avatarTexto.innerText = "JO";
+                } else {
+                    nombreNavbar.innerText = "Administrador";
+                    avatarTexto.innerText = "AD";
+                }
+            }
+        }
+
+        // Se ejecuta mientras escribes el nombre del nuevo inspector
+        function actualizarAvatarPersonalizado() {
+            const inputNuevo = document.getElementById('nuevoInspectorInput').value;
+            if(inputNuevo.length > 0) {
+                document.getElementById('nombreNavbar').innerText = inputNuevo;
+                document.getElementById('avatarTexto').innerText = obtenerIniciales(inputNuevo);
+            }
+        }
+
+        // 2. LÓGICA DE LA GALERÍA MULTIFOTOS
+        function mostrarVistaPrevia(event) {
+            const contenedor = document.getElementById('vistaPreviaFotos');
+            const msjCentral = document.getElementById('mensajeDropzone');
+            const contador = document.getElementById('contadorFotos');
+            const archivos = event.target.files;
+            
+            contenedor.innerHTML = ''; // Limpiamos para mostrar nueva selección
+            
+            if(archivos.length > 0) {
+                msjCentral.classList.add('hidden'); // Ocultar el texto de subir fotos
+                
+                // Limitamos a mostrar un máximo de 4 visualmente (aunque el input tenga más)
+                const limite = Math.min(archivos.length, 4);
+                contador.innerText = `${archivos.length} / 4`;
+                if(archivos.length > 4) contador.classList.add('text-solutarRojo'); // Alerta si se pasa
+
+                for (let i = 0; i < limite; i++) {
+                    const archivo = archivos[i];
+                    if (archivo.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = "aspect-square rounded-lg overflow-hidden border-2 border-solutarBorde shadow-lg relative";
+                            imgDiv.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">
+                                                <div class="absolute top-1 right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"><i class="fa-solid fa-check"></i></div>`;
+                            contenedor.appendChild(imgDiv);
+                        }
+                        reader.readAsDataURL(archivo);
+                    }
+                }
+            } else {
+                msjCentral.classList.remove('hidden');
+                contador.innerText = "0 / 4";
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // ==========================================
+        // 🚨 API KEYS 🚨
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA",
+            authDomain: "solutar-gestion.firebaseapp.com",
+            projectId: "solutar-gestion",
+            storageBucket: "solutar-gestion.firebasestorage.app",
+            messagingSenderId: "472091356051",
+            appId: "1:472091356051:web:9ddeda6a8aece01ec19666"
+            };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Envío del Formulario a Firebase
+        document.getElementById('formInspeccion').addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+            
+            const btnGuardar = document.getElementById('btnGuardar');
+            btnGuardar.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Generando Acta...';
+            btnGuardar.disabled = true;
+
+            let inspectorFinal = document.getElementById('inspectorSelect').value;
+            if (inspectorFinal === "Otro") {
+                inspectorFinal = document.getElementById('nuevoInspectorInput').value;
+            }
+
+            let dictamenSeleccionado = document.querySelector('input[name="dictamen"]:checked').value;
+
+            try {
+                // Objeto JSON con toda la info del acta
+                const nuevaInspeccion = {
+                    cliente: document.getElementById('clienteSelect').value,
+                    inspector: inspectorFinal,
+                    equipo: {
+                        tipo: document.getElementById('tipoEquipo').value,
+                        marca: document.getElementById('marcaEquipo').value,
+                        modelo: document.getElementById('modeloEquipo').value,
+                        serial: document.getElementById('serialFabricante').value,
+                        codigo_interno: document.getElementById('codigoInterno').value,
+                        lote: document.getElementById('loteEquipo').value,
+                        fecha_fabricacion: document.getElementById('fechaFabricacion').value,
+                    },
+                    evaluacion: {
+                        estado_textil: document.getElementById('estadoTextil').value,
+                        estado_metal: document.getElementById('estadoMetal').value,
+                        estado_etiqueta: document.getElementById('estadoEtiqueta').value,
+                        observaciones: document.getElementById('observaciones').value,
+                    },
+                    dictamen_final: dictamenSeleccionado,
+                    fecha_registro: serverTimestamp()
+                };
+
+                await addDoc(collection(db, "actas_inspeccion"), nuevaInspeccion);
+
+                btnGuardar.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Acta Guardada';
+                btnGuardar.classList.replace('bg-solutarRojo', 'bg-green-600');
+                
+                const toast = document.getElementById('toastExito');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                
+                // Reinicio de todo el formulario
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                    document.getElementById('formInspeccion').reset();
+                    document.getElementById('vistaPreviaFotos').innerHTML = ''; 
+                    document.getElementById('mensajeDropzone').classList.remove('hidden');
+                    document.getElementById('contadorFotos').innerText = "0 / 4";
+                    document.getElementById('nombreNavbar').innerText = "Administrador";
+                    document.getElementById('avatarTexto').innerText = "AD";
+                    btnGuardar.innerHTML = '<i class="fa-solid fa-file-signature mr-2"></i> Generar y Guardar Acta';
+                    btnGuardar.classList.replace('bg-green-600', 'bg-solutarRojo');
+                    btnGuardar.disabled = false;
+                    document.getElementById('nuevoInspectorInput').classList.add('hidden');
+                }, 3000);
+
+            } catch (error) {
+                console.error("Error al guardar: ", error);
+                alert("Hubo un error al guardar. Asegúrate de tener Firestore activado en tu consola de Firebase.");
+                btnGuardar.innerHTML = '<i class="fa-solid fa-file-signature mr-2"></i> Generar y Guardar Acta';
+                btnGuardar.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
