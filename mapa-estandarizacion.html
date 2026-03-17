@@ -148,7 +148,7 @@
         import { getFirestore, collection, query, onSnapshot, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // ==========================================
-        // 🚨 API KEYS FIREBASE  🚨
+        // 🚨 PEGA TUS LLAVES DE FIREBASE AQUÍ 🚨
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA",
@@ -157,17 +157,17 @@
             storageBucket: "solutar-gestion.firebasestorage.app",
             messagingSenderId: "472091356051",
             appId: "1:472091356051:web:9ddeda6a8aece01ec19666"
-            };
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const tablaBody = document.getElementById("cuerpoTablaCliente");
 
-        // CARGAR DATOS EN TIEMPO REAL
-        const q = query(collection(db, "actas_inspeccion"), orderBy("fecha_registro", "desc"));
+        // CARGAR DATOS EN TIEMPO REAL DESDE LA V2
+        const q = query(collection(db, "actas_inspeccion_v2"), orderBy("fecha_registro", "desc"));
         
         onSnapshot(q, (snapshot) => {
             tablaBody.innerHTML = "";
-            
             if (snapshot.empty) {
                 tablaBody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-500">No hay equipos registrados aún.</td></tr>`;
                 return;
@@ -178,35 +178,34 @@
                 const fila = document.createElement("tr");
                 fila.className = "hover:bg-solutarBorde/30 transition-colors border-b border-solutarBorde";
 
-                let colorDictamen = data.dictamen_final === "APROBADO" ? "bg-green-900/30 text-green-400 border-green-800" : 
-                                   data.dictamen_final === "RECHAZADO" ? "bg-red-900/30 text-red-400 border-red-800" : 
-                                   "bg-yellow-900/30 text-yellow-400 border-yellow-800";
+                // Veredictos
+                let colorDictamen = "bg-yellow-900/30 text-yellow-400 border-yellow-800";
+                if(data.dictamen_final === "CONFORME" || data.dictamen_final === "CONFORME CON OBSERVACION") colorDictamen = "bg-green-900/30 text-green-400 border-green-800";
+                if(data.dictamen_final === "NO CONFORME" || data.dictamen_final === "NO CONFORME, VIDA UTIL SUPERADA") colorDictamen = "bg-red-900/30 text-red-400 border-red-800";
 
                 fila.innerHTML = `
-                    <td class="p-4 font-mono text-solutarRojo font-bold">${data.equipo.serial}</td>
+                    <td class="p-4 font-mono text-solutarRojo font-bold">${data.equipo.serial || 'S/N'}</td>
                     <td class="p-4">
                         <p class="font-bold text-sm text-white">${data.equipo.tipo}</p>
-                        <p class="text-xs text-gray-500">${data.equipo.marca}</p>
+                        <p class="text-xs text-gray-500">${data.equipo.fabricante} - ${data.cliente}</p>
                     </td>
                     <td class="p-4 text-xs text-gray-400">${data.inspector}</td>
                     <td class="p-4">
                         <span class="${colorDictamen} border px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
-                            ${data.dictamen_final}
+                            ${data.dictamen_final.substring(0,25)}...
                         </span>
                     </td>
                     <td class="p-4 text-center">
                         <button onclick="descargarPDF('${docSnap.id}')" class="text-xs bg-solutarRojo text-white hover:bg-red-700 font-bold py-2 px-4 rounded transition-colors shadow-lg shadow-red-900/20">
-                            Descargar <i class="fa-solid fa-file-pdf ml-1"></i>
+                            Descargar Acta <i class="fa-solid fa-file-pdf ml-1"></i>
                         </button>
                     </td>
                 `;
                 tablaBody.appendChild(fila);
             });
-            // Re-aplicar filtros por si el cliente tenía uno activo mientras llegó el dato nuevo
             window.filtrarTablaCliente();
         });
 
-        // MAGIA PARA EL PDF (Mantenemos la función intacta con tu logo)
         const imageToBase64 = (src) => {
             return new Promise((resolve, reject) => {
                 const img = new Image();
@@ -225,7 +224,7 @@
         };
 
         window.descargarPDF = async (idDocumento) => {
-            const docRef = doc(db, "actas_inspeccion", idDocumento);
+            const docRef = doc(db, "actas_inspeccion_v2", idDocumento);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
@@ -238,70 +237,86 @@
                     pdf.addImage(logoBase64, 'PNG', 15, 10, 35, 35);
                     
                     pdf.setTextColor(0, 0, 0);
-                    pdf.setFontSize(18);
+                    pdf.setFontSize(16);
                     pdf.setFont("helvetica", "bold");
                     pdf.text("SOLUTAR S.A.S", 60, 20);
-                    pdf.setFontSize(10);
+                    pdf.setFontSize(9);
                     pdf.setFont("helvetica", "normal");
                     pdf.text("Soluciones en Tareas de Alto Riesgo / Críticas", 60, 26);
                     
-                    pdf.setFontSize(12);
+                    pdf.setFontSize(11);
                     pdf.setFont("helvetica", "bold");
-                    pdf.text("ACTA DE INSPECCIÓN TÉCNICA", 60, 38);
+                    pdf.text("ACTA DE PRE-INSPECCIÓN TÉCNICA DE EQUIPOS", 60, 38);
                     pdf.line(60, 40, 195, 40);
 
-                    pdf.setTextColor(0, 0, 0);
-                    pdf.setFontSize(11);
-                    pdf.setFont("helvetica", "normal");
-                    pdf.text(`Cliente: ${data.cliente}`, 15, 60);
-                    pdf.text(`Inspector: ${data.inspector}`, 15, 67);
-                    
-                    let fechaAUsar = "Fecha no disponible";
-                    if (data.fecha_registro && data.fecha_registro.seconds) {
-                        fechaAUsar = new Date(data.fecha_registro.seconds * 1000).toLocaleDateString();
-                    }
-                    pdf.text(`Fecha: ${fechaAUsar}`, 150, 60);
+                    // DATOS GENERALES
+                    pdf.setFontSize(9);
+                    pdf.text(`Cliente/Empresa: ${data.cliente}`, 15, 50);
+                    pdf.text(`Proyecto/Sede: ${data.trazabilidad.proyecto}`, 15, 55);
+                    pdf.text(`Inspector: ${data.inspector}`, 15, 60);
+                    pdf.text(`Fecha Inspección: ${data.trazabilidad.fecha_inspeccion}`, 130, 50);
+                    pdf.text(`Tipo Inspección: ${data.trazabilidad.tipo_inspeccion.substring(0, 30)}`, 130, 55);
 
+                    // TABLA EQUIPO
                     pdf.autoTable({
-                        startY: 80,
+                        startY: 65,
                         theme: 'striped',
                         head: [['Identificación del Equipo', 'Detalles']],
                         body: [
+                            ['Fabricante', data.equipo.fabricante],
                             ['Tipo de Equipo', data.equipo.tipo],
-                            ['Marca / Modelo', `${data.equipo.marca} - ${data.equipo.modelo}`],
                             ['Serial / Lote', `${data.equipo.serial} / ${data.equipo.lote || 'N/A'}`],
-                            ['Fecha Fabricación', data.equipo.fecha_fabricacion],
+                            ['Referencia / Cód. Interno', `${data.equipo.referencia || 'N/A'} / ${data.equipo.codigo_interno || 'N/A'}`],
+                            ['Fecha Fab. / Año', `${data.equipo.fecha_fab || 'N/A'} - ${data.equipo.anio_fab || 'N/A'}`],
+                            ['Estado de Vida Útil', data.equipo.estado_vida || 'N/A']
                         ],
                         headStyles: { fillColor: [227, 30, 36] },
-                        styles: { fontSize: 10 }
+                        styles: { fontSize: 8 }
                     });
 
+                    // TABLA EVALUACIÓN (Resumen de las 37 preguntas)
+                    pdf.autoTable({
+                        startY: pdf.lastAutoTable.finalY + 10,
+                        theme: 'grid',
+                        head: [['Componente', 'Estado', 'Hallazgos / Plan de Acción']],
+                        body: [
+                            ['Etiquetas e Info.', data.evaluacion.etiquetas.estado, data.evaluacion.etiquetas.hallazgo],
+                            ['Textiles/Cintas', data.evaluacion.textiles.estado, data.evaluacion.textiles.hallazgo],
+                            ['Costuras', data.evaluacion.costuras.estado, data.evaluacion.costuras.hallazgo],
+                            ['Partes Metálicas', data.evaluacion.metalicos.estado, data.evaluacion.metalicos.hallazgo],
+                            ['Partes Móviles', data.evaluacion.moviles.estado, data.evaluacion.moviles.hallazgo],
+                            ['Plásticos/Recub.', data.evaluacion.plasticos.estado, data.evaluacion.plasticos.hallazgo]
+                        ],
+                        headStyles: { fillColor: [5, 5, 5] },
+                        styles: { fontSize: 8 }
+                    });
+
+                    // DICTAMEN FINAL
                     const finalY = pdf.lastAutoTable.finalY + 15;
-                    pdf.setFontSize(14);
+                    pdf.setFontSize(12);
                     pdf.setFont("helvetica", "bold");
                     pdf.text("DICTAMEN FINAL:", 15, finalY);
                     
-                    const colorDictamen = data.dictamen_final === "APROBADO" ? [0, 128, 0] : [227, 30, 36];
+                    let colorDictamen = [200, 150, 0]; // Amarillo
+                    if(data.dictamen_final.includes("CONFORME") && !data.dictamen_final.includes("NO CONFORME")) colorDictamen = [0, 128, 0]; // Verde
+                    if(data.dictamen_final.includes("NO CONFORME")) colorDictamen = [227, 30, 36]; // Rojo
+                    
                     pdf.setTextColor(colorDictamen[0], colorDictamen[1], colorDictamen[2]);
-                    pdf.text(data.dictamen_final, 60, finalY);
+                    pdf.text(data.dictamen_final, 55, finalY, { maxWidth: 140 });
 
+                    // FIRMAS
                     pdf.setTextColor(0, 0, 0);
-                    pdf.setFontSize(10);
-                    pdf.setFont("helvetica", "normal");
-                    pdf.text("Observaciones:", 15, finalY + 15);
-                    pdf.text(data.evaluacion.observaciones || "Sin observaciones.", 15, finalY + 22, { maxWidth: 180 });
-
-                    pdf.line(15, 260, 80, 260);
-                    pdf.text(`Firma Inspector (${data.inspector})`, 15, 265);
-
-                    pdf.line(130, 260, 195, 260);
-                    pdf.text("Recibido por Cliente", 130, 265);
+                    pdf.line(15, 270, 80, 270);
+                    pdf.setFontSize(9);
+                    pdf.text(`Firma Inspector (${data.inspector})`, 15, 275);
+                    pdf.line(130, 270, 195, 270);
+                    pdf.text("Recibido por Cliente", 130, 275);
 
                     pdf.save(`Acta_Solutar_${data.equipo.serial}.pdf`);
 
                 } catch (error) {
-                    console.error("Error al generar el PDF:", error);
-                    alert("Hubo un problema al cargar el logo para el PDF. Asegúrate de que el archivo 'logoSolutar.png' esté en la misma carpeta.");
+                    console.error("Error PDF:", error);
+                    alert("Error al generar PDF.");
                 }
             }
         };
