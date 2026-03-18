@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
+        // CONFIGURACIÓN DE LA PALETA INDUSTRIAL (Rojo vibrante + Íconos Blancos)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        solutarRojo: '#E31E24',
-                        solutarNegro: '#050505',
-                        solutarGris: '#111111',
-                        solutarBorde: '#222222',
+                        burgundy: '#881C23',      // Borgoña principal
+                        solutarRojo: '#E31E24',   // Rojo vibrante (Reemplaza al terracota)
+                        mist: '#F4F6F5',          // Blanco/Gris muy suave
+                        blancoPuro: '#FFFFFF',      // Cabecera, Footer y Tarjetas de Íconos
+                        slate: '#4E5861',         // GRIS PIZARRA (Fondo principal de la web)
+                        subtleBlack: '#25272A',   // Negro sutil
+                        bordeClaro: '#DDE2E1'      // Bordes sutiles
                     }
                 }
             }
@@ -23,7 +27,7 @@
     </script>
     <style>
         .hero-bg {
-            background-image: linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.95)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-image: linear-gradient(rgba(78, 88, 97, 0.88), rgba(78, 88, 97, 0.98)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
         }
@@ -31,275 +35,269 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-solutarNegro text-white font-sans antialiased scroll-smooth">
+<body class="bg-slate text-mist font-sans antialiased scroll-smooth">
 
-    <nav class="bg-solutarNegro/95 backdrop-blur-md border-b border-solutarBorde fixed w-full z-50">
+    <nav class="bg-blancoPuro/95 backdrop-blur-md border-b border-bordeClaro fixed w-full z-50 shadow-lg shadow-black/5">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            <img src="logoSolutar.png" alt="Logo Solutar" class="h-20 md:h-24 object-contain drop-shadow-[0_0_10px_rgba(227,30,36,0.3)]">
-            
+            <img src="logoSolutar.png" alt="Logo Solutar" class="h-20 md:h-24 object-contain">
             <div class="flex gap-4 items-center">
-                <button onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})" class="hidden md:block text-gray-400 hover:text-white font-bold transition-colors mr-4">
-                    Contacto
-                </button>
-                <button onclick="toggleLoginModal()" class="px-6 py-2.5 font-bold text-white rounded bg-solutarRojo shadow-[0_0_15px_rgba(227,30,36,0.5)] hover:bg-red-700 transition-all">
-                    <i class="fa-solid fa-user-lock mr-2"></i> Acceso Clientes
-                </button>
+                <button onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})" class="hidden md:block text-slate hover:text-solutarRojo font-bold transition-colors mr-4">Contacto</button>
+                <button onclick="toggleLoginModal()" class="px-6 py-2.5 font-bold text-white rounded bg-burgundy hover:bg-red-900 transition-all shadow-md shadow-burgundy/40"><i class="fa-solid fa-user-lock mr-2"></i> Acceso Clientes</button>
             </div>
         </div>
     </nav>
 
-    <header class="hero-bg min-h-screen flex items-center pt-24 pb-12 border-b border-solutarBorde">
+    <header class="hero-bg min-h-screen flex items-center pt-24 pb-12 border-b border-subtleBlack">
         <div class="max-w-7xl mx-auto px-6 text-center md:text-left grid md:grid-cols-2 gap-12 items-center">
             <div>
-                <div class="inline-block bg-solutarRojo/20 border border-solutarRojo text-solutarRojo px-4 py-1 rounded-full text-sm font-bold tracking-widest mb-6 uppercase">
-                    Seguridad y Salud en el Trabajo
-                </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-                    Control total de tus <br>
-                    <span class="text-solutarRojo">Tareas Críticas</span>
-                </h1>
-                <p class="text-gray-400 text-lg mb-10 leading-relaxed max-w-2xl">
-                    Plataforma SaaS para la gestión del <strong>Mapa de Estandarización</strong>. Control operacional, reportes en vivo e inspección técnica con validez legal.
-                </p>
+                <div class="inline-block bg-burgundy border border-burgundy/50 text-white px-4 py-1.5 rounded-full text-sm font-bold tracking-widest mb-6 uppercase shadow-lg shadow-black/10">Seguridad y Salud en el Trabajo</div>
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-white">Control total de tus <br><span class="text-solutarRojo">Tareas Críticas</span></h1>
+                <p class="text-mist/80 text-lg mb-10 leading-relaxed max-w-2xl">Plataforma SaaS para la gestión del <strong>Mapa de Estandarización</strong>. Control operacional, reportes en vivo e inspección técnica con validez legal.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <button onclick="document.getElementById('nosotros').scrollIntoView({behavior: 'smooth'})" class="bg-white text-solutarNegro font-bold py-3 px-8 rounded hover:bg-gray-200 transition duration-300">
-                        Conoce más de nosotros
-                    </button>
-                    <button onclick="document.getElementById('servicios').scrollIntoView({behavior: 'smooth'})" class="border-2 border-solutarRojo text-white hover:bg-solutarRojo font-bold py-3 px-8 rounded transition duration-300">
-                        Líneas de Intervención
-                    </button>
+                    <button onclick="document.getElementById('nosotros').scrollIntoView({behavior: 'smooth'})" class="bg-blancoPuro text-subtleBlack font-bold py-3 px-8 rounded hover:bg-mist transition duration-300 shadow-xl shadow-black/10">Conoce más de nosotros</button>
+                    <button onclick="document.getElementById('circuloSST').scrollIntoView({behavior: 'smooth'})" class="border-2 border-solutarRojo text-white bg-solutarRojo/20 hover:bg-solutarRojo font-bold py-3 px-8 rounded transition duration-300">Modelo de Soluciones SST</button>
                 </div>
             </div>
-            
             <div class="hidden md:block relative">
-                <div class="bg-solutarGris border border-solutarBorde rounded-xl p-8 relative z-10 shadow-2xl">
-                    <h3 class="text-xl font-bold mb-4 border-b border-solutarBorde pb-2"><i class="fa-solid fa-chart-pie text-solutarRojo mr-2"></i> Monitor de Equipos</h3>
+                <div class="bg-blancoPuro border border-bordeClaro rounded-2xl p-8 relative z-10 shadow-[0_20px_60px_rgba(0,0,0,0.2)]">
+                    <h3 class="text-xl font-bold mb-4 border-b border-bordeClaro pb-3 text-subtleBlack"><i class="fa-solid fa-chart-pie text-burgundy mr-2"></i> Monitor de Equipos</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center"><span class="text-gray-400">Arneses 4 argollas</span> <span class="text-green-500 font-bold"><i class="fa-solid fa-check"></i> 14 Conformes</span></div>
-                        <div class="flex justify-between items-center"><span class="text-gray-400">Puntos de anclaje</span> <span class="text-yellow-500 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> 2 Por vencer</span></div>
-                        <div class="flex justify-between items-center"><span class="text-gray-400">Eslingas</span> <span class="text-solutarRojo font-bold"><i class="fa-solid fa-xmark"></i> 1 Rechazado</span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Arneses 4 argollas</span> <span class="text-green-600 font-bold"><i class="fa-solid fa-check mr-1.5"></i> 14 Conformes</span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Puntos de anclaje</span> <span class="text-yellow-600 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> 2 Por vencer</span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Eslingas</span> <span class="text-solutarRojo font-bold"><i class="fa-solid fa-xmark mr-1.5"></i> 1 Rechazado</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="nosotros" class="bg-solutarNegro py-24 px-6 border-b border-solutarBorde relative overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-solutarRojo/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <section id="nosotros" class="bg-slate py-24 px-6 border-b border-subtleBlack relative overflow-hidden">
         <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            
             <div>
-                <h2 class="text-4xl font-extrabold mb-6">¿Quiénes <span class="text-solutarRojo">Somos?</span></h2>
-                <p class="text-gray-400 text-lg leading-relaxed mb-6">
-                    Somos una compañía especializada en Seguridad y Salud en el Trabajo, con énfasis en la gestión integral de tareas críticas y trabajos de alto riesgo.
+                <h2 class="text-4xl font-extrabold mb-6 text-white">¿Quiénes <span class="text-solutarRojo">Somos?</span></h2>
+                <p class="text-mist/90 text-lg leading-relaxed mb-6">
+                    Somos una compañía especializada en Seguridad y Salud en el Trabajo, con énfasis en la gestión integral de tareas críticas y trabajos de alto riesgo. Diseñamos e implementamos soluciones técnicas apoyadas por un equipo de profesionales calificados.
                 </p>
-                <p class="text-gray-400 text-lg leading-relaxed mb-10">
-                    Diseñamos e implementamos soluciones técnicas y normativas orientadas a fortalecer la seguridad operativa de las organizaciones, apoyadas por un equipo de profesionales altamente calificados y expertos en la gestión de riesgos laborales.
+                <p class="text-mist/90 text-lg leading-relaxed mb-10">
+                    Nuestra misión es estandarizar y certificar sus procesos corporativos, garantizando la trazabilidad y el cumplimiento legal ante los entes de control y auditorías.
                 </p>
 
-                <h3 class="text-2xl font-bold mb-6 border-l-4 border-solutarRojo pl-4">¿Para quiénes lo hacemos?</h3>
+                <h3 class="text-2xl font-bold mb-6 border-l-4 border-solutarRojo pl-4 text-white">¿Para quiénes lo hacemos?</h3>
                 <ul class="space-y-6">
                     <li class="flex items-start">
-                        <div class="bg-solutarGris p-3 rounded border border-solutarBorde mr-4"><i class="fa-solid fa-city text-solutarRojo text-xl"></i></div>
-                        <div><strong class="text-white text-lg block mb-1">Sector Corporativo</strong><p class="text-gray-400 text-sm">Acompañamiento en el cumplimiento legal en el marco de la Seguridad y Salud en el Trabajo.</p></div>
+                        <div class="bg-blancoPuro p-3.5 rounded-lg mr-4 shadow-lg shadow-black/10"><i class="fa-solid fa-city text-burgundy text-xl"></i></div>
+                        <div><strong class="text-white text-lg block mb-1">Sector Corporativo</strong><p class="text-mist/70 text-sm">Cumplimiento legal ante entes de control.</p></div>
                     </li>
                     <li class="flex items-start">
-                        <div class="bg-solutarGris p-3 rounded border border-solutarBorde mr-4"><i class="fa-solid fa-shield-heart text-solutarRojo text-xl"></i></div>
-                        <div><strong class="text-white text-lg block mb-1">Administradoras de Riesgos Laborales (ARL)</strong><p class="text-gray-400 text-sm">Asesoría y formación para sus clientes, adaptada a su metodología de atención.</p></div>
-                    </li>
-                    <li class="flex items-start">
-                        <div class="bg-solutarGris p-3 rounded border border-solutarBorde mr-4"><i class="fa-solid fa-users-gear text-solutarRojo text-xl"></i></div>
-                        <div><strong class="text-white text-lg block mb-1">Gremio Seguridad y Salud en el Trabajo</strong><p class="text-gray-400 text-sm">Diseñamos y entregamos herramientas para el óptimo desarrollo de sus funciones.</p></div>
+                        <div class="bg-blancoPuro p-3.5 rounded-lg mr-4 shadow-lg shadow-black/10"><i class="fa-solid fa-users-gear text-solutarRojo text-xl"></i></div>
+                        <div><strong class="text-white text-lg block mb-1">Gestión del Riesgo operativa</strong><p class="text-mist/70 text-sm">Digitalización y control técnico en campo.</p></div>
                     </li>
                 </ul>
             </div>
 
-            <div class="bg-solutarGris border border-solutarBorde p-8 rounded-2xl shadow-2xl">
-                <h3 class="text-2xl font-bold mb-2 text-center">Modelo de Estandarización</h3>
-                <p class="text-gray-500 text-center text-sm mb-8">Nuestra metodología comprobada</p>
-                <div class="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-solutarRojo before:to-transparent">
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-solutarGris bg-solutarRojo text-white shadow shrink-0 md:order-1 z-10"><i class="fa-solid fa-1"></i></div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-solutarNegro p-4 rounded border border-solutarBorde shadow"><h4 class="font-bold text-white mb-1">Diagnóstico</h4><p class="text-sm text-gray-400">Identificación de Procesos</p></div>
+            <div id="circuloSST" class="bg-subtleBlack border border-slate p-8 rounded-full shadow-2xl relative flex items-center justify-center aspect-square max-w-xl mx-auto mt-10 lg:mt-0">
+                
+                <div class="bg-blancoPuro border border-bordeClaro rounded-full p-6 shadow-2xl relative z-10 w-[17rem] h-[17rem] flex flex-col items-center justify-center space-y-3">
+                    <div class="bg-mist border border-burgundy/20 rounded-full px-4 py-2 text-center shadow-inner w-full">
+                        <span class="text-subtleBlack text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide">IDENTIFICACIÓN DE SUS<br>PROCESOS Y ACTIVIDADES</span>
                     </div>
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-solutarGris bg-solutarNegro border-solutarRojo text-solutarRojo shadow shrink-0 md:order-1 z-10"><i class="fa-solid fa-2"></i></div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-solutarNegro p-4 rounded border border-solutarBorde shadow"><h4 class="font-bold text-white mb-1">Gestión del Riesgo</h4><p class="text-sm text-gray-400">Control Potencial y Expresado</p></div>
+                    <div class="bg-mist border border-solutarRojo/20 rounded-full px-4 py-2 text-center shadow-inner w-full">
+                        <span class="text-subtleBlack text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide">GESTIÓN DEL RIESGO PARA<br>TAREAS CRÍTICAS Y DE ALTO RIESGO</span>
                     </div>
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-solutarGris bg-solutarNegro border-solutarRojo text-solutarRojo shadow shrink-0 md:order-1 z-10"><i class="fa-solid fa-3"></i></div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-solutarNegro p-4 rounded border border-solutarBorde shadow"><h4 class="font-bold text-white mb-1">Control Operacional</h4><p class="text-sm text-gray-400">Máquinas y Equipos</p></div>
+                    <div class="bg-mist border border-burgundy/20 rounded-full px-4 py-2 text-center shadow-inner w-full">
+                        <span class="text-subtleBlack text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide">GESTIÓN DEL RIESGO PARA MÁQUINAS,<br>EQUIPOS Y HERRAMIENTAS</span>
                     </div>
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-solutarGris bg-solutarNegro border-solutarRojo text-solutarRojo shadow shrink-0 md:order-1 z-10"><i class="fa-solid fa-4"></i></div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-solutarNegro p-4 rounded border border-solutarBorde shadow"><h4 class="font-bold text-white mb-1">Verificación</h4><p class="text-sm text-gray-400">Inspección SST</p></div>
+                    <div class="bg-mist border border-solutarRojo/20 rounded-full px-4 py-2 text-center shadow-inner w-full">
+                        <span class="text-subtleBlack text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide">CONTROL OPERACIONAL<br>Y DOCUMENTAL</span>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 z-0 flex items-center justify-center">
+                    <div onclick="abrirBrochure(1)" class="absolute group cursor-pointer" style="transform: rotate(0deg) translate(15.5rem); rotate(0deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-person-arrow-up-from-line text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(2)" class="absolute group cursor-pointer" style="transform: rotate(36deg) translate(15.5rem); rotate(-36deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-tents text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(3)" class="absolute group cursor-pointer" style="transform: rotate(72deg) translate(15.5rem); rotate(-72deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-truck-ramp-box text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(4)" class="absolute group cursor-pointer" style="transform: rotate(108deg) translate(15.5rem); rotate(-108deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-bolt text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(5)" class="absolute group cursor-pointer" style="transform: rotate(144deg) translate(15.5rem); rotate(-144deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-flask text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(6)" class="absolute group cursor-pointer" style="transform: rotate(180deg) translate(15.5rem); rotate(-180deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-fire text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(7)" class="absolute group cursor-pointer" style="transform: rotate(216deg) translate(15.5rem); rotate(-216deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-file-shield text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(8)" class="absolute group cursor-pointer" style="transform: rotate(252deg) translate(15.5rem); rotate(-252deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-stethoscope text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(9)" class="absolute group cursor-pointer" style="transform: rotate(288deg) translate(15.5rem); rotate(-288deg);">
+                        <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-ruler-combined text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
+                    </div>
+                    <div onclick="abrirBrochure(10)" class="absolute group cursor-pointer text-white" style="transform: rotate(324deg) translate(15.5rem); rotate(-324deg);">
+                        <div class="bg-solutarRojo border-2 border-solutarRojo p-4 rounded-xl hover:scale-110 transition-all shadow-[0_10px_20px_rgba(227,30,36,0.4)]"><i class="fa-solid fa-map-location-dot text-3xl"></i></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="servicios" class="bg-solutarGris py-24 px-6 border-b border-solutarBorde">
+    <section id="servicios" class="bg-slate py-24 px-6 border-t border-slate">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-extrabold text-center mb-4">Líneas de <span class="text-solutarRojo">Intervención</span></h2>
-            <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto">Estandarización y control absoluto en operaciones de alto riesgo. <br><span class="text-solutarRojo font-bold">Haz clic en cualquier servicio para ver los detalles.</span></p>
+            <h2 class="text-4xl font-extrabold text-center mb-4 text-white">Nuestros <span class="text-solutarRojo">Servicios</span></h2>
+            <p class="text-center text-mist/70 mb-16 max-w-2xl mx-auto">Estandarización y control absoluto en operaciones de alto riesgo. <br><span class="text-white font-bold">Haz clic en cualquier tarjeta para conocer más y solicitar asesoría.</span></p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div onclick="abrirBrochure(1)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-person-arrow-up-from-line text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">01. Trabajo en Alturas</h3>
-                    <p class="text-gray-400 text-sm mb-4">Inspección, diseño e instalación de sistemas contra caídas.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="abrirBrochure(11)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-walkie-talkie text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">MONITOREO EN<br>HIGIENE LABORAL</h3>
                 </div>
 
-                <div onclick="abrirBrochure(2)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-tents text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">02. Espacios Confinados</h3>
-                    <p class="text-gray-400 text-sm mb-4">Monitoreo de atmósferas y acompañamiento técnico continuo.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(12)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-gears text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">ASESORÍA<br>EN SG-SST</h3>
                 </div>
 
-                <div onclick="abrirBrochure(3)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-truck-ramp-box text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">03. Izaje de Cargas</h3>
-                    <p class="text-gray-400 text-sm mb-4">Planes de rigging y estandarización de maniobras críticas.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(13)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-hard-hat text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">VENTA Y ALQUILER DE CONTROLES DE SEGURIDAD INDUSTRIAL</h3>
                 </div>
 
-                <div onclick="abrirBrochure(4)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-bolt text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">04. Energías Peligrosas</h3>
-                    <p class="text-gray-400 text-sm mb-4">Implementación de procedimientos LOTO para mantenimiento seguro.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(14)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-screwdriver-wrench text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">DISEÑO E INSTALACIÓN DE SISTEMAS DE PROTECCIÓN CONTRA CAÍDAS</h3>
                 </div>
 
-                <div onclick="abrirBrochure(5)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-flask text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">05. Sustancias Químicas</h3>
-                    <p class="text-gray-400 text-sm mb-4">Estandarización en manipulación y almacenamiento seguro (SGA).</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(15)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-user-shield text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">SUPERVISIÓN Y EJECUCIÓN<br>DE TAREAS CRÍTICAS</h3>
                 </div>
 
-                <div onclick="abrirBrochure(6)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-fire text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">06. Trabajos en Caliente</h3>
-                    <p class="text-gray-400 text-sm mb-4">Control de riesgos de incendio y explosión en áreas operativas.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(16)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-person-chalkboard text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">ADMINISTRACIÓN<br>Y EJECUCIÓN DE LA<br>FORMACIÓN SST</h3>
                 </div>
 
-                <div onclick="abrirBrochure(7)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-file-shield text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">07. Sistemas SG-SST</h3>
-                    <p class="text-gray-400 text-sm mb-4">Diseño, implementación y auditoría de sistemas de gestión.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(17)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-magnifying-glass-chart text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">INSPECCIÓN SST<br>Y ANÁLISIS DE<br>LOS DATOS</h3>
                 </div>
 
-                <div onclick="abrirBrochure(8)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-stethoscope text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">08. Higiene Laboral</h3>
-                    <p class="text-gray-400 text-sm mb-4">Monitoreo de agentes físicos, químicos y biológicos en campo.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div onclick="abrirBrochure(18)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
+                    <i class="fa-solid fa-network-wired text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">GESTIÓN DEL<br>RIESGO POTENCIAL<br>Y EXPRESADO</h3>
                 </div>
 
-                <div onclick="abrirBrochure(9)" class="bg-solutarNegro border border-solutarBorde p-6 rounded-xl hover:border-solutarRojo transition-all cursor-pointer group shadow-lg">
-                    <i class="fa-solid fa-ruler-combined text-3xl text-solutarRojo mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-solutarRojo transition-colors">09. Diseño e Instalación</h3>
-                    <p class="text-gray-400 text-sm mb-4">Ingeniería para sistemas de protección y puntos de anclaje.</p>
-                    <span class="text-solutarRojo font-bold text-xs uppercase tracking-wider">Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i></span>
-                </div>
-
-                <div onclick="abrirBrochure(10)" class="bg-solutarRojo border border-red-700 p-8 rounded-xl hover:bg-red-700 cursor-pointer transition-all md:col-span-2 lg:col-span-3 text-center shadow-[0_0_20px_rgba(227,30,36,0.4)]">
-                    <i class="fa-solid fa-map-location-dot text-5xl mb-4 text-white"></i>
-                    <h3 class="text-3xl font-black mb-3 text-white uppercase tracking-wide">10. Gestión de Riesgo Potencial y Expresado</h3>
-                    <p class="text-white text-lg max-w-3xl mx-auto font-medium mb-3">Software exclusivo de autogestión y control operacional en tiempo real a través de nuestro Mapa de Estandarización.</p>
-                    <span class="bg-white text-solutarRojo font-black py-2 px-6 rounded-full text-sm uppercase tracking-wider inline-block mt-2 shadow-lg">Ver Detalles del Software <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <div class="bg-solutarRojo border border-solutarRojo/50 p-8 rounded-2xl transition-all md:col-span-2 lg:col-span-4 text-center shadow-[0_15px_40px_rgba(227,30,36,0.3)] mt-4">
+                    <i class="fa-solid fa-map-location-dot text-5xl mb-5 text-white"></i>
+                    <h3 class="text-3xl font-black mb-3 text-white uppercase tracking-wide">10. GESTIÓN DE RIESGO POTENCIAL Y EXPRESADO</h3>
+                    <p class="text-white/90 text-lg max-w-3xl mx-auto font-medium mb-6">Software exclusivo de autogestión y control operacional en tiempo real a través de nuestro Mapa de Estandarización.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button onclick="abrirBrochure(10)" class="bg-white hover:bg-mist text-solutarRojo font-black py-3 px-8 rounded-full text-sm uppercase tracking-wider shadow-lg transition-all">
+                            Ver Detalles <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                        <a href="https://wa.me/573147479180?text=Hola%20Solutar,%20solicito%20una%20demostración%20del%20Software%20SST" target="_blank" class="bg-[#25D366] hover:bg-[#1ebd5a] text-white font-black py-3 px-8 rounded-full text-sm uppercase tracking-wider shadow-lg transition-all flex items-center">
+                            <i class="fa-brands fa-whatsapp text-xl mr-2"></i> Cotizar Vía WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="bg-solutarNegro py-24 px-6 relative">
+    <section id="contacto" class="bg-slate py-24 px-6 relative border-t border-slate">
         <div class="max-w-4xl mx-auto relative z-10 text-center">
-            <h2 class="text-4xl font-extrabold mb-6">Ponte en <span class="text-solutarRojo">Contacto</span></h2>
-            <p class="text-gray-400 text-lg mb-12">¿Necesitas estandarizar tus tareas críticas o quieres implementar nuestro software en tu operación?</p>
+            <h2 class="text-4xl font-extrabold mb-6 text-white">Ponte en <span class="text-solutarRojo">Contacto</span></h2>
+            <p class="text-mist/90 text-lg mb-12">¿Necesitas estandarizar tus tareas críticas o quieres implementar nuestro software en tu operación? Estamos listos para asesorarte.</p>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <a href="https://wa.me/573147479180?text=Hola%20equipo%20Solutar,%20me%20gustaría%20recibir%20asesoría%20sobre%20sus%20servicios." target="_blank" class="block bg-solutarGris border border-solutarBorde p-8 rounded-xl hover:border-[#25D366] transition-all group shadow-lg cursor-pointer transform hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-solutarNegro border border-[#25D366] rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#25D366] transition-colors shadow-[0_0_15px_rgba(37,211,102,0.3)]">
-                        <i class="fa-brands fa-whatsapp text-3xl text-[#25D366] group-hover:text-white transition-colors"></i>
+                <a href="https://wa.me/573147479180?text=Hola%20equipo%20Solutar,%20me%20gustaría%20recibir%20asesoría%20sobre%20sus%20servicios." target="_blank" class="block bg-blancoPuro border border-bordeClaro p-8 rounded-2xl hover:border-[#25D366] transition-all group shadow-2xl cursor-pointer transform hover:-translate-y-2.5 shadow-black/10">
+                    <div class="w-16 h-16 bg-blancoPuro border border-bordeClaro rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#25D366]/10 transition-colors shadow-inner">
+                        <i class="fa-brands fa-whatsapp text-3xl text-[#25D366]"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">WhatsApp Directo</h3>
-                    <p class="text-gray-400 text-sm mb-4">Chat rápido con nuestro equipo comercial y técnico.</p>
-                    <span class="text-2xl font-black text-white group-hover:text-[#25D366] transition-colors">314 747 9180</span>
+                    <h3 class="text-xl font-bold mb-2 text-subtleBlack">WhatsApp Directo</h3>
+                    <p class="text-slate text-sm mb-4 font-medium">Chat rápido con nuestro equipo comercial y técnico.</p>
+                    <span class="text-2xl font-black text-subtleBlack group-hover:text-[#25D366] transition-colors">314 747 9180</span>
                 </a>
 
-                <a href="mailto:comercialsolutar@hotmail.com?subject=Consulta%20desde%20la%20página%20Web%20Solutar" class="block bg-solutarGris border border-solutarBorde p-8 rounded-xl hover:border-solutarRojo transition-all group shadow-lg cursor-pointer transform hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-solutarNegro border border-solutarRojo rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-solutarRojo transition-colors shadow-[0_0_15px_rgba(227,30,36,0.3)]">
-                        <i class="fa-solid fa-envelope text-2xl text-solutarRojo group-hover:text-white transition-colors"></i>
+                <a href="mailto:comercialsolutar@hotmail.com?subject=Consulta%20desde%20la%20página%20Web%20Solutar" class="block bg-blancoPuro border border-bordeClaro p-8 rounded-2xl hover:border-burgundy transition-all group shadow-2xl cursor-pointer transform hover:-translate-y-2.5 shadow-black/10">
+                    <div class="w-16 h-16 bg-blancoPuro border border-bordeClaro rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-burgundy/10 transition-colors shadow-inner">
+                        <i class="fa-solid fa-envelope text-2xl text-burgundy"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Correo Electrónico</h3>
-                    <p class="text-gray-400 text-sm mb-4">Atención corporativa y solicitudes formales.</p>
-                    <span class="text-lg font-bold text-white group-hover:text-solutarRojo transition-colors break-all">comercialsolutar@hotmail.com</span>
+                    <h3 class="text-xl font-bold mb-2 text-subtleBlack">Correo Electrónico</h3>
+                    <p class="text-slate text-sm mb-4 font-medium">Atención corporativa y solicitudes formales.</p>
+                    <span class="text-lg font-bold text-subtleBlack group-hover:text-burgundy transition-colors break-all">comercialsolutar@hotmail.com</span>
                 </a>
+
             </div>
         </div>
     </section>
 
-    <footer class="bg-solutarNegro border-t border-solutarBorde py-12 px-6">
+    <footer class="bg-blancoPuro border-t border-bordeClaro py-12 px-6 shadow-lg shadow-black/5">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="mb-4 md:mb-0"><img src="logoSolutar.png" alt="Logo Solutar" class="h-16 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all"></div>
+            <div class="mb-4 md:mb-0"><img src="logoSolutar.png" alt="Logo Solutar" class="h-16 object-contain opacity-70 hover:opacity-100 transition-all"></div>
+            
             <div class="flex gap-4">
-                <a href="#" target="_blank" class="w-12 h-12 rounded-full bg-solutarGris border border-solutarBorde flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all"><i class="fa-brands fa-facebook-f text-xl"></i></a>
-                <a href="#" target="_blank" class="w-12 h-12 rounded-full bg-solutarGris border border-solutarBorde flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#E4405F] hover:border-[#E4405F] transition-all"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/share/183azhMA2M/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-mist border border-bordeClaro flex items-center justify-center text-slate hover:text-white hover:bg-[#1877F2] transition-all shadow-md" aria-label="Facebook"><i class="fa-brands fa-facebook-f text-xl"></i></a>
+                <a href="https://www.instagram.com/solutar26?igsh=eW1rYng1YjdueHVv" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-mist border border-bordeClaro flex items-center justify-center text-slate hover:text-white hover:bg-[#E4405F] transition-all shadow-md" aria-label="Instagram"><i class="fa-brands fa-instagram text-xl"></i></a>
             </div>
-            <div class="text-gray-500 text-sm text-center md:text-right">
+
+            <div class="text-slate text-sm text-center md:text-right font-medium">
                 <p>&copy; 2026 Solutar SAS. Todos los derechos reservados.</p>
+                <p class="mt-1">Diseñado para la gestión del riesgo operativo.</p>
             </div>
         </div>
     </footer>
 
-    <div id="loginModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-        <div class="bg-solutarGris border border-solutarBorde rounded-2xl w-full max-w-md p-8 relative shadow-2xl">
-            <button onclick="toggleLoginModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <div class="text-center mb-8"><img src="logoSolutar.png" alt="Logo Solutar" class="h-20 mx-auto mb-4 object-contain"><p class="text-gray-400 text-sm">Ingreso al Mapa de Estandarización</p></div>
-            <form id="loginForm" onsubmit="iniciarSesion(event)">
-                <div class="mb-5"><label class="block text-gray-400 text-sm font-bold mb-2">Correo Corporativo</label><input type="email" id="email" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:outline-none focus:border-solutarRojo" required></div>
-                <div class="mb-8"><label class="block text-gray-400 text-sm font-bold mb-2">Contraseña</label><input type="password" id="password" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:outline-none focus:border-solutarRojo" required></div>
-                <button type="submit" id="btnIngresar" class="w-full bg-solutarRojo hover:bg-red-700 text-white font-bold py-3 rounded transition duration-300">Ingresar <i class="fa-solid fa-arrow-right ml-2"></i></button>
+    <div id="loginModal" class="hidden fixed inset-0 bg-subtleBlack/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-blancoPuro border border-bordeClaro rounded-3xl w-full max-w-md p-8 relative shadow-2xl">
+            <button onclick="toggleLoginModal()" class="absolute top-5 right-5 text-slate hover:text-burgundy transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <div class="text-center mb-9"><img src="logoSolutar.png" alt="Logo Solutar" class="h-20 mx-auto mb-4 object-contain"><p class="text-slate text-sm font-medium">Ingreso al Mapa de Estandarización</p></div>
+            <form id="loginForm" onsubmit="iniciarSesion(event)" class="space-y-6">
+                <div><label class="block text-subtleBlack text-sm font-bold mb-2 uppercase tracking-wide">Correo Corporativo</label><input type="email" id="email" class="w-full bg-mist border border-bordeClaro rounded-xl text-subtleBlack px-4 py-3 focus:outline-none focus:border-burgundy shadow-inner" required></div>
+                <div><label class="block text-subtleBlack text-sm font-bold mb-2 uppercase tracking-wide">Contraseña</label><input type="password" id="password" class="w-full bg-mist border border-bordeClaro rounded-xl text-subtleBlack px-4 py-3 focus:outline-none focus:border-burgundy shadow-inner" required></div>
+                <button type="submit" id="btnIngresar" class="w-full bg-burgundy hover:bg-red-900 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-md shadow-burgundy/20 uppercase tracking-wider text-sm">Ingresar <i class="fa-solid fa-arrow-right ml-2"></i></button>
             </form>
-            <div id="msjError" class="hidden mt-4 p-3 bg-red-900/50 border border-red-500 text-red-400 rounded text-center text-sm font-bold"></div>
+            <div id="msjError" class="hidden mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-center text-sm font-bold"></div>
         </div>
     </div>
 
-    <div id="brochureModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[110] flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-solutarGris border border-solutarBorde rounded-2xl w-full max-w-2xl relative shadow-[0_0_40px_rgba(0,0,0,0.8)] my-8">
+    <div id="brochureModal" class="hidden fixed inset-0 bg-subtleBlack/80 backdrop-blur-sm z-[110] flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-blancoPuro border border-bordeClaro rounded-3xl w-full max-w-2xl relative shadow-2xl my-8">
             
-            <button onclick="cerrarBrochure()" class="absolute top-5 right-5 text-gray-400 hover:text-white bg-solutarNegro w-10 h-10 rounded-full flex items-center justify-center border border-solutarBorde z-10 transition-colors">
-                <i class="fa-solid fa-xmark text-xl"></i>
+            <button onclick="cerrarBrochure()" class="absolute top-5 right-5 text-slate hover:text-burgundy bg-mist w-12 h-12 rounded-full flex items-center justify-center border border-bordeClaro z-50 transition-all cursor-pointer shadow-md hover:bg-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
 
-            <div class="bg-solutarNegro p-8 border-b border-solutarBorde rounded-t-2xl relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 text-solutarRojo opacity-5">
+            <div class="bg-mist p-8 border-b border-bordeClaro rounded-t-3xl relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-solutarRojo opacity-5 pointer-events-none">
                     <i id="brochureIconoBg" class="fa-solid fa-helmet-safety text-[200px]"></i>
                 </div>
                 <div class="relative z-10">
-                    <div class="w-16 h-16 bg-solutarRojo/20 border border-solutarRojo rounded-xl flex items-center justify-center mb-6">
-                        <i id="brochureIcono" class="fa-solid fa-helmet-safety text-3xl text-solutarRojo"></i>
+                    <div class="w-16 h-16 bg-blancoPuro border border-bordeClaro rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-black/5">
+                        <i id="brochureIcono" class="fa-solid fa-helmet-safety text-3xl text-burgundy"></i>
                     </div>
-                    <h2 id="brochureTitulo" class="text-3xl font-black uppercase tracking-wider text-white mb-2">Cargando...</h2>
-                    <p class="text-solutarRojo font-bold text-sm tracking-widest uppercase">Línea de Intervención Solutar</p>
+                    <h2 id="brochureTitulo" class="text-3xl font-black uppercase tracking-wider text-subtleBlack mb-2">Cargando...</h2>
+                    <p class="text-burgundy font-bold text-sm tracking-widest uppercase">Línea de Intervención Solutar S.A.S.</p>
                 </div>
             </div>
 
             <div class="p-8">
-                <p id="brochureDescripcion" class="text-gray-300 text-lg leading-relaxed mb-8">
-                    Descripción detallada del servicio...
-                </p>
+                <p id="brochureDescripcion" class="text-slate text-lg leading-relaxed mb-8">Descripción...</p>
 
-                <h4 class="text-white font-bold text-lg mb-4 border-b border-solutarBorde pb-2"><i class="fa-solid fa-list-check text-solutarRojo mr-2"></i> Alcance del Servicio</h4>
-                <ul id="brochureLista" class="space-y-3 mb-10 text-gray-400">
+                <h4 class="text-subtleBlack font-bold text-lg mb-4 border-b border-bordeClaro pb-3"><i class="fa-solid fa-list-check text-burgundy mr-2"></i> Explicación Detallada</h4>
+                <ul id="brochureLista" class="space-y-3.5 mb-8 text-slate font-medium">
                     </ul>
 
-                <a id="brochureBotonWspp" href="#" target="_blank" class="block w-full bg-[#25D366] hover:bg-[#1ebd5a] text-white font-black text-center py-4 rounded-xl transition-colors shadow-[0_0_20px_rgba(37,211,102,0.4)] text-lg">
+                <a id="brochureBotonWspp" href="#" target="_blank" class="hidden w-full bg-[#25D366] hover:bg-[#1ebd5a] text-white font-black text-center py-4.5 rounded-2xl transition-all shadow-lg shadow-[#25D366]/30 text-lg">
                     <i class="fa-brands fa-whatsapp text-2xl mr-2 align-middle"></i> Cotizar este servicio ahora
                 </a>
             </div>
@@ -308,165 +306,84 @@
 
     <script>
         function toggleLoginModal() { document.getElementById('loginModal').classList.toggle('hidden'); }
-
-        // =========================================================
-        // BASE DE DATOS DE LOS SERVICIOS (Edita los textos aquí)
-        // =========================================================
+        
+        // BASE DE DATOS (MANTENIDA 1-10 PARA EL CÍRCULO INTACTO + 11-18 PARA LAS NUEVAS TARJETAS)
         const infoServicios = {
-            1: {
-                titulo: "Trabajo en Alturas",
-                icono: "fa-person-arrow-up-from-line",
-                desc: "Soluciones integrales para garantizar la seguridad en tareas ejecutadas a más de 1.5 metros del nivel inferior, mitigando el riesgo de caídas mediante ingeniería y estandarización.",
-                lista: ["Inspección técnica avanzada de equipos contra caídas.", "Elaboración de Programas de Prevención y Protección.", "Diseño e instalación de puntos de anclaje certificados.", "Suministro e inspección de líneas de vida."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Trabajo en Alturas."
-            },
-            2: {
-                titulo: "Espacios Confinados",
-                icono: "fa-tents",
-                desc: "Acompañamiento especializado en el ingreso, permanencia y rescate en áreas con ventilación deficiente o atmósferas peligrosas.",
-                lista: ["Monitoreo continuo de atmósferas (gases y oxígeno).", "Elaboración de procedimientos de trabajo seguro.", "Suministro de equipos de extracción y ventilación.", "Supervisión y acompañamiento de vigías de seguridad."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Espacios Confinados."
-            },
-            3: {
-                titulo: "Izaje de Cargas",
-                icono: "fa-truck-ramp-box",
-                desc: "Estandarización y control absoluto para maniobras de levantamiento, traslado y descenso de cargas pesadas, protegiendo al personal y la infraestructura.",
-                lista: ["Elaboración de planes de izaje (Rigging Plan).", "Inspección de eslingas, estrobos y accesorios de izaje.", "Asesoría en selección de grúas y maquinaria pesada.", "Supervisión directa de maniobras críticas en campo."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Izaje de Cargas."
-            },
-            4: {
-                titulo: "Energías Peligrosas",
-                icono: "fa-bolt",
-                desc: "Implementación de metodologías de aislamiento de energía para garantizar que las máquinas y equipos estén apagados de forma segura durante el mantenimiento.",
-                lista: ["Diseño e implementación de programas LOTO (Lockout/Tagout).", "Elaboración de matrices de aislamiento de energía.", "Suministro de dispositivos de bloqueo (candados, tarjetas).", "Capacitación en control de energías eléctricas, mecánicas y neumáticas."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Energías Peligrosas."
-            },
-            5: {
-                titulo: "Sustancias Químicas",
-                icono: "fa-flask",
-                desc: "Gestión segura, almacenamiento y manipulación de productos químicos bajo normativas nacionales e internacionales.",
-                lista: ["Implementación del Sistema Globalmente Armonizado (SGA).", "Elaboración de matrices de compatibilidad química.", "Diseño de protocolos para atención de derrames.", "Estandarización de bodegas y cuartos de almacenamiento seguro."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Sustancias Químicas."
-            },
-            6: {
-                titulo: "Trabajos en Caliente",
-                icono: "fa-fire",
-                desc: "Prevención y control de riesgos de incendio y explosión durante operaciones de soldadura, corte, esmerilado y uso de llama abierta.",
-                lista: ["Emisión y control de permisos de trabajo en caliente.", "Monitoreo de atmósferas explosivas (LEL).", "Inspección de equipos de oxicorte y soldadura.", "Acompañamiento de vigías contra incendios."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Trabajos en Caliente."
-            },
-            7: {
-                titulo: "Sistemas SG-SST",
-                icono: "fa-file-shield",
-                desc: "Alineación corporativa y cumplimiento legal de su empresa ante el Ministerio de Trabajo y Administradoras de Riesgos Laborales.",
-                lista: ["Diseño e implementación del SG-SST (Resolución 0312).", "Auditorías internas y planes de mejora continua.", "Elaboración de matrices de identificación de peligros (IPVR).", "Investigación de incidentes y accidentes laborales."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Sistemas SG-SST."
-            },
-            8: {
-                titulo: "Higiene Laboral",
-                icono: "fa-stethoscope",
-                desc: "Identificación, evaluación y control de factores ambientales en el lugar de trabajo que pueden ocasionar enfermedades profesionales.",
-                lista: ["Mediciones de ruido (Sonometría y Dosimetría).", "Estudios de iluminación y material particulado.", "Evaluación de confort térmico (Estrés por calor/frío).", "Implementación de sistemas de vigilancia epidemiológica."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Higiene Laboral."
-            },
-            9: {
-                titulo: "Diseño e Instalación",
-                icono: "fa-ruler-combined",
-                desc: "Ingeniería de detalle enfocada en la creación de estructuras y sistemas definitivos para la protección de los trabajadores.",
-                lista: ["Diseño de líneas de vida horizontales y verticales.", "Memorias de cálculo estructural y planos de detalle.", "Instalación de puntos de anclaje estructurales.", "Certificación de sistemas instalados bajo norma vigente."],
-                msgWspp: "Hola Solutar, me gustaría recibir el brochure y cotizar el servicio de: Diseño e Instalación."
-            },
-            10: {
-                titulo: "Software de Estandarización",
-                icono: "fa-map-location-dot",
-                desc: "Plataforma tecnológica en la nube (SaaS) exclusiva de Solutar para digitalizar y automatizar el control de las operaciones de alto riesgo de su empresa.",
-                lista: ["Dashboard interactivo con Matrices de Riesgo en tiempo real.", "Generación automática de actas de inspección técnica en PDF.", "Trazabilidad completa de la vida útil de equipos.", "Módulo de acceso exclusivo para clientes corporativos."],
-                msgWspp: "Hola Solutar, quiero programar una demostración del Software de Gestión de Riesgos."
-            }
+            // 1-10: CÍRCULO SST (Iconos interactivos sin botón WhatsApp, tal cual pediste)
+            1: { titulo: "Trabajo en Alturas", icono: "fa-person-arrow-up-from-line", desc: "Tareas a más de 1.5 metros, mitigando el riesgo de caídas mediante ingeniería avanzada.", lista: ["Inspección técnica avanzada de equipos.", "Programas PPP.", "Puntos certificados.", "Certificación de líneas de vida."] },
+            2: { titulo: "Espacios Confinados", icono: "fa-tents", desc: "Ingreso, permanencia y rescate en áreas con ventilación deficiente o atmósferas peligrosas.", lista: ["Monitoreo continuo.", "Procedimientos seguros LOTO.", "Ventilación especializada.", "Vigías técnicos."] },
+            3: { titulo: "Izaje de Cargas", icono: "fa-truck-ramp-box", desc: "Estandarización y control absoluto para maniobras crítica de levantamiento.", lista: ["Rigging Plan estructural.", "Inspección técnica de eslingas.", "Asesoría de grúas.", "Supervisión de maniobras críticas."] },
+            4: { titulo: "Energías Peligrosas", icono: "fa-bolt", desc: "Aislamiento seguro de energías (eléctrica, mecánica) durante mantenimiento.", lista: ["Diseño de programas LOTO.", "Matrices de aislamiento.", "Suministro de dispositivos bloqueo.", "Capacitación operativa."] },
+            5: { titulo: "Sustancias Químicas", icono: "fa-flask", desc: "Gestión segura, manipulación y almacenamiento seguro (SGA).", lista: ["Implementación del SGA.", "Matrices compatibilidad química.", "Diseño bodegas seguras.", "Plan atención de derrames."] },
+            6: { titulo: "Trabajos en Caliente", icono: "fa-fire", desc: "Control operativa en soldadura, corte y llama abierta, prevención incendios.", lista: ["Emisión de permisos.", "Monitoreo explosivo LEL.", "Inspección de equipos oxicorte.", "Acompañamiento vigías fuego."] },
+            7: { titulo: "Sistemas SG-SST", icono: "fa-file-shield", desc: "Alineación corporativa y cumplimiento legal ante el Ministerio de Trabajo.", lista: ["Implementación del SG-SST.", "Auditorías internas y mejora.", "Matrices de peligro (IPVR).", "Investigación de accidentes."] },
+            8: { titulo: "Higiene Laboral", icono: "fa-stethoscope", desc: "Identificación, evaluación y control factores ambientales que ocasionan enfermedades profesionales.", lista: ["Mediciones sonometría.", "Estudios iluminación.", "Evaluación confort térmico.", "Vigilancia epidemiológica."] },
+            9: { titulo: "Diseño e Instalación", icono: "fa-ruler-combined", desc: "Ingeniería de detalle enfocada en la creación de puntos definitivos estructurales.", lista: ["Diseño líneas de vida.", "Memorias cálculo Estructural.", "Instalación técnica puntos certificados.", "Certificación estructural."] },
+            10: { titulo: "Software SST", icono: "fa-map-location-dot", desc: "Digitalización exclusiva para el control operacional en tiempo real de tareas críticas.", lista: ["SST Dashboard en vivo.", "Actas PDF automáticas.", "Trazabilidad completa equipos.", "Portal corporativo clientes."] },
+            
+            // 11-18: NUEVOS SERVICIOS (Con conceptos detallados de las imágenes y botón WhatsApp activado)
+            11: { titulo: "Monitoreo en Higiene Laboral", icono: "fa-walkie-talkie", desc: "Identificación, medición y control de agentes físicos, químicos y biológicos en el entorno laboral.", lista: ["Identificación y medición de agentes físicos (ruido, iluminación), químicos y biológicos.", "Evaluación técnica de riesgos higiénicos y comparativa con límites permisibles.", "Asesoría en controles y monitoreo periódico de exposición laboral."], msgWspp: "Hola Solutar, me interesa cotizar: Monitoreo en Higiene Laboral." },
+            12: { titulo: "Asesoría en SG-SST", icono: "fa-gears", desc: "Diseño y acompañamiento en la ejecución de Sistemas de Gestión de Seguridad y Salud en el Trabajo.", lista: ["Diseño y acompañamiento en la ejecución de Sistemas de Gestión en Seguridad y Salud en el Trabajo.", "Acompañamiento en programas de gestión del riesgo para tareas críticas.", "Asesoría y consultoría en planes de emergencia."], msgWspp: "Hola Solutar, me interesa cotizar: Asesoría en SG-SST." },
+            13: { titulo: "Venta y Alquiler de Controles", icono: "fa-hard-hat", desc: "Soluciones técnicas, EPP especializados y equipos certificados para operaciones de alto riesgo.", lista: ["EPP (Elementos de Protección Personal).", "Equipos para tareas críticas: Trabajo en alturas – Espacios confinados – Izaje de cargas – Excavaciones.", "Sistemas de acceso (escaleras, andamios, equipos de elevación, trabajos en suspensión)."], msgWspp: "Hola Solutar, me interesa cotizar: Venta y Alquiler de Controles de Seguridad." },
+            14: { titulo: "Diseño e Instalación", icono: "fa-screwdriver-wrench", desc: "Diseño e instalación de sistemas contra caídas para trabajo en alturas.", lista: ["Asesoría, consultoría e interventoría para adquisición de puntos de anclaje y líneas de vida.", "Revisión y pruebas de instalación/funcionamiento de puntos de anclaje y líneas de vida.", "Venta e instalación de puntos de anclaje y líneas de vida."], msgWspp: "Hola Solutar, me interesa cotizar: Diseño e Instalación de Sistemas contra Caídas." },
+            15: { titulo: "Supervisión y Ejecución", icono: "fa-user-shield", desc: "Acompañamiento técnico, monitoreo de atmósferas y autorización de permisos para tareas críticas.", lista: ["Acompañamiento en el monitoreo de atmósferas peligrosas en espacios confinados.", "Acompañamiento y autorizaciones de permisos para tareas críticas.", "Trabajos de acceso complejo (alturas y espacios confinados)."], msgWspp: "Hola Solutar, me interesa cotizar: Supervisión y Ejecución de Tareas Críticas." },
+            16: { titulo: "Administración Formación SST", icono: "fa-person-chalkboard", desc: "Diseño, desarrollo y certificación legal de formaciones orientadas a tareas críticas y de alto riesgo.", lista: ["Diseño y desarrollo de formaciones en SG-SST, tareas críticas y emergencias.", "Venta/alquiler de herramientas didácticas para la formación.", "Certificación legal para trabajo en alturas y espacios confinados."], msgWspp: "Hola Solutar, me interesa cotizar: Formación SST y Tareas Críticas." },
+            17: { titulo: "Inspección SST y Análisis", icono: "fa-magnifying-glass-chart", desc: "Inspección de equipos de trabajo y análisis de datos de seguridad industrial.", lista: ["Asesoría, consultoría en herramientas tecnológicas de inspección en seguridad industrial.", "Inspecciones de equipos de trabajo en alturas, con aval de fabricante.", "Inspecciones de seguridad en SST y tareas críticas."], msgWspp: "Hola Solutar, me interesa cotizar: Inspección SST y Análisis de Datos." },
+            18: { titulo: "Gestión del Riesgo Potencial", icono: "fa-network-wired", desc: "Gestión del riesgo potencial y expresado para intervención de la accidentalidad.", lista: ["Asesoría, consultoría para campañas de intervención y prevención de la accidentalidad.", "Consultoría en el análisis de causa raíz evidenciando oportunidades de mejora.", "Consultoría en mejoramiento de procesos (DOFA)."], msgWspp: "Hola Solutar, me interesa cotizar: Gestión del Riesgo Potencial y Expresado." }
         };
 
-        // LÓGICA PARA ABRIR Y CERRAR EL MODAL
         const modalBrochure = document.getElementById('brochureModal');
+        const botonWspp = document.getElementById('brochureBotonWspp');
 
-        window.abrirBrochure = (idServicio) => {
-            const datos = infoServicios[idServicio];
-            
-            // Actualizar textos e iconos
+        window.abrirBrochure = (id) => {
+            const datos = infoServicios[id];
             document.getElementById('brochureTitulo').innerText = datos.titulo;
-            document.getElementById('brochureIcono').className = `fa-solid ${datos.icono} text-3xl text-solutarRojo`;
+            document.getElementById('brochureIcono').className = `fa-solid ${datos.icono} text-3xl text-burgundy`;
             document.getElementById('brochureIconoBg').className = `fa-solid ${datos.icono} text-[200px]`;
-            document.getElementById('brochureDescripcion').innerText = datos.desc;
-
-            // Limpiar y armar la lista
+            document.getElementById('brochureDescripcion').innerText = "Información: " + datos.desc;
+            
             const listaUl = document.getElementById('brochureLista');
             listaUl.innerHTML = '';
-            datos.lista.forEach(item => {
-                listaUl.innerHTML += `<li class="flex items-start"><i class="fa-solid fa-check text-solutarRojo mt-1 mr-3"></i> <span>${item}</span></li>`;
-            });
+            datos.lista.forEach(item => listaUl.innerHTML += `<li class="flex items-start"><i class="fa-solid fa-check text-burgundy mt-1 mr-3"></i> <span>${item}</span></li>`);
+            
+            // Si el servicio es del 11 al 18, le ponemos el enlace de WhatsApp y lo mostramos
+            if (id >= 11 && id <= 18) {
+                botonWspp.href = `https://wa.me/573147479180?text=${encodeURIComponent(datos.msgWspp)}`;
+                botonWspp.classList.remove('hidden');
+                botonWspp.classList.add('block');
+            } else {
+                // Si es un ícono del círculo (1-10), lo ocultamos (informativo puro)
+                botonWspp.classList.add('hidden');
+                botonWspp.classList.remove('block');
+            }
 
-            // Armar el link de WhatsApp
-            const numeroKevin = "573147479180";
-            const urlWspp = `https://wa.me/${numeroKevin}?text=${encodeURIComponent(datos.msgWspp)}`;
-            document.getElementById('brochureBotonWspp').href = urlWspp;
-
-            // Mostrar Modal
             modalBrochure.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Evita que la página de fondo haga scroll
+            document.body.style.overflow = 'hidden';
         };
 
-        window.cerrarBrochure = () => {
-            modalBrochure.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Devuelve el scroll a la página
-        };
-
-        // Cierra el modal si hacen click afuera de la caja
-        modalBrochure.addEventListener('click', (e) => {
-            if (e.target === modalBrochure) cerrarBrochure();
-        });
+        window.cerrarBrochure = () => { modalBrochure.classList.add('hidden'); document.body.style.overflow = 'auto'; };
+        modalBrochure.addEventListener('click', (e) => { if (e.target === modalBrochure) cerrarBrochure(); });
     </script>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-        // ==========================================
-        // 🚨 API KEYS 🚨
-        // ==========================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA",
-            authDomain: "solutar-gestion.firebaseapp.com",
-            projectId: "solutar-gestion",
-            storageBucket: "solutar-gestion.firebasestorage.app",
-            messagingSenderId: "472091356051",
-            appId: "1:472091356051:web:9ddeda6a8aece01ec19666"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA", authDomain: "solutar-gestion.firebaseapp.com", projectId: "solutar-gestion", storageBucket: "solutar-gestion.firebasestorage.app", messagingSenderId: "472091356051", appId: "1:472091356051:web:9ddeda6a8aece01ec19666" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-
         window.iniciarSesion = function(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
             const btn = document.getElementById('btnIngresar');
             const msjError = document.getElementById('msjError');
-
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando...';
-            btn.disabled = true;
-            msjError.classList.add('hidden');
-
-            signInWithEmailAndPassword(auth, email, pass)
-                .then(() => {
-                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Acceso Permitido';
-                    btn.classList.replace('bg-solutarRojo', 'bg-green-600');
-                    setTimeout(() => { window.location.href = "mapa-estandarizacion.html"; }, 1000);
-                })
-                .catch(() => {
-                    btn.innerHTML = 'Ingresar <i class="fa-solid fa-arrow-right ml-2"></i>';
-                    btn.disabled = false;
-                    msjError.innerHTML = "Credenciales incorrectas o usuario no registrado.";
-                    msjError.classList.remove('hidden');
-                });
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando...'; btn.disabled = true; msjError.classList.add('hidden');
+            signInWithEmailAndPassword(auth, email, pass).then(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Permitido'; btn.classList.replace('bg-burgundy', 'bg-green-600');
+                setTimeout(() => { window.location.href = "mapa-estandarizacion.html"; }, 1000);
+            }).catch(() => {
+                btn.innerHTML = 'Ingresar <i class="fa-solid fa-arrow-right ml-2"></i>'; btn.disabled = false;
+                msjError.innerHTML = "Credenciales incorrectas."; msjError.classList.remove('hidden');
+            });
         }
     </script>
 </body>
