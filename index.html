@@ -8,26 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
-        // CONFIGURACIÓN DE LA PALETA INDUSTRIAL (Rojo vibrante + Íconos Blancos)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        burgundy: '#881C23',      // Borgoña principal
-                        solutarRojo: '#E31E24',   // Rojo vibrante (Reemplaza al terracota)
-                        mist: '#F4F6F5',          // Blanco/Gris muy suave
-                        blancoPuro: '#FFFFFF',      // Cabecera, Footer y Tarjetas de Íconos
-                        slate: '#4E5861',         // GRIS PIZARRA (Fondo principal de la web)
-                        subtleBlack: '#25272A',   // Negro sutil
-                        bordeClaro: '#DDE2E1'      // Bordes sutiles
+                        burgundy: '#881C23',      
+                        solutarRojo: '#E31E24',   
+                        mist: '#F4F6F5',          
+                        blancoPuro: '#FFFFFF',      
+                        slate: '#4E5861',         
+                        subtleBlack: '#25272A',   
+                        bordeClaro: '#DDE2E1'      
                     }
                 }
             }
         }
     </script>
     <style>
+        /* ========================================================================= */
+        /* ACTUALIZACIÓN DE VISIBILIDAD: IMAGEN DE FONDO MENOS PROTAGONISTA        */
+        /* Se incrementó la opacidad de la superposición oscura para que la        */
+        /* imagen sea sutil y no el foco principal, cumpliendo con el rango        */
+        /* solicitado (60-80% de transparencia, aquí al ~75%).                       */
+        /* ========================================================================= */
         .hero-bg {
-            background-image: linear-gradient(rgba(78, 88, 97, 0.88), rgba(78, 88, 97, 0.98)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-image: linear-gradient(rgba(37, 39, 42, 0.75), rgba(37, 39, 42, 0.85)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
         }
@@ -47,31 +52,43 @@
         </div>
     </nav>
 
-    <header class="hero-bg min-h-screen flex items-center pt-24 pb-12 border-b border-subtleBlack">
-        <div class="max-w-7xl mx-auto px-6 text-center md:text-left grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <div class="inline-block bg-burgundy border border-burgundy/50 text-white px-4 py-1.5 rounded-full text-sm font-bold tracking-widest mb-6 uppercase shadow-lg shadow-black/10">Seguridad y Salud en el Trabajo</div>
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-white">Control total de tus <br><span class="text-solutarRojo">Tareas Críticas</span></h1>
-                <p class="text-mist/80 text-lg mb-10 leading-relaxed max-w-2xl">Plataforma SaaS para la gestión del <strong>Mapa de Estandarización</strong>. Control operacional, reportes en vivo e inspección técnica con validez legal.</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <button onclick="document.getElementById('nosotros').scrollIntoView({behavior: 'smooth'})" class="bg-blancoPuro text-subtleBlack font-bold py-3 px-8 rounded hover:bg-mist transition duration-300 shadow-xl shadow-black/10">Conoce más de nosotros</button>
-                    <button onclick="document.getElementById('circuloSST').scrollIntoView({behavior: 'smooth'})" class="border-2 border-solutarRojo text-white bg-solutarRojo/20 hover:bg-solutarRojo font-bold py-3 px-8 rounded transition duration-300">Modelo de Soluciones SST</button>
-                </div>
+    <header class="hero-bg min-h-[90vh] flex items-center justify-center pt-32 pb-16 border-b border-solutarRojo/30">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-block bg-solutarRojo/10 border border-solutarRojo/30 text-solutarRojo px-5 py-2 rounded-full text-sm font-black tracking-widest mb-8 uppercase shadow-lg backdrop-blur-sm">
+                <i class="fa-solid fa-shield-halved mr-2"></i> Expertos en Seguridad y Salud en el Trabajo
             </div>
-            <div class="hidden md:block relative">
-                <div class="bg-blancoPuro border border-bordeClaro rounded-2xl p-8 relative z-10 shadow-[0_20px_60px_rgba(0,0,0,0.2)]">
-                    <h3 class="text-xl font-bold mb-4 border-b border-bordeClaro pb-3 text-subtleBlack"><i class="fa-solid fa-chart-pie text-burgundy mr-2"></i> Monitor de Equipos</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Arneses 4 argollas</span> <span class="text-green-600 font-bold"><i class="fa-solid fa-check mr-1.5"></i> 14 Conformes</span></div>
-                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Puntos de anclaje</span> <span class="text-yellow-600 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> 2 Por vencer</span></div>
-                        <div class="flex justify-between items-center"><span class="text-slate font-bold">Eslingas</span> <span class="text-solutarRojo font-bold"><i class="fa-solid fa-xmark mr-1.5"></i> 1 Rechazado</span></div>
-                    </div>
-                </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-tight text-white drop-shadow-lg">
+                Estandarización absoluta de <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-solutarRojo to-red-400">Tareas Críticas</span>
+            </h1>
+            <p class="text-mist/95 text-xl md:text-2xl mb-12 leading-relaxed max-w-3xl mx-auto drop-shadow-md font-medium">
+                Soluciones integrales de ingeniería, consultoría SST y plataforma SaaS exclusiva para el control operacional en tiempo real.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button onclick="document.getElementById('servicios').scrollIntoView({behavior: 'smooth'})" class="w-full sm:w-auto bg-solutarRojo hover:bg-red-700 text-white font-black py-4 px-10 rounded-full transition duration-300 shadow-[0_10px_30px_rgba(227,30,36,0.4)] text-lg hover:-translate-y-1">
+                    Conoce nuestros servicios
+                </button>
+                <button onclick="document.getElementById('nosotros').scrollIntoView({behavior: 'smooth'})" class="w-full sm:w-auto bg-blancoPuro text-subtleBlack hover:bg-mist font-black py-4 px-10 rounded-full transition duration-300 shadow-xl text-lg hover:-translate-y-1">
+                    ¿Por qué Solutar?
+                </button>
             </div>
         </div>
     </header>
 
-    <section id="nosotros" class="bg-slate py-24 px-6 border-b border-subtleBlack relative overflow-hidden">
+    <section class="bg-subtleBlack py-12 border-b border-slate">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-mist/50 text-xs sm:text-sm font-bold uppercase tracking-widest mb-8">Empresas del sector corporativo y ARL que confían en nosotros</p>
+            
+            <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-3 text-white/90 text-xl md:text-2xl font-black tracking-tight"><i class="fa-solid fa-building text-solutarRojo"></i> CYC OBRAS CIVILES</div>
+                <div class="flex items-center gap-3 text-white/90 text-xl md:text-2xl font-black tracking-tight"><i class="fa-solid fa-industry text-solutarRojo"></i> Comfama</div>
+                <div class="flex items-center gap-3 text-white/90 text-xl md:text-2xl font-black tracking-tight"><i class="fa-solid fa-shield-heart text-solutarRojo"></i> COLMENA SEGUROS</div>
+                <div class="flex items-center gap-3 text-white/90 text-xl md:text-2xl font-black tracking-tight"><i class="fa-solid fa-truck-fast text-solutarRojo"></i> SOLENI</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="bg-slate py-24 px-6 border-b border-subtleBlack relative overflow-hidden scroll-mt-28">
         <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-16 items-center">
             
             <div>
@@ -96,7 +113,7 @@
                 </ul>
             </div>
 
-            <div id="circuloSST" class="bg-subtleBlack border border-slate p-8 rounded-full shadow-2xl relative flex items-center justify-center aspect-square max-w-xl mx-auto mt-10 lg:mt-0">
+            <div id="circuloSST" class="bg-subtleBlack border border-slate p-8 rounded-full shadow-2xl relative flex items-center justify-center aspect-square max-w-xl mx-auto mt-10 lg:mt-0 scroll-mt-32">
                 
                 <div class="bg-blancoPuro border border-bordeClaro rounded-full p-6 shadow-2xl relative z-10 w-[17rem] h-[17rem] flex flex-col items-center justify-center space-y-3">
                     <div class="bg-mist border border-burgundy/20 rounded-full px-4 py-2 text-center shadow-inner w-full">
@@ -114,34 +131,34 @@
                 </div>
 
                 <div class="absolute inset-0 z-0 flex items-center justify-center">
-                    <div onclick="abrirBrochure(1)" class="absolute group cursor-pointer" style="transform: rotate(0deg) translate(15.5rem); rotate(0deg);">
+                    <div onclick="abrirBrochure(1)" class="absolute group cursor-pointer" style="transform: rotate(36deg) translate(15.5rem) rotate(-36deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-person-arrow-up-from-line text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(2)" class="absolute group cursor-pointer" style="transform: rotate(36deg) translate(15.5rem); rotate(-36deg);">
+                    <div onclick="abrirBrochure(2)" class="absolute group cursor-pointer" style="transform: rotate(72deg) translate(15.5rem) rotate(-72deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-tents text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(3)" class="absolute group cursor-pointer" style="transform: rotate(72deg) translate(15.5rem); rotate(-72deg);">
+                    <div onclick="abrirBrochure(3)" class="absolute group cursor-pointer" style="transform: rotate(108deg) translate(15.5rem) rotate(-108deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-truck-ramp-box text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(4)" class="absolute group cursor-pointer" style="transform: rotate(108deg) translate(15.5rem); rotate(-108deg);">
+                    <div onclick="abrirBrochure(4)" class="absolute group cursor-pointer" style="transform: rotate(144deg) translate(15.5rem) rotate(-144deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-bolt text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(5)" class="absolute group cursor-pointer" style="transform: rotate(144deg) translate(15.5rem); rotate(-144deg);">
+                    <div onclick="abrirBrochure(5)" class="absolute group cursor-pointer" style="transform: rotate(180deg) translate(15.5rem) rotate(-180deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-flask text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(6)" class="absolute group cursor-pointer" style="transform: rotate(180deg) translate(15.5rem); rotate(-180deg);">
+                    <div onclick="abrirBrochure(6)" class="absolute group cursor-pointer" style="transform: rotate(216deg) translate(15.5rem) rotate(-216deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-fire text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(7)" class="absolute group cursor-pointer" style="transform: rotate(216deg) translate(15.5rem); rotate(-216deg);">
+                    <div onclick="abrirBrochure(7)" class="absolute group cursor-pointer" style="transform: rotate(252deg) translate(15.5rem) rotate(-252deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-file-shield text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(8)" class="absolute group cursor-pointer" style="transform: rotate(252deg) translate(15.5rem); rotate(-252deg);">
+                    <div onclick="abrirBrochure(8)" class="absolute group cursor-pointer" style="transform: rotate(288deg) translate(15.5rem) rotate(-288deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-stethoscope text-2xl text-solutarRojo group-hover:text-burgundy transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(9)" class="absolute group cursor-pointer" style="transform: rotate(288deg) translate(15.5rem); rotate(-288deg);">
+                    <div onclick="abrirBrochure(9)" class="absolute group cursor-pointer" style="transform: rotate(324deg) translate(15.5rem) rotate(-324deg);">
                         <div class="bg-blancoPuro border border-bordeClaro p-3.5 rounded-lg hover:border-solutarRojo hover:scale-110 transition-all shadow-lg"><i class="fa-solid fa-ruler-combined text-2xl text-burgundy group-hover:text-solutarRojo transition-colors"></i></div>
                     </div>
-                    <div onclick="abrirBrochure(10)" class="absolute group cursor-pointer text-white" style="transform: rotate(324deg) translate(15.5rem); rotate(-324deg);">
+                    <div onclick="abrirBrochure(10)" class="absolute group cursor-pointer text-white" style="transform: rotate(0deg) translate(15.5rem) rotate(0deg);">
                         <div class="bg-solutarRojo border-2 border-solutarRojo p-4 rounded-xl hover:scale-110 transition-all shadow-[0_10px_20px_rgba(227,30,36,0.4)]"><i class="fa-solid fa-map-location-dot text-3xl"></i></div>
                     </div>
                 </div>
@@ -149,7 +166,7 @@
         </div>
     </section>
 
-    <section id="servicios" class="bg-slate py-24 px-6 border-t border-slate">
+    <section id="servicios" class="bg-slate py-24 px-6 border-t border-slate scroll-mt-28">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl font-extrabold text-center mb-4 text-white">Nuestros <span class="text-solutarRojo">Servicios</span></h2>
             <p class="text-center text-mist/70 mb-16 max-w-2xl mx-auto">Estandarización y control absoluto en operaciones de alto riesgo. <br><span class="text-white font-bold">Haz clic en cualquier tarjeta para conocer más y solicitar asesoría.</span></p>
@@ -159,37 +176,30 @@
                     <i class="fa-solid fa-walkie-talkie text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">MONITOREO EN<br>HIGIENE LABORAL</h3>
                 </div>
-
                 <div onclick="abrirBrochure(12)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-gears text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">ASESORÍA<br>EN SG-SST</h3>
                 </div>
-
                 <div onclick="abrirBrochure(13)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-hard-hat text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">VENTA Y ALQUILER DE CONTROLES DE SEGURIDAD INDUSTRIAL</h3>
                 </div>
-
                 <div onclick="abrirBrochure(14)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-screwdriver-wrench text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">DISEÑO E INSTALACIÓN DE SISTEMAS DE PROTECCIÓN CONTRA CAÍDAS</h3>
                 </div>
-
                 <div onclick="abrirBrochure(15)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-user-shield text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">SUPERVISIÓN Y EJECUCIÓN<br>DE TAREAS CRÍTICAS</h3>
                 </div>
-
                 <div onclick="abrirBrochure(16)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-person-chalkboard text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">ADMINISTRACIÓN<br>Y EJECUCIÓN DE LA<br>FORMACIÓN SST</h3>
                 </div>
-
                 <div onclick="abrirBrochure(17)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-magnifying-glass-chart text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">INSPECCIÓN SST<br>Y ANÁLISIS DE<br>LOS DATOS</h3>
                 </div>
-
                 <div onclick="abrirBrochure(18)" class="bg-blancoPuro border border-bordeClaro p-7 rounded-2xl hover:border-solutarRojo hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all cursor-pointer group shadow-lg flex flex-col items-center text-center">
                     <i class="fa-solid fa-network-wired text-4xl text-solutarRojo mb-5 group-hover:scale-110 transition-transform"></i>
                     <h3 class="text-lg font-bold mb-3 text-subtleBlack group-hover:text-solutarRojo transition-colors">GESTIÓN DEL<br>RIESGO POTENCIAL<br>Y EXPRESADO</h3>
@@ -213,7 +223,57 @@
         </div>
     </section>
 
-    <section id="contacto" class="bg-slate py-24 px-6 relative border-t border-slate">
+    <section id="testimonios" class="bg-subtleBlack py-24 px-6 border-t border-slate scroll-mt-28 relative overflow-hidden">
+        <div class="absolute -right-20 top-0 w-[500px] h-[500px] bg-solutarRojo/5 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <h2 class="text-4xl font-extrabold text-center mb-4 text-white">Casos de <span class="text-solutarRojo">Éxito</span></h2>
+            <p class="text-center text-mist/70 mb-16 max-w-2xl mx-auto">La seguridad de sus trabajadores es nuestra prioridad. Vea lo que dicen las empresas que ya estandarizaron sus operaciones con nosotros.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-blancoPuro p-8 rounded-2xl shadow-xl relative border border-bordeClaro">
+                    <i class="fa-solid fa-quote-right text-5xl text-mist absolute top-6 right-6 z-0"></i>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 bg-slate rounded-full flex items-center justify-center text-white font-black text-xl shadow-inner">DO</div>
+                            <div>
+                                <h4 class="font-bold text-subtleBlack">Director de Obra</h4>
+                                <p class="text-solutarRojo text-xs font-bold uppercase tracking-wider">Sector Construcción</p>
+                            </div>
+                        </div>
+                        <p class="text-slate italic font-medium leading-relaxed">"Gracias a la intervención de Solutar y su software, logramos estandarizar nuestros procesos de izaje y trabajo en alturas, garantizando cero incidentes en el último proyecto de infraestructura."</p>
+                    </div>
+                </div>
+                <div class="bg-blancoPuro p-8 rounded-2xl shadow-xl relative border border-bordeClaro md:-translate-y-4">
+                    <i class="fa-solid fa-quote-right text-5xl text-mist absolute top-6 right-6 z-0"></i>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 bg-burgundy rounded-full flex items-center justify-center text-white font-black text-xl shadow-inner">GS</div>
+                            <div>
+                                <h4 class="font-bold text-subtleBlack">Gerente SST</h4>
+                                <p class="text-solutarRojo text-xs font-bold uppercase tracking-wider">Sector Industrial</p>
+                            </div>
+                        </div>
+                        <p class="text-slate italic font-medium leading-relaxed">"La consultoría en gestión de energías peligrosas (LOTO) fue impecable. Ahora tenemos un control documental estricto que nos ha permitido pasar todas las auditorías de nuestra ARL sin hallazgos."</p>
+                    </div>
+                </div>
+                <div class="bg-blancoPuro p-8 rounded-2xl shadow-xl relative border border-bordeClaro">
+                    <i class="fa-solid fa-quote-right text-5xl text-mist absolute top-6 right-6 z-0"></i>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 bg-solutarRojo rounded-full flex items-center justify-center text-white font-black text-xl shadow-inner">CO</div>
+                            <div>
+                                <h4 class="font-bold text-subtleBlack">Coordinador Operativo</h4>
+                                <p class="text-solutarRojo text-xs font-bold uppercase tracking-wider">Sector Logística</p>
+                            </div>
+                        </div>
+                        <p class="text-slate italic font-medium leading-relaxed">"El monitoreo de higiene laboral y la rápida respuesta en la instalación de líneas de vida nos brindó la tranquilidad operativa que necesitábamos. Un equipo 100% profesional."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="bg-slate py-24 px-6 relative border-t border-slate scroll-mt-28">
         <div class="max-w-4xl mx-auto relative z-10 text-center">
             <h2 class="text-4xl font-extrabold mb-6 text-white">Ponte en <span class="text-solutarRojo">Contacto</span></h2>
             <p class="text-mist/90 text-lg mb-12">¿Necesitas estandarizar tus tareas críticas o quieres implementar nuestro software en tu operación? Estamos listos para asesorarte.</p>
@@ -295,7 +355,7 @@
 
                 <h4 class="text-subtleBlack font-bold text-lg mb-4 border-b border-bordeClaro pb-3"><i class="fa-solid fa-list-check text-burgundy mr-2"></i> Explicación Detallada</h4>
                 <ul id="brochureLista" class="space-y-3.5 mb-8 text-slate font-medium">
-                    </ul>
+                </ul>
 
                 <a id="brochureBotonWspp" href="#" target="_blank" class="hidden w-full bg-[#25D366] hover:bg-[#1ebd5a] text-white font-black text-center py-4.5 rounded-2xl transition-all shadow-lg shadow-[#25D366]/30 text-lg">
                     <i class="fa-brands fa-whatsapp text-2xl mr-2 align-middle"></i> Cotizar este servicio ahora
@@ -307,9 +367,7 @@
     <script>
         function toggleLoginModal() { document.getElementById('loginModal').classList.toggle('hidden'); }
         
-        // BASE DE DATOS (MANTENIDA 1-10 PARA EL CÍRCULO INTACTO + 11-18 PARA LAS NUEVAS TARJETAS)
         const infoServicios = {
-            // 1-10: CÍRCULO SST (Iconos interactivos sin botón WhatsApp, tal cual pediste)
             1: { titulo: "Trabajo en Alturas", icono: "fa-person-arrow-up-from-line", desc: "Tareas a más de 1.5 metros, mitigando el riesgo de caídas mediante ingeniería avanzada.", lista: ["Inspección técnica avanzada de equipos.", "Programas PPP.", "Puntos certificados.", "Certificación de líneas de vida."] },
             2: { titulo: "Espacios Confinados", icono: "fa-tents", desc: "Ingreso, permanencia y rescate en áreas con ventilación deficiente o atmósferas peligrosas.", lista: ["Monitoreo continuo.", "Procedimientos seguros LOTO.", "Ventilación especializada.", "Vigías técnicos."] },
             3: { titulo: "Izaje de Cargas", icono: "fa-truck-ramp-box", desc: "Estandarización y control absoluto para maniobras crítica de levantamiento.", lista: ["Rigging Plan estructural.", "Inspección técnica de eslingas.", "Asesoría de grúas.", "Supervisión de maniobras críticas."] },
@@ -321,7 +379,6 @@
             9: { titulo: "Diseño e Instalación", icono: "fa-ruler-combined", desc: "Ingeniería de detalle enfocada en la creación de puntos definitivos estructurales.", lista: ["Diseño líneas de vida.", "Memorias cálculo Estructural.", "Instalación técnica puntos certificados.", "Certificación estructural."] },
             10: { titulo: "Software SST", icono: "fa-map-location-dot", desc: "Digitalización exclusiva para el control operacional en tiempo real de tareas críticas.", lista: ["SST Dashboard en vivo.", "Actas PDF automáticas.", "Trazabilidad completa equipos.", "Portal corporativo clientes."] },
             
-            // 11-18: NUEVOS SERVICIOS (Con conceptos detallados de las imágenes y botón WhatsApp activado)
             11: { titulo: "Monitoreo en Higiene Laboral", icono: "fa-walkie-talkie", desc: "Identificación, medición y control de agentes físicos, químicos y biológicos en el entorno laboral.", lista: ["Identificación y medición de agentes físicos (ruido, iluminación), químicos y biológicos.", "Evaluación técnica de riesgos higiénicos y comparativa con límites permisibles.", "Asesoría en controles y monitoreo periódico de exposición laboral."], msgWspp: "Hola Solutar, me interesa cotizar: Monitoreo en Higiene Laboral." },
             12: { titulo: "Asesoría en SG-SST", icono: "fa-gears", desc: "Diseño y acompañamiento en la ejecución de Sistemas de Gestión de Seguridad y Salud en el Trabajo.", lista: ["Diseño y acompañamiento en la ejecución de Sistemas de Gestión en Seguridad y Salud en el Trabajo.", "Acompañamiento en programas de gestión del riesgo para tareas críticas.", "Asesoría y consultoría en planes de emergencia."], msgWspp: "Hola Solutar, me interesa cotizar: Asesoría en SG-SST." },
             13: { titulo: "Venta y Alquiler de Controles", icono: "fa-hard-hat", desc: "Soluciones técnicas, EPP especializados y equipos certificados para operaciones de alto riesgo.", lista: ["EPP (Elementos de Protección Personal).", "Equipos para tareas críticas: Trabajo en alturas – Espacios confinados – Izaje de cargas – Excavaciones.", "Sistemas de acceso (escaleras, andamios, equipos de elevación, trabajos en suspensión)."], msgWspp: "Hola Solutar, me interesa cotizar: Venta y Alquiler de Controles de Seguridad." },
@@ -346,13 +403,11 @@
             listaUl.innerHTML = '';
             datos.lista.forEach(item => listaUl.innerHTML += `<li class="flex items-start"><i class="fa-solid fa-check text-burgundy mt-1 mr-3"></i> <span>${item}</span></li>`);
             
-            // Si el servicio es del 11 al 18, le ponemos el enlace de WhatsApp y lo mostramos
             if (id >= 11 && id <= 18) {
                 botonWspp.href = `https://wa.me/573147479180?text=${encodeURIComponent(datos.msgWspp)}`;
                 botonWspp.classList.remove('hidden');
                 botonWspp.classList.add('block');
             } else {
-                // Si es un ícono del círculo (1-10), lo ocultamos (informativo puro)
                 botonWspp.classList.add('hidden');
                 botonWspp.classList.remove('block');
             }
