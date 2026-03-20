@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAR SST - Panel de Control Solutar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: '#881C23',      
+                        solutarRojo: '#E31E24',   
+                        mist: '#F4F6F5',          
+                        blancoPuro: '#FFFFFF',      
+                        slate: '#4E5861',         
+                        subtleBlack: '#25272A',   
+                        bordeClaro: '#DDE2E1'      
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .var-screen {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+        }
+    </style>
+</head>
+<body class="bg-mist text-slate font-sans antialiased h-screen flex overflow-hidden">
+
+    <aside class="w-64 bg-slate text-mist flex flex-col justify-between hidden md:flex border-r border-slate shadow-xl z-20">
+        <div>
+            <div class="p-6 border-b border-subtleBlack/20 flex justify-center bg-blancoPuro">
+                <img src="logoSolutar.png" alt="Solutar Logo" class="h-16 object-contain">
+            </div>
+            <div class="p-6">
+                <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Módulos</p>
+                <nav class="space-y-2">
+                    <a href="mapa-estandarizacion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-map"></i> Mapa de Estandarización
+                    </a>
+                    <a href="var-sst.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-mist text-solutarRojo font-bold border border-subtleBlack/10 transition-all">
+                        <i class="fa-solid fa-tv"></i> VAR SST (Riesgos)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-file-pdf"></i> Actas y Documentos
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <div class="p-6 border-t border-subtleBlack/20 bg-black/10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-industry"></i></div>
+                <div>
+                    <p class="text-sm font-bold text-white leading-tight">CYC Obras</p>
+                    <p class="text-xs text-mist/50">Cliente VIP</p>
+                </div>
+            </div>
+            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-mist">
+        
+        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+            <div>
+                <h1 class="text-2xl font-black text-subtleBlack uppercase tracking-tight flex items-center gap-2">
+                    <i class="fa-solid fa-tv text-solutarRojo"></i> Sala VAR SST
+                </h1>
+                <p class="text-sm text-slate font-medium">Gestión del Riesgo Potencial y Expresado</p>
+            </div>
+            
+            <button class="bg-solutarRojo hover:bg-red-700 text-white font-black py-2.5 px-6 rounded-lg shadow-[0_5px_15px_rgba(227,30,36,0.3)] flex items-center gap-2 transition-all hover:scale-105 animate-pulse">
+                <i class="fa-solid fa-triangle-exclamation"></i> ACTIVAR VAR (Reportar)
+            </button>
+        </header>
+
+        <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-8">
+                
+                <div class="bg-subtleBlack rounded-2xl overflow-hidden shadow-2xl border border-slate relative">
+                    <div class="bg-solutarRojo text-white text-xs font-black uppercase tracking-widest px-4 py-2 flex justify-between items-center">
+                        <span><i class="fa-solid fa-circle text-[8px] text-white animate-pulse mr-1"></i> Revisión en curso</span>
+                        <span>Cód: VAR-042</span>
+                    </div>
+                    <div class="p-1 bg-slate/20">
+                        <div class="aspect-video bg-black rounded-xl border border-slate/50 relative overflow-hidden var-screen flex items-center justify-center group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1541888086925-ebbc3132c324?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Evidencia en campo" class="w-full h-full object-cover opacity-60 mix-blend-luminosity">
+                            
+                            <div class="absolute inset-0 p-4 flex flex-col justify-between pointer-events-none">
+                                <div class="flex justify-between">
+                                    <div class="border-t-2 border-l-2 border-solutarRojo w-8 h-8"></div>
+                                    <div class="border-t-2 border-r-2 border-solutarRojo w-8 h-8"></div>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bg-black/70 text-solutarRojo font-mono text-sm px-3 py-1 rounded border border-solutarRojo">RIESGO EXPRESADO: ALTURAS</span>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <div class="border-b-2 border-l-2 border-solutarRojo w-8 h-8"></div>
+                                    <div class="text-white font-mono text-xs opacity-70">19 MAR 2026 - 08:45 AM</div>
+                                    <div class="border-b-2 border-r-2 border-solutarRojo w-8 h-8"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="absolute bg-black/80 text-white px-6 py-4 rounded-xl border border-solutarRojo opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm text-center">
+                                <i class="fa-solid fa-magnifying-glass-plus text-3xl text-solutarRojo mb-2"></i>
+                                <p class="font-bold">Ver Evidencia Completa</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 bg-blancoPuro">
+                        <h3 class="text-xl font-bold text-subtleBlack mb-2">Ausencia de Línea de Vida en Nave Sur</h3>
+                        <p class="text-slate text-sm mb-4">El contratista subcontratado inició labores de limpieza de cubierta sin sistema de anclaje certificado. Tarea detenida (SWA).</p>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-fire mr-1"></i> Tarea Crítica</span>
+                            <span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-triangle-exclamation mr-1"></i> VAR en Análisis</span>
+                            <span class="bg-mist text-slate text-xs font-bold px-3 py-1 rounded-full border border-bordeClaro"><i class="fa-solid fa-clock mr-1"></i> Esperando dictamen Solutar</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="space-y-8">
+                
+                <div class="bg-blancoPuro rounded-2xl shadow-lg border border-bordeClaro p-6">
+                    <h3 class="text-lg font-black text-subtleBlack mb-1 uppercase tracking-tight"><i class="fa-solid fa-bullseye text-burgundy mr-2"></i> Metas de Gestión</h3>
+                    <p class="text-xs text-slate mb-6">Avance del campeonato SST 2026</p>
+
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-subtleBlack">Certificación de Anclajes</span>
+                                <span class="text-solutarRojo">80%</span>
+                            </div>
+                            <div class="w-full bg-mist rounded-full h-2.5 border border-bordeClaro overflow-hidden">
+                                <div class="bg-solutarRojo h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                            <p class="text-[10px] text-slate mt-1 text-right">4 de 5 Naves Certificadas</p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-subtleBlack">Capacitación Espacios Confinados</span>
+                                <span class="text-yellow-600">45%</span>
+                            </div>
+                            <div class="w-full bg-mist rounded-full h-2.5 border border-bordeClaro overflow-hidden">
+                                <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 45%"></div>
+                            </div>
+                            <p class="text-[10px] text-slate mt-1 text-right">18 de 40 Operarios</p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-subtleBlack">Inspección de Eslingas</span>
+                                <span class="text-green-600">100%</span>
+                            </div>
+                            <div class="w-full bg-mist rounded-full h-2.5 border border-bordeClaro overflow-hidden">
+                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <p class="text-[10px] text-slate mt-1 text-right">Completado. Próximo: Oct 2026</p>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-6 py-2.5 border-2 border-slate text-slate hover:bg-slate hover:text-white font-bold rounded-xl transition-all text-sm">
+                        Ver todas las metas
+                    </button>
+                </div>
+
+                <div class="bg-blancoPuro rounded-2xl shadow-lg border border-bordeClaro p-6">
+                    <h3 class="text-lg font-black text-subtleBlack mb-4 uppercase tracking-tight"><i class="fa-solid fa-list-check text-burgundy mr-2"></i> Decisiones VAR Previas</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start border-b border-mist pb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-subtleBlack leading-tight">Matriz SGA actualizada</p>
+                                <p class="text-xs text-slate mt-1">Revisión de químicos completada. Riesgo mitigado.</p>
+                                <span class="text-[10px] text-slate/70 font-mono mt-1 block">Hace 2 días</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-8 h-8 rounded-full bg-red-100 text-solutarRojo flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-ban"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-subtleBlack leading-tight">Cancelación de Permiso</p>
+                                <p class="text-xs text-slate mt-1">Soldadura cerca a material inflamable (LOTO fallido).</p>
+                                <span class="text-[10px] text-slate/70 font-mono mt-1 block">Hace 1 semana</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

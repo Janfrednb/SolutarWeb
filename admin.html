@@ -3,834 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solutar - Inspector de Equipos (Admin)</title>
+    <title>Admin - Solutar Central</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        solutarRojo: '#E31E24',
-                        solutarNegro: '#050505',
-                        solutarGris: '#111111',
-                        solutarBorde: '#222222',
+                        burgundy: '#881C23',      
+                        solutarRojo: '#E31E24',   
+                        mist: '#F4F6F5',          
+                        blancoPuro: '#FFFFFF',      
+                        slate: '#4E5861',         
+                        subtleBlack: '#25272A',   
+                        bordeClaro: '#DDE2E1'      
                     }
                 }
             }
         }
     </script>
-    <style>
-        select, input, textarea { font-size: 14px !important; } /* Tamaño ajustado para que quepa mejor */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        select option { background-color: white !important; color: black !important; }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
-    </style>
 </head>
-<body class="bg-solutarNegro text-white font-sans antialiased pb-20">
+<body class="bg-mist text-slate font-sans antialiased h-screen flex overflow-hidden">
 
-    <nav class="bg-solutarNegro border-b-2 border-solutarRojo sticky top-0 z-40 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="logoSolutar.png" alt="Logo Solutar" class="h-10 md:h-14 object-contain">
-                <div class="hidden md:block border-l border-solutarBorde pl-4">
-                    <span class="text-sm font-bold text-solutarRojo">Portal de Inspección Técnica</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-3 mr-2">
-                    <div class="text-right">
-                        <p id="nombreNavbar" class="text-sm font-bold text-white leading-tight">Administrador</p>
-                        <p class="text-xs text-gray-500">Inspector en Turno</p>
-                    </div>
-                    <div id="avatarCirculo" class="w-10 h-10 rounded-full bg-solutarRojo flex items-center justify-center font-black text-white shadow-[0_0_10px_rgba(227,30,36,0.5)] transition-all duration-300">
-                        <span id="avatarTexto">AD</span>
-                    </div>
-                </div>
-                <button onclick="window.location.href='index.html'" class="bg-solutarBorde hover:bg-gray-800 px-4 py-2 rounded transition-colors text-sm font-bold text-gray-300 hover:text-white">
-                    Salir <i class="fa-solid fa-right-from-bracket ml-1"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-8">
-        
-        <div class="mb-8">
-            <h1 class="text-2xl md:text-3xl font-black mb-2 uppercase tracking-wide">Acta de Pre-Inspección de Equipos</h1>
-            <p class="text-gray-400 text-sm md:text-base">Protocolo oficial de 37 puntos para trazabilidad y evaluación técnica.</p>
-        </div>
-
-        <form id="formInspeccion" class="bg-solutarGris border border-solutarBorde rounded-xl shadow-2xl overflow-hidden">
-            
-            <div class="p-5 md:p-8 border-b border-solutarBorde bg-solutarNegro/30">
-                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-building-user mr-2"></i> 1. Datos Operativos y Proyecto</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">Empresa / Cliente *</label>
-                        <select id="clienteSelect" onchange="actualizarCliente()" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Cliente Demo S.A.S">Cliente Demo S.A.S</option>
-                            <option value="Constructora ABC">Constructora ABC</option>
-                            <option value="Otro" class="text-solutarRojo font-bold">+ Agregar Nueva Empresa</option>
-                        </select>
-                        <input type="text" id="nuevoClienteInput" class="hidden w-full bg-solutarNegro border border-solutarRojo rounded text-white px-3 py-2 mt-2 outline-none" placeholder="Nombre de la nueva empresa...">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">36. Pre-Inspector Autorizado *</label>
-                        <select id="inspectorSelect" onchange="actualizarInspector()" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Kevin">Kevin</option>
-                            <option value="José">José</option>
-                            <option value="Otro">+ Agregar Nuevo Inspector</option>
-                        </select>
-                        <input type="text" id="nuevoInspectorInput" oninput="actualizarAvatarPersonalizado()" class="hidden w-full bg-solutarNegro border border-solutarRojo rounded text-white px-3 py-2 mt-2 outline-none" placeholder="Nombre completo...">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">1. Proyecto / Sede *</label>
-                        <select id="q1_proyecto" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="OFICINA MEDELLIN">OFICINA MEDELLIN</option>
-                            <option value="LA CASCADA">LA CASCADA</option>
-                            <option value="OFICINA BOGOTA">OFICINA BOGOTA</option>
-                            <option value="Other">Otro</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">2. Fecha de Pre-Inspección *</label>
-                        <input type="date" id="q2_fecha" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-400 text-xs font-bold mb-1">37. Tipo de Pre-Inspección Realizada *</label>
-                        <select id="q37_tipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Periódica empresa">Periódica empresa</option>
-                            <option value="Inspección extraordinaria">Inspección extraordinaria</option>
-                            <option value="Revisión equipo impactado (Detuvo una caida)">Revisión equipo impactado (Detuvo una caída)</option>
-                            <option value="Revisión equipo con evento extraordinario">Revisión equipo con evento extraordinario</option>
-                            <option value="Revisión prevención y asesoría ARL">Revisión prevención y asesoría ARL</option>
-                            <option value="Inspeccion previa/filtro para inspeccion fabricante">Inspeccion previa/filtro para inspeccion fabricante</option>
-                            <option value="Other">Otro</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-5 md:p-8 border-b border-solutarBorde">
-                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-helmet-safety mr-2"></i> 2. Identificación y Trazabilidad</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">3. Fabricante *</label>
-                        <select id="q3_fabricante" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="INSAFE">INSAFE</option><option value="ARMADURA">ARMADURA</option><option value="YOKE">YOKE</option><option value="EUSSE SEGURIDAD">EUSSE SEGURIDAD</option><option value="ISEIN">ISEIN</option><option value="SINGING ROCK">SINGING ROCK</option><option value="EPI">EPI</option><option value="3M">3M</option><option value="LINK TECH">LINK TECH</option><option value="SOSEGA">SOSEGA</option><option value="CAMP">CAMP</option><option value="NO IDENTIFICADO">NO IDENTIFICADO</option><option value="STEEL PRO">STEEL PRO</option><option value="DINAMIK">DINAMIK</option><option value="ZUBI OLA">ZUBI OLA</option><option value="SAFE STEP">SAFE STEP</option><option value="HAWK">HAWK</option><option value="ALTO">ALTO</option><option value="FIRST">FIRST</option><option value="SWINLINE">SWINLINE</option><option value="EP COMERCIAL">EP COMERCIAL</option><option value="STERLING">STERLING</option><option value="ARSEG">ARSEG</option><option value="PETZL">PETZL</option><option value="HERGO">HERGO</option><option value="NARA">NARA</option><option value="DELTAPLUS">DELTAPLUS</option><option value="PROSS">PROSS</option><option value="MAVERICK">MAVERICK</option><option value="ALTPRO">ALTPRO</option><option value="CLIMBING TECHNOLOGY">CLIMBING TECHNOLOGY</option><option value="SKYLOTEC">SKYLOTEC</option><option value="HOLD">HOLD</option><option value="XP">XP</option><option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-400 text-xs font-bold mb-1">4. Tipo de Equipo *</label>
-                        <select id="q4_tipo_equipo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Arnés de cuerpo completo 4 argollas">Arnés de cuerpo completo 4 argollas</option><option value="Arnés de cuerpo completo 5 o mas argollas">Arnés de cuerpo completo 5 o mas argollas</option><option value="Linea de vida vertical portatil">Linea de vida vertical portatil</option><option value="Mosqueton">Mosqueton</option><option value="Freno para linea de vida vertical portátil">Freno para linea de vida vertical portátil</option><option value="Eslinga con absorbedor energia">Eslinga con absorbedor energia</option><option value="Eslinga - conector restriccion">Eslinga - conector restriccion</option><option value="Eslinga conector posicionamiento">Eslinga conector posicionamiento</option><option value="Red de seguridad">Red de seguridad</option><option value="Anclaje detencion caidas">Anclaje detencion caidas</option><option value="Cuerda para trabajo en alturas - suspensión - Rescate">Cuerda para trabajo en alturas - trabajo en suspensión - Rescate</option><option value="Dispositivo (adaptador) anclaje portátil">Dispositivo (adaptador) anclaje portátil</option><option value="Linea de vida vertical fija">Linea de vida vertical fija</option><option value="Linea de vida horizontal portatil">Linea de vida horizontal portatil</option><option value="Linea de vida horizontal fija">Linea de vida horizontal fija</option><option value="Anclaje restriccion caidas">Anclaje restriccion caidas</option><option value="Anclaje posicionamiento">Anclaje posicionamiento</option><option value="Conector / Gancho especial">Conector / Gancho especial</option><option value="Gancho seguridad">Gancho seguridad</option><option value="Dispositivo retráctil para detención">Dispositivo retráctil para detención</option><option value="Freno para linea de vida vertical fija">Freno para linea de vida vertical fija</option><option value="Elementos para deslizamiento en linea horizontal">Elementos para deslizamiento en linea de vida horizontal</option><option value="Descendedor cuerrda">Descendedor cuerrda</option><option value="Bloqueador de cuerda">Bloqueador de cuerda</option><option value="Polea sencilla">Polea sencilla</option><option value="Polea doble">Polea doble</option><option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">13. Serial *</label><input type="text" id="q13_serial" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 font-mono outline-none" required></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">12. Lote</label><input type="text" id="q12_lote" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 font-mono outline-none"></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">14. Código Interno</label><input type="text" id="q14_codigo" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 font-mono outline-none"></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">6. Referencia</label><input type="text" id="q6_referencia" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">7. Fecha Fabricación</label><input type="date" id="q7_fecha_fab" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none"></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">8. Año Fabricación</label><input type="text" id="q8_anio_fab" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none" placeholder="Ej: 2023"></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">9. Fecha Primer Uso</label><input type="date" id="q9_fecha_uso" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none"></div>
-                    <div><label class="block text-gray-400 text-xs font-bold mb-1">5. Longitud (Cuerda/Línea)</label><input type="text" id="q5_longitud" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none" placeholder="Opcional"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">10. Vida Útil Fabricante</label>
-                        <select id="q10_vida_util" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo">
-                            <option value="">Seleccionar...</option>
-                            <option value="ILIMITADA CRITERIO DE INSPECTOR">ILIMITADA - CRITERIO DE INSPECTOR (Varios)</option>
-                            <option value="PETZL: 10 AÑOS (Plasticas/Textiles)">PETZL: 10 AÑOS (Plasticas/Textiles)</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">11. Estado Vida Útil</label>
-                        <select id="q11_estado_vida" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none focus:border-solutarRojo">
-                            <option value="">Seleccionar...</option>
-                            <option value="VIGENTE">VIGENTE</option><option value="SUPERADA">SUPERADA</option><option value="ULTIMO AÑO DE USO">ULTIMO AÑO DE USO</option>
-                            <option value="EN 6 MESES VENCE">EN 6 MESES VENCE</option><option value="EN 3 MESES VENCE">EN 3 MESES VENCE</option>
-                            <option value="VALIDAR">VALIDAR</option><option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold mb-1">15. Proveedor de Compra</label>
-                        <input type="text" id="q15_proveedor" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-3 py-2 outline-none" placeholder="Opcional">
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-5 md:p-8 border-b border-solutarBorde bg-solutarNegro/30">
-                <h2 class="text-lg font-bold text-solutarRojo mb-6 uppercase tracking-wider"><i class="fa-solid fa-microscope mr-2"></i> 3. Evaluación Técnica y Hallazgos</h2>
-                
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Etiquetas e Información</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">16. Estado Etiquetas</span>
-                            <select id="q16_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observación">Conforme con observación</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">17. Hallazgos / Plan de Acción</span>
-                            <select id="q17_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Lote no legible - Retirar">Lote no legible - Retirar</option>
-                                <option value="Serial no legible - Retirar">Serial no legible - Retirar</option>
-                                <option value="Fecha fabricación no legible - Validar">Fecha fabricación no legible - Validar</option>
-                                <option value="Vida util superada - Retirar">Vida util superada - Retirar</option>
-                                <option value="Etiqueta incompleta - Retirar">Etiqueta incompleta - Retirar</option>
-                                <option value="Etiqueta afectada - Reparar/Evaluar">Etiqueta afectada - Reparar/Evaluar</option>
-                                <option value="Otra info no legible - Evaluar">Otra info no legible - Evaluar</option>
-                                <option value="Etiqueta caída - Retirar">Etiqueta caída - Retirar</option>
-                                <option value="Etiqueta sin protección - Reparar">Etiqueta sin protección - Reparar</option>
-                                <option value="Código interno no asignado - Asignar">Código interno no asignado - Asignar</option>
-                                <option value="Hoja de vida no existe - Levantar">Hoja de vida no existe - Levantar</option>
-                                <option value="Etiqueta sucia levemente - Limpiar">Etiqueta sucia levemente - Limpiar</option>
-                                <option value="Etiqueta sucia gravemente - Limpiar">Etiqueta sucia gravemente - Limpiar</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">18. Observaciones</span>
-                            <input type="text" id="q18_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Partes Textiles</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">19. Estado Textiles</span>
-                            <select id="q19_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observacion">Conforme con observacion</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">20. Hallazgos / Plan de Acción</span>
-                            <select id="q20_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Reatas o cuerdas con contaminación ácidos - No admite mantenimiento">Contaminación ácidos - No admite mtto</option>
-                                <option value="Reatas o cuerdas con contaminación ácidos - Validar">Contaminación ácidos - Validar limpieza</option>
-                                <option value="Reatas o cuerdas con contaminación hidrocarburos">Contaminación hidrocarburos</option>
-                                <option value="Reatas o cuerdas con contaminación otros químicos">Contaminación otros químicos</option>
-                                <option value="Reatas o cuerda con desgaste">Desgaste</option>
-                                <option value="Reatas o cuerdas con estiramiento excesivo">Estiramiento excesivo</option>
-                                <option value="Reatas o cuerda con cortes">Cortes</option>
-                                <option value="Reatas o cuerda deshilachada">Deshilachada</option>
-                                <option value="Reatas o cuerdas quemadura">Quemaduras</option>
-                                <option value="Cuerda con alma expuesta">Alma expuesta</option>
-                                <option value="Absorbedor impactado/cortado/deformado/desprotegido">Absorbedor dañado/impactado</option>
-                                <option value="Reatas o cuerdas con suciedad excesiva">Suciedad excesiva</option>
-                                <option value="Reatas o cuerda con rigidez confirmada">Rigidez confirmada</option>
-                                <option value="Reatas o cuerda con cristalizada confirmada">Cristalizada confirmada</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">21. Observaciones</span>
-                            <input type="text" id="q21_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Costuras</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">22. Estado Costuras</span>
-                            <select id="q22_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observaciones">Conforme con observaciones</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">23. Hallazgos / Plan de Acción</span>
-                            <select id="q23_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Con cortes o ruptura">Con cortes o ruptura</option>
-                                <option value="Con estiramiento excesivo">Con estiramiento excesivo</option>
-                                <option value="Con deshilachado">Con deshilachado</option>
-                                <option value="Con costura faltante">Con costura faltante</option>
-                                <option value="Con contaminación Hidrocarburos/Quimicos">Con contaminación Hidrocarburos/Quimicos</option>
-                                <option value="Con quemadura">Con quemadura</option>
-                                <option value="Indicadores de impacto activados">Indicadores de impacto activados</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">24. Observaciones</span>
-                            <input type="text" id="q24_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Elementos Metálicos</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">25. Estado Metálicos</span>
-                            <select id="q25_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observacion">Conforme con observacion</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">26. Hallazgos / Plan de Acción</span>
-                            <select id="q26_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Deformaciones/Desgastes">Deformaciones/Desgastes</option>
-                                <option value="Picadas/Grietas/Fisuras">Picadas/Grietas/Fisuras</option>
-                                <option value="Inicio oxidación">Inicio oxidación</option>
-                                <option value="Oxidación avanzada/Corrosión">Oxidación avanzada/Corrosión</option>
-                                <option value="Remaches incompletos/deformados">Remaches incompletos/deformados</option>
-                                <option value="Resorte desajustados">Resorte desajustados</option>
-                                <option value="Contaminación químicos">Contaminación químicos</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">27. Observaciones</span>
-                            <input type="text" id="q27_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Partes Móviles</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">28. Estado P. Móviles</span>
-                            <select id="q28_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observacion">Conforme con observacion</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">29. Hallazgos / Plan de Acción</span>
-                            <select id="q29_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Partes móviles no abren correctamente">No abren correctamente</option>
-                                <option value="Partes móviles no cierran correctamente">No cierran correctamente</option>
-                                <option value="Deformaciones/Desgastes">Deformaciones/Desgastes</option>
-                                <option value="Oxidación/Corrosión">Oxidación/Corrosión</option>
-                                <option value="Resortes no funcionan">Resortes no funcionan</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">30. Observaciones</span>
-                            <input type="text" id="q30_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-solutarNegro p-4 border border-solutarBorde rounded-lg mb-4">
-                    <label class="block text-white text-sm font-bold mb-2 uppercase border-b border-solutarBorde pb-2">Partes Plásticas / Recubrimientos</label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">31. Estado P. Plásticas</span>
-                            <select id="q31_estado" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="Conforme">Conforme</option><option value="Conforme con observacion">Conforme con observacion</option><option value="No conforme">No conforme</option><option value="No aplica">No aplica</option><option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">32. Hallazgos / Plan de Acción</span>
-                            <select id="q32_hallazgo" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none">
-                                <option value="">Ninguno</option>
-                                <option value="Deformación o desgaste excesivo">Deformación o desgaste excesivo</option>
-                                <option value="Con Cortes - Grietas - Fisuras">Con Cortes - Grietas - Fisuras</option>
-                                <option value="Guardacabo o protector no presente">Guardacabo o protector no presente</option>
-                                <option value="Guardacabo o protector con rotura">Guardacabo o protector con rotura</option>
-                                <option value="Paquete de argollas con desgaste/cortes">Paquete de argollas con desgaste/cortes</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-400 block mb-1">33. Observaciones</span>
-                            <input type="text" id="q33_obs" class="w-full bg-solutarGris border border-solutarBorde rounded px-2 py-2 text-white outline-none" placeholder="Detalles...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-5 md:p-8 border-b border-solutarBorde">
-                <div class="mb-6">
-                    <label class="block text-solutarRojo font-black mb-3 text-lg border-b border-solutarBorde pb-2">34. VEREDICTO PRELIMINAR PARA EL ESTADO DEL EQUIPO *</label>
-                    <select id="q34_veredicto" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 font-bold focus:border-solutarRojo outline-none" required>
-                        <option value="">Seleccione el dictamen final...</option>
-                        <option value="CONFORME" class="text-green-500">CONFORME</option>
-                        <option value="CONFORME CON OBSERVACION" class="text-green-500">CONFORME CON OBSERVACION</option>
-                        <option value="CONFORME CON OBSERVACION REQUIERE MANTENIMIENTO PREVENTIVO INTERNO" class="text-green-500">CONFORME CON OBS. REQUIERE MTTO PREVENTIVO INTERNO</option>
-                        <option value="CONFORME CON OBSERVACION REQUIERE MANTENIMIENTO CORRECTIVO INTERNO" class="text-green-500">CONFORME CON OBS. REQUIERE MTTO CORRECTIVO INTERNO</option>
-                        <option value="CONFORME CON LIMITACIONES" class="text-yellow-500">CONFORME CON LIMITACIONES</option>
-                        <option value="NO CONFORME" class="text-solutarRojo">NO CONFORME</option>
-                        <option value="NO CONFORME, VIDA UTIL SUPERADA" class="text-solutarRojo">NO CONFORME, VIDA UTIL SUPERADA</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO PREVENTIVO INTERNO" class="text-yellow-500">NO CONFORME PROV, REQUIERE MTTO PREVENTIVO INTERNO</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO CORRECTIVO INTERNO" class="text-yellow-500">NO CONFORME PROV, REQUIERE MTTO CORRECTIVO INTERNO</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO POR PERSONA AVALADA POR FABRICANTE" class="text-yellow-500">NO CONFORME PROV, REQUIERE MTTO POR AVALADO FABRICANTE</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO PREVENTIVO POR FABRICANTE" class="text-yellow-500">NO CONFORME PROV, REQUIERE MTTO PREVENTIVO FABRICANTE</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO CORRECTIVO POR FABRICANTE" class="text-yellow-500">NO CONFORME PROV, REQUIERE MTTO CORRECTIVO FABRICANTE</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR COORDINADOR ALTURAS" class="text-yellow-500">NO CONFORME PROV, REQUIERE INSP. COORDINADOR ALTURAS</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR FABRICANTE O PERSONAL AVALADA FABRICANTE" class="text-yellow-500">NO CONFORME PROV, REQUIERE INSP. FABRICANTE/AVALADO</option>
-                        <option value="NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR PERSONA CALIFICADA" class="text-yellow-500">NO CONFORME PROV, REQUIERE INSP. PERSONA CALIFICADA</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-400 text-sm font-bold mb-2">35. Observaciones Adicionales / Conclusiones</label>
-                    <textarea id="q35_obs_adicionales" rows="3" class="w-full bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 focus:border-solutarRojo outline-none resize-none" placeholder="Conclusiones generales del equipo..."></textarea>
-                </div>
-            </div>
-
-            <div class="p-5 md:p-8">
-                <div class="flex justify-between items-end mb-4">
-                    <div>
-                        <h2 class="text-lg font-bold text-solutarRojo uppercase tracking-wider"><i class="fa-solid fa-images mr-2"></i> Registro Fotográfico</h2>
-                        <p class="text-sm text-gray-400">Adjunta hasta 4 fotos (Daños, etiquetas, equipo completo).</p>
-                    </div>
-                    <span id="contadorFotos" class="bg-solutarNegro border border-solutarBorde px-3 py-1 rounded text-sm font-bold text-gray-400 hidden sm:block">0 / 4</span>
-                </div>
-                <div class="border-2 border-dashed border-solutarBorde hover:border-solutarRojo rounded-xl p-6 text-center transition-colors bg-solutarNegro relative cursor-pointer">
-                    <input type="file" id="inputFotos" accept="image/*" capture="environment" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="mostrarVistaPrevia(event)">
-                    <div id="mensajeDropzone" class="pointer-events-none">
-                        <i class="fa-solid fa-camera-retro text-5xl text-gray-600 mb-3"></i>
-                        <p class="text-white font-bold text-lg">Toca aquí para abrir la cámara o galería</p>
-                    </div>
-                    <div id="vistaPreviaFotos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pointer-events-none empty:hidden"></div>
-                </div>
-            </div>
-
-            <div class="p-6 md:p-8 border-t border-solutarBorde bg-solutarNegro flex justify-end">
-                <button type="submit" id="btnGuardar" class="w-full sm:w-auto bg-solutarRojo hover:bg-red-700 text-white font-bold py-4 px-10 rounded transition duration-300 shadow-[0_0_20px_rgba(227,30,36,0.4)] text-lg">
-                    <i class="fa-solid fa-file-signature mr-2"></i> Generar y Guardar Acta
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <div id="toastExito" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-green-600 text-white px-6 py-4 rounded shadow-2xl flex items-center gap-4 z-[100] border border-green-400 pointer-events-none">
-        <i class="fa-solid fa-circle-check text-2xl"></i>
+    <aside class="w-64 bg-slate text-mist flex flex-col justify-between hidden md:flex shadow-2xl z-20">
         <div>
-            <h4 class="font-bold text-sm">¡Acta Registrada!</h4>
-            <p class="text-xs text-green-100">La inspección se guardó correctamente.</p>
+            <div class="p-6 border-b border-subtleBlack/20 flex justify-center bg-blancoPuro">
+                <img src="logoSolutar.png" alt="Solutar Logo" class="h-12 object-contain">
+            </div>
+            <div class="p-6">
+                <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Administración</p>
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 text-white font-bold border border-white/20 transition-all">
+                        <i class="fa-solid fa-users"></i> Clientes (Empresas)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-tv"></i> Alertas VAR SST <span class="bg-solutarRojo text-white text-[10px] px-2 py-0.5 rounded-full font-bold ml-auto animate-pulse">1</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-qrcode"></i> Generador QR
+                    </a>
+                </nav>
+            </div>
         </div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-12">
-        <div class="bg-solutarGris border border-solutarBorde rounded-xl p-6 shadow-2xl">
-            <h2 class="text-xl font-bold text-solutarRojo mb-2 uppercase tracking-wide"><i class="fa-solid fa-users-gear mr-2"></i> Crear Acceso para Cliente</h2>
-            <p class="text-sm text-gray-400 mb-5">Genera un usuario para que tu cliente pueda ingresar a su portal y ver sus actas.</p>
-            
-            <form id="formAccesoCliente" class="flex flex-col md:flex-row gap-4">
-                <input type="email" id="nuevoCorreoCliente" class="flex-1 bg-solutarNegro border border-solutarBorde rounded text-white px-4 py-3 outline-none focus:border-solutarRojo transition-colors" placeholder="Correo del Cliente (Ej: logistica@empresa.com)" required>
-                
-                <div class="relative flex-1">
-                    <input type="text" id="nuevaPassCliente" class="w-full bg-solutarNegro border border-solutarBorde rounded text-gray-500 px-4 py-3 outline-none cursor-not-allowed" value="Solutar2026" readonly title="Contraseña estándar de la Fase 1">
-                    <span class="absolute right-4 top-3.5 text-xs font-bold text-gray-500">Contraseña Estándar</span>
+        <div class="p-6 border-t border-subtleBlack/20 bg-black/20">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-user-tie"></i></div>
+                <div>
+                    <p class="text-sm font-bold text-white leading-tight">Kevin / José</p>
+                    <p class="text-xs text-white/50">SuperAdmin</p>
                 </div>
-
-                <button type="submit" id="btnCrearAcceso" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition duration-300 shadow-[0_0_15px_rgba(37,99,235,0.4)] whitespace-nowrap">
-                    <i class="fa-solid fa-user-plus mr-2"></i> Habilitar Acceso
-                </button>
-            </form>
-            <p id="msjAcceso" class="text-sm font-bold mt-4 hidden"></p>
+            </div>
+            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-white/50 hover:text-white transition-colors">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
+            </button>
         </div>
-    </div>
+    </aside>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-16 mb-20">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-mist">
+        
+        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
             <div>
-                <h2 class="text-2xl font-black uppercase tracking-wider text-white">Historial de Inspecciones</h2>
-                <p class="text-gray-500 text-sm font-bold">Gestiona y consulta todas las actas generadas</p>
+                <h1 class="text-2xl font-black text-subtleBlack tracking-tight">Centro de Control Solutar</h1>
+                <p class="text-sm text-slate font-medium">Gestión de Clientes y Alertas</p>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <div class="relative flex-1 sm:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-500"></i>
-                    <input type="text" id="buscadorAdmin" onkeyup="filtrarTablaAdmin()" placeholder="Buscar por Serial..." class="w-full bg-solutarGris border border-solutarBorde rounded-lg pl-10 pr-4 py-3 text-sm focus:border-solutarRojo outline-none">
+            <button class="bg-subtleBlack hover:bg-black text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition-all text-sm">
+                <i class="fa-solid fa-plus mr-1"></i> Nuevo Cliente
+            </button>
+        </header>
+
+        <div class="p-8">
+            
+            <div class="bg-solutarRojo/10 border-l-4 border-solutarRojo p-6 rounded-2xl mb-8 flex justify-between items-center shadow-sm">
+                <div class="flex gap-4 items-center">
+                    <div class="w-12 h-12 rounded-full bg-solutarRojo text-white flex items-center justify-center text-xl shadow-lg animate-bounce">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-solutarRojo font-black text-lg">VAR SST ACTIVADO - ¡Requiere Atención!</h3>
+                        <p class="text-subtleBlack text-sm font-medium">La empresa <strong>CYC Obras</strong> reportó una ausencia de línea de vida hace 5 minutos.</p>
+                    </div>
                 </div>
-                <select id="filtroClienteAdmin" onchange="filtrarTablaAdmin()" class="bg-solutarGris border border-solutarBorde rounded-lg px-4 py-3 text-sm focus:border-solutarRojo outline-none text-white">
-                    <option value="">Todos los Clientes</option>
-                    <option value="Cliente Demo S.A.S">Cliente Demo S.A.S</option>
-                    <option value="Constructora ABC">Constructora ABC</option>
-                </select>
+                <button class="bg-solutarRojo text-white font-bold px-6 py-2 rounded-lg hover:bg-red-800 transition-colors shadow-md">
+                    Atender VAR
+                </button>
+            </div>
+
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-bordeClaro flex justify-between items-center bg-mist/50">
+                    <h2 class="text-lg font-bold text-subtleBlack"><i class="fa-solid fa-building text-slate mr-2"></i> Directorio de Clientes</h2>
+                    <input type="text" placeholder="Buscar empresa..." class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-slate">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-mist text-slate text-xs uppercase tracking-wider">
+                                <th class="p-4 border-b border-bordeClaro font-bold">Empresa / NIT</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold">Contacto</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold">Equipos</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold text-center">Estado SST</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
+                                <td class="p-4">
+                                    <p class="font-bold text-subtleBlack">CYC Obras Civiles</p>
+                                    <p class="text-xs text-slate font-mono">NIT: 900.123.456-7</p>
+                                </td>
+                                <td class="p-4 font-medium text-slate">Ing. Carlos Yépez<br><span class="text-xs text-slate/70">310 555 1234</span></td>
+                                <td class="p-4 text-slate font-bold">142 Activos</td>
+                                <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 font-bold px-3 py-1 rounded-full text-xs">VAR Pendiente</span></td>
+                                <td class="p-4 text-center">
+                                    <button class="bg-mist border border-bordeClaro text-slate hover:text-white hover:bg-slate px-3 py-1.5 rounded transition-colors text-xs font-bold mr-2"><i class="fa-solid fa-eye"></i> Ver Panel</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
+                                <td class="p-4">
+                                    <p class="font-bold text-subtleBlack">Solenis Colombia</p>
+                                    <p class="text-xs text-slate font-mono">NIT: 890.987.654-1</p>
+                                </td>
+                                <td class="p-4 font-medium text-slate">Maria Fernanda L.<br><span class="text-xs text-slate/70">320 444 9876</span></td>
+                                <td class="p-4 text-slate font-bold">85 Activos</td>
+                                <td class="p-4 text-center"><span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs">Al día (100%)</span></td>
+                                <td class="p-4 text-center">
+                                    <button class="bg-mist border border-bordeClaro text-slate hover:text-white hover:bg-slate px-3 py-1.5 rounded transition-colors text-xs font-bold mr-2"><i class="fa-solid fa-eye"></i> Ver Panel</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </main>
 
-        <div class="bg-solutarGris border border-solutarBorde rounded-xl overflow-hidden shadow-2xl">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-solutarNegro text-gray-400 text-xs uppercase tracking-widest">
-                            <th class="p-4 border-b border-solutarBorde">Fecha</th>
-                            <th class="p-4 border-b border-solutarBorde">Serial</th>
-                            <th class="p-4 border-b border-solutarBorde">Cliente / Equipo</th>
-                            <th class="p-4 border-b border-solutarBorde">Inspector</th>
-                            <th class="p-4 border-b border-solutarBorde">Dictamen</th>
-                            <th class="p-4 border-b border-solutarBorde text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cuerpoTablaAdmin" class="text-sm">
-                        <tr>
-                            <td colspan="6" class="p-10 text-center text-gray-500 italic">
-                                <i class="fa-solid fa-spinner fa-spin mr-2"></i> Cargando base de datos...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function actualizarCliente() {
-            const select = document.getElementById('clienteSelect');
-            const inputNuevo = document.getElementById('nuevoClienteInput');
-            if (select.value === "Otro") {
-                inputNuevo.classList.remove('hidden');
-                inputNuevo.required = true;
-            } else {
-                inputNuevo.classList.add('hidden');
-                inputNuevo.required = false;
-            }
-        }
-
-        function val(id) { return document.getElementById(id) ? document.getElementById(id).value : ''; }
-        function setVal(id, v) { if(document.getElementById(id)) document.getElementById(id).value = v || ''; }
-
-        function obtenerIniciales(nombre) {
-            if (!nombre || nombre.trim() === "") return "AD"; 
-            const palabras = nombre.trim().split(" ");
-            if (palabras.length === 1) return palabras[0].substring(0, 2).toUpperCase();
-            return (palabras[0][0] + palabras[1][0]).toUpperCase();
-        }
-
-        function actualizarInspector() {
-            const select = document.getElementById('inspectorSelect');
-            const inputNuevo = document.getElementById('nuevoInspectorInput');
-            const nombreNavbar = document.getElementById('nombreNavbar');
-            const avatarTexto = document.getElementById('avatarTexto');
-
-            if (select.value === "Otro") {
-                inputNuevo.classList.remove('hidden');
-                inputNuevo.required = true;
-                nombreNavbar.innerText = "Nuevo Inspector";
-                avatarTexto.innerText = "NI";
-            } else {
-                inputNuevo.classList.add('hidden');
-                inputNuevo.required = false;
-                nombreNavbar.innerText = select.value || "Administrador";
-                avatarTexto.innerText = obtenerIniciales(select.value);
-            }
-        }
-
-        function actualizarAvatarPersonalizado() {
-            const inputNuevo = document.getElementById('nuevoInspectorInput').value;
-            if(inputNuevo.length > 0) {
-                document.getElementById('nombreNavbar').innerText = inputNuevo;
-                document.getElementById('avatarTexto').innerText = obtenerIniciales(inputNuevo);
-            }
-        }
-
-        function mostrarVistaPrevia(event) {
-            const contenedor = document.getElementById('vistaPreviaFotos');
-            const msjCentral = document.getElementById('mensajeDropzone');
-            const contador = document.getElementById('contadorFotos');
-            const archivos = event.target.files;
-            
-            contenedor.innerHTML = ''; 
-            if(archivos.length > 0) {
-                msjCentral.classList.add('hidden'); 
-                const limite = Math.min(archivos.length, 4);
-                contador.innerText = `${archivos.length} / 4`;
-                if(archivos.length > 4) contador.classList.add('text-solutarRojo'); 
-                for (let i = 0; i < limite; i++) {
-                    const archivo = archivos[i];
-                    if (archivo.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const imgDiv = document.createElement('div');
-                            imgDiv.className = "aspect-square rounded-lg overflow-hidden border-2 border-solutarBorde shadow-lg relative";
-                            imgDiv.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover"><div class="absolute top-1 right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"><i class="fa-solid fa-check"></i></div>`;
-                            contenedor.appendChild(imgDiv);
-                        }
-                        reader.readAsDataURL(archivo);
-                    }
-                }
-            } else {
-                msjCentral.classList.remove('hidden');
-                contador.innerText = "0 / 4";
-            }
-        }
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp, query, onSnapshot, orderBy, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        // NUEVO: Importamos la autenticación
-        import { getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        // ==========================================
-        // 🚨 PEGA TUS LLAVES DE FIREBASE AQUÍ 🚨
-        // ==========================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA",
-            authDomain: "solutar-gestion.firebaseapp.com",
-            projectId: "solutar-gestion",
-            storageBucket: "solutar-gestion.firebasestorage.app",
-            messagingSenderId: "472091356051",
-            appId: "1:472091356051:web:9ddeda6a8aece01ec19666"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        // ==========================================
-        // TRUCO SAAS: APP SECUNDARIA PARA CREAR USUARIOS
-   
-        // ==========================================
-        // Esto evita que Kevin se desloguee al crear un cliente
-        const authApp = initializeApp(firebaseConfig, "AppSecundaria"); 
-        const authSecundario = getAuth(authApp);
-
-        document.getElementById('formAccesoCliente').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnCrearAcceso');
-            const msj = document.getElementById('msjAcceso');
-            const correo = document.getElementById('nuevoCorreoCliente').value;
-            const pass = document.getElementById('nuevaPassCliente').value;
-
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando...';
-            btn.disabled = true;
-
-            try {
-                // Creamos el usuario en tu Firebase
-                await createUserWithEmailAndPassword(authSecundario, correo, pass);
-                // Cerramos esa mini-sesión para no causar conflictos
-                await signOut(authSecundario); 
-                
-                msj.textContent = "¡Acceso creado! Ya puedes decirle al cliente que ingrese con su correo y la clave Solutar2026.";
-                msj.className = "text-sm font-bold mt-4 text-green-500 block";
-                
-                document.getElementById('nuevoCorreoCliente').value = '';
-
-            } catch (error) {
-                console.error(error);
-                if(error.code === 'auth/email-already-in-use') {
-                    msj.textContent = "Error: Este correo ya tiene un acceso habilitado en el sistema.";
-                } else {
-                    msj.textContent = "Hubo un error al crear el acceso. Intenta de nuevo.";
-                }
-                msj.className = "text-sm font-bold mt-4 text-solutarRojo block";
-            }
-
-            btn.innerHTML = '<i class="fa-solid fa-user-plus mr-2"></i> Habilitar Acceso';
-            btn.disabled = false;
-            
-            setTimeout(() => { msj.classList.add('hidden'); }, 6000);
-        });
-        
-        let modoEdicion = false;
-        let idEdicion = "";
-        window.registrosGlobales = {}; 
-
-        const cuerpoTabla = document.getElementById('cuerpoTablaAdmin');
-        
-        // LEEMOS DE LA NUEVA COLECCION V2
-        const q = query(collection(db, "actas_inspeccion_v2"), orderBy("fecha_registro", "desc"));
-
-        onSnapshot(q, (snapshot) => {
-            cuerpoTabla.innerHTML = "";
-            window.registrosGlobales = {}; 
-            
-            snapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-                const id = docSnap.id;
-                window.registrosGlobales[id] = data; 
-                
-                const fecha = data.fecha_registro ? new Date(data.fecha_registro.seconds * 1000).toLocaleDateString() : 'Pendiente';
-                const fila = document.createElement('tr');
-                fila.className = "border-b border-solutarBorde hover:bg-solutarNegro/50 transition-colors";
-                
-                // Lógica de color según veredicto (Aprobado = Verde, Rechazado = Rojo, lo demas Amarillo)
-                let colorDictamen = "text-yellow-500";
-                if(data.dictamen_final === "CONFORME" || data.dictamen_final === "CONFORME CON OBSERVACION") colorDictamen = "text-green-500";
-                if(data.dictamen_final === "NO CONFORME" || data.dictamen_final === "NO CONFORME, VIDA UTIL SUPERADA") colorDictamen = "text-solutarRojo";
-
-                fila.innerHTML = `
-                    <td class="p-4 text-gray-500">${fecha}</td>
-                    <td class="p-4 font-mono font-bold text-white">${data.equipo.serial || 'S/N'}</td>
-                    <td class="p-4 text-xs">
-                        <span class="block text-white font-bold">${data.cliente}</span>
-                        <span class="text-gray-500">${data.equipo.tipo}</span>
-                    </td>
-                    <td class="p-4 text-xs text-gray-300">${data.inspector}</td>
-                    <td class="p-4 font-black text-[10px] ${colorDictamen}">${data.dictamen_final.substring(0, 20)}...</td>
-                    <td class="p-4 text-center flex justify-center gap-2">
-                        <button onclick="editarRegistro('${id}')" class="bg-blue-900/20 text-blue-500 hover:bg-blue-500 hover:text-white p-2 rounded transition-all" title="Editar">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button onclick="confirmarEliminar('${id}')" class="bg-red-900/20 text-red-500 hover:bg-red-500 hover:text-white p-2 rounded transition-all" title="Eliminar">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-                cuerpoTabla.appendChild(fila);
-            });
-        });
-
-        window.confirmarEliminar = async (id) => {
-            if(confirm("¿Estás seguro de eliminar este registro?")){
-                try { await deleteDoc(doc(db, "actas_inspeccion_v2", id)); } 
-                catch (e) { alert("Error al eliminar."); }
-            }
-        };
-
-        window.editarRegistro = (id) => {
-            const data = window.registrosGlobales[id];
-            modoEdicion = true;
-            idEdicion = id;
-
-            // Rellenar Datos Operativos
-            setVal('clienteSelect', data.cliente);
-            setVal('inspectorSelect', data.inspector);
-            setVal('q1_proyecto', data.trazabilidad.proyecto);
-            setVal('q2_fecha', data.trazabilidad.fecha_inspeccion);
-            setVal('q37_tipo', data.trazabilidad.tipo_inspeccion);
-
-            // Rellenar Equipo
-            setVal('q3_fabricante', data.equipo.fabricante);
-            setVal('q4_tipo_equipo', data.equipo.tipo);
-            setVal('q5_longitud', data.equipo.longitud);
-            setVal('q6_referencia', data.equipo.referencia);
-            setVal('q7_fecha_fab', data.equipo.fecha_fab);
-            setVal('q8_anio_fab', data.equipo.anio_fab);
-            setVal('q9_fecha_uso', data.equipo.fecha_uso);
-            setVal('q10_vida_util', data.equipo.vida_util);
-            setVal('q11_estado_vida', data.equipo.estado_vida);
-            setVal('q12_lote', data.equipo.lote);
-            setVal('q13_serial', data.equipo.serial);
-            setVal('q14_codigo', data.equipo.codigo_interno);
-            setVal('q15_proveedor', data.equipo.proveedor);
-
-            // Rellenar Evaluaciones
-            setVal('q16_estado', data.evaluacion.etiquetas.estado); setVal('q17_hallazgo', data.evaluacion.etiquetas.hallazgo); setVal('q18_obs', data.evaluacion.etiquetas.obs);
-            setVal('q19_estado', data.evaluacion.textiles.estado); setVal('q20_hallazgo', data.evaluacion.textiles.hallazgo); setVal('q21_obs', data.evaluacion.textiles.obs);
-            setVal('q22_estado', data.evaluacion.costuras.estado); setVal('q23_hallazgo', data.evaluacion.costuras.hallazgo); setVal('q24_obs', data.evaluacion.costuras.obs);
-            setVal('q25_estado', data.evaluacion.metalicos.estado); setVal('q26_hallazgo', data.evaluacion.metalicos.hallazgo); setVal('q27_obs', data.evaluacion.metalicos.obs);
-            setVal('q28_estado', data.evaluacion.moviles.estado); setVal('q29_hallazgo', data.evaluacion.moviles.hallazgo); setVal('q30_obs', data.evaluacion.moviles.obs);
-            setVal('q31_estado', data.evaluacion.plasticos.estado); setVal('q32_hallazgo', data.evaluacion.plasticos.hallazgo); setVal('q33_obs', data.evaluacion.plasticos.obs);
-
-            // Dictamen final
-            setVal('q34_veredicto', data.dictamen_final);
-            setVal('q35_obs_adicionales', data.obs_generales);
-
-            const btnGuardar = document.getElementById('btnGuardar');
-            btnGuardar.innerHTML = '<i class="fa-solid fa-arrows-rotate mr-2"></i> Actualizar Acta Completa';
-            btnGuardar.classList.replace('bg-solutarRojo', 'bg-blue-600');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.filtrarTablaAdmin = () => {
-            const busqueda = document.getElementById('buscadorAdmin').value.toUpperCase();
-            const filtroCliente = document.getElementById('filtroClienteAdmin').value;
-            const filas = cuerpoTabla.getElementsByTagName('tr');
-            for (let fila of filas) {
-                const textoSerial = fila.cells[1].textContent.toUpperCase();
-                const textoCliente = fila.cells[2].textContent;
-                fila.style.display = (textoSerial.indexOf(busqueda) > -1 && (filtroCliente === "" || textoCliente.includes(filtroCliente))) ? "" : "none";
-            }
-        };
-        
-        document.getElementById('formInspeccion').addEventListener('submit', async function(e) {
-            e.preventDefault(); 
-            const btnGuardar = document.getElementById('btnGuardar');
-            btnGuardar.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Procesando...';
-            btnGuardar.disabled = true;
-
-            let inspectorFinal = val('inspectorSelect');
-            if (inspectorFinal === "Otro") inspectorFinal = val('nuevoInspectorInput');
-
-            try {
-                const datosInspeccion = {
-                    cliente: val('clienteSelect') === "Otro" ? val('nuevoClienteInput') : val('clienteSelect'),
-                    inspector: inspectorFinal,
-                    trazabilidad: {
-                        proyecto: val('q1_proyecto'),
-                        fecha_inspeccion: val('q2_fecha'),
-                        tipo_inspeccion: val('q37_tipo')
-                    },
-                    equipo: {
-                        fabricante: val('q3_fabricante'),
-                        tipo: val('q4_tipo_equipo'),
-                        longitud: val('q5_longitud'),
-                        referencia: val('q6_referencia'),
-                        fecha_fab: val('q7_fecha_fab'),
-                        anio_fab: val('q8_anio_fab'),
-                        fecha_uso: val('q9_fecha_uso'),
-                        vida_util: val('q10_vida_util'),
-                        estado_vida: val('q11_estado_vida'),
-                        lote: val('q12_lote'),
-                        serial: val('q13_serial'),
-                        codigo_interno: val('q14_codigo'),
-                        proveedor: val('q15_proveedor')
-                    },
-                    evaluacion: {
-                        etiquetas: { estado: val('q16_estado'), hallazgo: val('q17_hallazgo'), obs: val('q18_obs') },
-                        textiles: { estado: val('q19_estado'), hallazgo: val('q20_hallazgo'), obs: val('q21_obs') },
-                        costuras: { estado: val('q22_estado'), hallazgo: val('q23_hallazgo'), obs: val('q24_obs') },
-                        metalicos: { estado: val('q25_estado'), hallazgo: val('q26_hallazgo'), obs: val('q27_obs') },
-                        moviles: { estado: val('q28_estado'), hallazgo: val('q29_hallazgo'), obs: val('q30_obs') },
-                        plasticos: { estado: val('q31_estado'), hallazgo: val('q32_hallazgo'), obs: val('q33_obs') },
-                    },
-                    dictamen_final: val('q34_veredicto'),
-                    obs_generales: val('q35_obs_adicionales')
-                };
-
-                if (modoEdicion) {
-                    await updateDoc(doc(db, "actas_inspeccion_v2", idEdicion), datosInspeccion);
-                    btnGuardar.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Acta Actualizada';
-                } else {
-                    datosInspeccion.fecha_registro = serverTimestamp();
-                    await addDoc(collection(db, "actas_inspeccion_v2"), datosInspeccion);
-                    btnGuardar.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Acta Guardada';
-                }
-
-                btnGuardar.classList.replace('bg-blue-600', 'bg-green-600');
-                btnGuardar.classList.replace('bg-solutarRojo', 'bg-green-600');
-                
-                const toast = document.getElementById('toastExito');
-                toast.classList.remove('translate-y-20', 'opacity-0');
-                
-                setTimeout(() => {
-                    toast.classList.add('translate-y-20', 'opacity-0');
-                    document.getElementById('formInspeccion').reset();
-                    modoEdicion = false;
-                    idEdicion = "";
-                    btnGuardar.innerHTML = '<i class="fa-solid fa-file-signature mr-2"></i> Generar Acta Completa';
-                    btnGuardar.className = "w-full sm:w-auto bg-solutarRojo hover:bg-red-700 text-white font-bold py-4 px-10 rounded transition duration-300 shadow-[0_0_20px_rgba(227,30,36,0.4)] text-lg";
-                    btnGuardar.disabled = false;
-                }, 2500);
-
-            } catch (error) {
-                console.error("Error: ", error);
-                alert("Hubo un error al procesar los datos.");
-                btnGuardar.disabled = false;
-            }
-        });
-    </script>
 </body>
 </html>
