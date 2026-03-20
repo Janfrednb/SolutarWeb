@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actas y Documentos - Solutar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: '#881C23',      
+                        solutarRojo: '#E31E24',   
+                        mist: '#F4F6F5',          
+                        blancoPuro: '#FFFFFF',      
+                        slate: '#4E5861',         
+                        subtleBlack: '#25272A',   
+                        bordeClaro: '#DDE2E1'      
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mist text-slate font-sans antialiased h-screen flex overflow-hidden">
+
+    <aside class="w-64 bg-slate text-mist flex flex-col justify-between hidden md:flex border-r border-slate shadow-xl z-20">
+        <div>
+            <div class="p-6 border-b border-subtleBlack/20 flex justify-center bg-blancoPuro">
+                <img src="logoSolutar.png" alt="Solutar Logo" class="h-16 object-contain">
+            </div>
+            <div class="p-6">
+                <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Módulos</p>
+                <nav class="space-y-2">
+                    <a href="mapa-estandarizacion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-map"></i> Mapa de Estandarización
+                    </a>
+                    <a href="var-sst.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-tv"></i> VAR SST (Riesgos)
+                    </a>
+                    <a href="actas-documentos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-mist text-solutarRojo font-bold border border-subtleBlack/10 transition-all shadow-sm">
+                        <i class="fa-solid fa-file-pdf"></i> Actas y Documentos
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <div class="p-6 border-t border-subtleBlack/20 bg-black/10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-industry"></i></div>
+                <div>
+                    <p id="nombreUsuario" class="text-sm font-bold text-white leading-tight">Cargando...</p>
+                    <p class="text-xs text-mist/50">Cliente VIP</p>
+                </div>
+            </div>
+            <button id="btnCerrarSesion" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-mist">
+        
+        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+            <div>
+                <h1 class="text-2xl font-black text-subtleBlack uppercase tracking-tight">Actas y Documentos</h1>
+                <p class="text-sm text-slate font-medium">Repositorio Técnico y Legal SST</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="https://wa.me/573147479180?text=Hola%20equipo%20Solutar,%20necesito%20solicitar%20la%20carga%20de%20un%20nuevo%20documento/acta%20en%20mi%20plataforma." target="_blank" class="bg-solutarRojo hover:bg-red-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition-all text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-headset"></i> Solicitar Documento
+                </a>
+            </div>
+        </header>
+
+        <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-burgundy/10 text-burgundy flex items-center justify-center text-xl"><i class="fa-solid fa-file-shield"></i></div>
+                    <div>
+                        <p class="text-slate text-xs font-bold uppercase mb-1">Documentos Totales</p>
+                        <p id="contadorDocs" class="text-2xl font-black text-subtleBlack">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-bordeClaro flex flex-col sm:flex-row justify-between items-center gap-4 bg-mist/50">
+                    <h2 class="text-lg font-bold text-subtleBlack whitespace-nowrap"><i class="fa-regular fa-folder-open text-burgundy mr-2"></i> Archivo Digital</h2>
+                    
+                    <div class="flex w-full sm:w-auto gap-3">
+                        <select id="filtroCategoria" class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-solutarRojo text-slate font-medium bg-white">
+                            <option value="">Todas las categorías</option>
+                            <option value="Inspección de Equipos">Inspección de Equipos</option>
+                            <option value="Gestión SG-SST">Gestión SG-SST</option>
+                            <option value="Formación">Formación y Certificados</option>
+                            <option value="Reportes VAR">Reportes VAR SST</option>
+                        </select>
+                        <div class="relative w-full sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate/50"></i>
+                            <input type="text" id="searchInputDoc" placeholder="Buscar documento..." class="w-full border border-bordeClaro rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-solutarRojo">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-mist text-slate text-xs uppercase tracking-wider">
+                                <th class="p-4 border-b border-bordeClaro font-bold">Nombre del Documento</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold">Categoría</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold">Fecha Emisión</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold">Validez</th>
+                                <th class="p-4 border-b border-bordeClaro font-bold text-right">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaDocumentos" class="text-sm">
+                            <tr>
+                                <td colspan="5" class="p-8 text-center text-slate font-bold">
+                                    <i class="fa-solid fa-spinner fa-spin mr-2"></i> Conectando con el servidor seguro...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // IMPORTAMOS FIRESTORE (LA BASE DE DATOS)
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA", 
+            authDomain: "solutar-gestion.firebaseapp.com", 
+            projectId: "solutar-gestion", 
+            storageBucket: "solutar-gestion.firebasestorage.app", 
+            messagingSenderId: "472091356051", 
+            appId: "1:472091356051:web:9ddeda6a8aece01ec19666" 
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // 1. SEGURIDAD Y CARGA INICIAL
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.replace("index.html");
+            } else {
+                // Mostrar el correo en el menú lateral
+                document.getElementById('nombreUsuario').innerText = user.email.split('@')[0];
+                // Cargar los documentos de este usuario específico
+                cargarDocumentosDesdeBD(user.email);
+            }
+        });
+
+        // 2. FUNCIÓN PARA CERRAR SESIÓN
+        document.getElementById('btnCerrarSesion').addEventListener('click', () => {
+            signOut(auth).then(() => window.location.replace("index.html"));
+        });
+
+        // 3. FUNCIÓN PARA LEER DE LA BASE DE DATOS (LA MAGIA)
+        async function cargarDocumentosDesdeBD(emailCliente) {
+            const tabla = document.getElementById('tablaDocumentos');
+            const contador = document.getElementById('contadorDocs');
+            
+            try {
+                // Busca en la colección "documentos" solo los que pertenezcan al email logueado
+                const q = query(collection(db, "documentos"), where("clienteEmail", "==", emailCliente));
+                const querySnapshot = await getDocs(q);
+                
+                tabla.innerHTML = ''; // Limpiar el mensaje de carga
+                
+                if (querySnapshot.empty) {
+                    tabla.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate font-medium">No hay documentos cargados en su cuenta actualmente.</td></tr>';
+                    return;
+                }
+
+                let totalDocs = 0;
+
+                querySnapshot.forEach((doc) => {
+                    totalDocs++;
+                    const data = doc.data();
+                    
+                    // Lógica de colores por categoría
+                    let colorBadge = "bg-slate/10 text-slate";
+                    if(data.categoria === "Gestión SG-SST") colorBadge = "bg-burgundy/10 text-burgundy";
+                    if(data.categoria === "Formación") colorBadge = "bg-yellow-500/10 text-yellow-700";
+                    if(data.categoria === "Reportes VAR") colorBadge = "bg-solutarRojo/10 text-solutarRojo";
+
+                    // Construir la fila HTML
+                    const filaHtml = `
+                        <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro document-row" data-categoria="${data.categoria}">
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-file-pdf text-solutarRojo text-xl"></i>
+                                    <div>
+                                        <p class="font-bold text-subtleBlack doc-nombre">${data.nombre}</p>
+                                        <p class="text-xs text-slate font-mono">ID: ${doc.id.substring(0,8).toUpperCase()}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-4 font-medium text-slate"><span class="${colorBadge} px-2 py-1 rounded text-xs">${data.categoria}</span></td>
+                            <td class="p-4 text-slate">${data.fecha}</td>
+                            <td class="p-4 text-slate">${data.validez}</td>
+                            <td class="p-4 text-right">
+                                <a href="${data.urlArchivo}" target="_blank" class="inline-block bg-mist border border-bordeClaro text-subtleBlack hover:text-white hover:bg-subtleBlack px-4 py-2 rounded-lg transition-colors text-xs font-bold shadow-sm">
+                                    Descargar <i class="fa-solid fa-download ml-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                    tabla.innerHTML += filaHtml;
+                });
+                
+                contador.innerText = totalDocs;
+
+            } catch (error) {
+                console.error("Error obteniendo documentos:", error);
+                tabla.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-600 font-bold">Error de conexión con el servidor.</td></tr>';
+            }
+        }
+
+        // 4. FUNCIONALIDAD DEL BUSCADOR Y FILTRO
+        const searchInput = document.getElementById('searchInputDoc');
+        const filtroCat = document.getElementById('filtroCategoria');
+        
+        function filtrarTabla() {
+            const term = searchInput.value.toLowerCase();
+            const catFiltro = filtroCat.value;
+            const filas = document.querySelectorAll('.document-row');
+            
+            filas.forEach(fila => {
+                const nombreDoc = fila.querySelector('.doc-nombre').textContent.toLowerCase();
+                const categoriaFila = fila.getAttribute('data-categoria');
+                
+                const coincideTexto = nombreDoc.includes(term);
+                const coincideCat = catFiltro === "" || categoriaFila === catFiltro;
+                
+                if (coincideTexto && coincideCat) {
+                    fila.style.display = '';
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('keyup', filtrarTabla);
+        filtroCat.addEventListener('change', filtrarTabla);
+
+    </script>
+</body>
+</html>

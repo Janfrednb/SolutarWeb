@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
-        // LA MISMA PALETA EXACTA DEL INDEX
         tailwind.config = {
             theme: {
                 extend: {
@@ -42,7 +41,7 @@
                     <a href="var-sst.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
                         <i class="fa-solid fa-tv"></i> VAR SST (Riesgos)
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
+                    <a href="actas-documentos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
                         <i class="fa-solid fa-file-pdf"></i> Actas y Documentos
                     </a>
                 </nav>
@@ -56,7 +55,7 @@
                     <p class="text-xs text-mist/50">Cliente VIP</p>
                 </div>
             </div>
-            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
+            <button id="btnCerrarSesion" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
             </button>
         </div>
@@ -102,7 +101,7 @@
             <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-bordeClaro flex justify-between items-center bg-mist/50">
                     <h2 class="text-lg font-bold text-subtleBlack"><i class="fa-solid fa-list-check text-burgundy mr-2"></i> Inventario Detallado</h2>
-                    <input type="text" placeholder="Buscar equipo o serial..." class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-solutarRojo">
+                    <input type="text" id="searchInput" placeholder="Buscar equipo o serial..." class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-solutarRojo">
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -116,7 +115,7 @@
                                 <th class="p-4 border-b border-bordeClaro font-bold text-center">Acción</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm">
+                        <tbody id="tablaEquipos" class="text-sm">
                             <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
                                 <td class="p-4 font-mono font-bold text-subtleBlack">ARN-2024-01</td>
                                 <td class="p-4 font-medium text-slate">Arnés 4 Argollas</td>
@@ -148,5 +147,61 @@
         </div>
     </main>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA", 
+            authDomain: "solutar-gestion.firebaseapp.com", 
+            projectId: "solutar-gestion", 
+            storageBucket: "solutar-gestion.firebasestorage.app", 
+            messagingSenderId: "472091356051", 
+            appId: "1:472091356051:web:9ddeda6a8aece01ec19666" 
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // 1. SEGURIDAD: Verificar si está logueado
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Si no hay usuario, lo saca al index de inmediato
+                window.location.replace("index.html");
+            } else {
+                console.log("Sesión activa de:", user.email);
+            }
+        });
+
+        // 2. FUNCIÓN DE CERRAR SESIÓN
+        document.getElementById('btnCerrarSesion').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.replace("index.html");
+            }).catch((error) => {
+                console.error("Error al salir:", error);
+            });
+        });
+
+        // 3. FUNCIONALIDAD DEL BUSCADOR DE LA TABLA
+        const searchInput = document.getElementById('searchInput');
+        const tablaEquipos = document.getElementById('tablaEquipos');
+
+        if(searchInput && tablaEquipos) {
+            searchInput.addEventListener('keyup', function(e) {
+                const term = e.target.value.toLowerCase();
+                const filas = tablaEquipos.getElementsByTagName('tr');
+                
+                Array.from(filas).forEach(function(fila) {
+                    // Solo busca en el texto de la fila
+                    const textoFila = fila.textContent.toLowerCase();
+                    if(textoFila.indexOf(term) !== -1) {
+                        fila.style.display = '';
+                    } else {
+                        fila.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
 </body>
 </html>
