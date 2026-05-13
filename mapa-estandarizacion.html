@@ -3,25 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Estandarización - Solutar</title>
+    <title>Inventario de Equipos - Solutar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        burgundy: '#881C23',      
-                        solutarRojo: '#E31E24',   
-                        mist: '#F4F6F5',          
-                        blancoPuro: '#FFFFFF',      
-                        slate: '#4E5861',         
-                        subtleBlack: '#25272A',   
-                        bordeClaro: '#DDE2E1'      
-                    }
-                }
-            }
+            theme: { extend: { colors: { 
+                burgundy: '#881C23', solutarRojo: '#E31E24', mist: '#F4F6F5', 
+                blancoPuro: '#FFFFFF', slate: '#4E5861', subtleBlack: '#25272A', bordeClaro: '#DDE2E1' 
+            }}}
         }
     </script>
 </head>
@@ -35,8 +25,8 @@
             <div class="p-6">
                 <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Módulos</p>
                 <nav class="space-y-2">
-                    <a href="mapa-estandarizacion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-mist text-solutarRojo font-bold border border-subtleBlack/10 transition-all">
-                        <i class="fa-solid fa-map"></i> Mapa de Estandarización
+                    <a href="mapa-estandarizacion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-mist text-solutarRojo font-bold border border-subtleBlack/10 shadow-sm transition-all">
+                        <i class="fa-solid fa-clipboard-check"></i> Inventario de Equipos
                     </a>
                     <a href="var-sst.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/90 hover:bg-white/10 hover:text-white transition-all">
                         <i class="fa-solid fa-tv"></i> VAR SST (Riesgos)
@@ -49,13 +39,13 @@
         </div>
         <div class="p-6 border-t border-subtleBlack/20 bg-black/10">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-industry"></i></div>
+                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-building"></i></div>
                 <div>
-                    <p class="text-sm font-bold text-white leading-tight">CYC Obras</p>
-                    <p class="text-xs text-mist/50">Cliente VIP</p>
+                    <p class="text-sm font-bold text-white leading-tight">Cliente VIP</p>
+                    <p class="text-xs text-mist/50">Sesión Activa</p>
                 </div>
             </div>
-            <button id="btnCerrarSesion" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
+            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
             </button>
         </div>
@@ -63,17 +53,18 @@
 
     <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-mist">
         
-        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex flex-col md:flex-row justify-between items-center sticky top-0 z-10 shadow-sm gap-4">
             <div>
-                <h1 class="text-2xl font-black text-subtleBlack uppercase tracking-tight">Mapa de Estandarización</h1>
-                <p class="text-sm text-slate font-medium">Control Operacional de Equipos</p>
+                <h1 class="text-2xl font-black text-subtleBlack uppercase tracking-tight">Inventario de Equipos</h1>
+                <p class="text-sm text-slate font-medium">Control Operacional Solutar</p>
             </div>
-            <div class="flex gap-3">
-                <button class="bg-blancoPuro border border-bordeClaro text-subtleBlack hover:border-solutarRojo font-bold py-2 px-4 rounded-lg shadow-sm transition-all text-sm">
-                    <i class="fa-solid fa-download mr-1"></i> Descargar Reporte
-                </button>
-                <button onclick="window.location.href='var-sst.html'" class="bg-solutarRojo hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all text-sm animate-pulse">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Activar VAR
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate/40"></i>
+                    <input type="text" id="buscador" placeholder="Buscar serial o marca..." class="w-full border border-bordeClaro rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-solutarRojo shadow-inner bg-mist/50">
+                </div>
+                <button onclick="window.location.href='formulario-inspeccion.html'" class="bg-solutarRojo hover:bg-red-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-[0_4px_10px_rgba(227,30,36,0.3)] transition-all text-sm flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-plus"></i> Nuevo Registro
                 </button>
             </div>
         </header>
@@ -81,127 +72,7 @@
         <div class="p-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm border-l-4 border-l-burgundy">
-                    <p class="text-slate text-sm font-bold uppercase mb-1">Equipos Inventariados</p>
-                    <p class="text-3xl font-black text-subtleBlack">142</p>
+                    <p class="text-slate text-sm font-bold uppercase mb-1">Total Equipos</p>
+                    <p class="text-3xl font-black text-subtleBlack" id="countTotal">0</p>
                 </div>
-                <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm border-l-4 border-l-green-500">
-                    <p class="text-slate text-sm font-bold uppercase mb-1">Aptos / Conformes</p>
-                    <p class="text-3xl font-black text-green-600">128</p>
-                </div>
-                <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm border-l-4 border-l-yellow-500">
-                    <p class="text-slate text-sm font-bold uppercase mb-1">Por Vencer (30 Días)</p>
-                    <p class="text-3xl font-black text-yellow-600">11</p>
-                </div>
-                <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm border-l-4 border-l-solutarRojo">
-                    <p class="text-slate text-sm font-bold uppercase mb-1">Rechazados / Inactivos</p>
-                    <p class="text-3xl font-black text-solutarRojo">3</p>
-                </div>
-            </div>
-
-            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
-                <div class="p-6 border-b border-bordeClaro flex justify-between items-center bg-mist/50">
-                    <h2 class="text-lg font-bold text-subtleBlack"><i class="fa-solid fa-list-check text-burgundy mr-2"></i> Inventario Detallado</h2>
-                    <input type="text" id="searchInput" placeholder="Buscar equipo o serial..." class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-solutarRojo">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-mist text-slate text-xs uppercase tracking-wider">
-                                <th class="p-4 border-b border-bordeClaro font-bold">Serial / ID</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Tipo de Equipo</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Marca</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Próx. Inspección</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Estado</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold text-center">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaEquipos" class="text-sm">
-                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
-                                <td class="p-4 font-mono font-bold text-subtleBlack">ARN-2024-01</td>
-                                <td class="p-4 font-medium text-slate">Arnés 4 Argollas</td>
-                                <td class="p-4 text-slate">3M DBI-SALA</td>
-                                <td class="p-4 text-slate">15 Oct 2026</td>
-                                <td class="p-4"><span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs">Conforme</span></td>
-                                <td class="p-4 text-center"><button class="text-burgundy hover:text-solutarRojo font-bold"><i class="fa-solid fa-file-pdf"></i> Acta</button></td>
-                            </tr>
-                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
-                                <td class="p-4 font-mono font-bold text-subtleBlack">ESL-2023-14</td>
-                                <td class="p-4 font-medium text-slate">Eslinga en Y con Absorbedor</td>
-                                <td class="p-4 text-slate">Insafe</td>
-                                <td class="p-4 text-slate">02 Abr 2026</td>
-                                <td class="p-4"><span class="bg-yellow-100 text-yellow-700 font-bold px-3 py-1 rounded-full text-xs">Próximo Vencer</span></td>
-                                <td class="p-4 text-center"><button class="text-burgundy hover:text-solutarRojo font-bold"><i class="fa-solid fa-file-pdf"></i> Acta</button></td>
-                            </tr>
-                            <tr class="hover:bg-mist/50 transition-colors">
-                                <td class="p-4 font-mono font-bold text-subtleBlack">ANC-2021-05</td>
-                                <td class="p-4 font-medium text-slate">Punto de Anclaje Fijo</td>
-                                <td class="p-4 text-slate">Huck</td>
-                                <td class="p-4 text-slate">Vencido</td>
-                                <td class="p-4"><span class="bg-red-100 text-solutarRojo font-bold px-3 py-1 rounded-full text-xs">Rechazado</span></td>
-                                <td class="p-4 text-center"><button class="text-burgundy hover:text-solutarRojo font-bold"><i class="fa-solid fa-file-pdf"></i> Acta</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA", 
-            authDomain: "solutar-gestion.firebaseapp.com", 
-            projectId: "solutar-gestion", 
-            storageBucket: "solutar-gestion.firebasestorage.app", 
-            messagingSenderId: "472091356051", 
-            appId: "1:472091356051:web:9ddeda6a8aece01ec19666" 
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // 1. SEGURIDAD: Verificar si está logueado
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // Si no hay usuario, lo saca al index de inmediato
-                window.location.replace("index.html");
-            } else {
-                console.log("Sesión activa de:", user.email);
-            }
-        });
-
-        // 2. FUNCIÓN DE CERRAR SESIÓN
-        document.getElementById('btnCerrarSesion').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.replace("index.html");
-            }).catch((error) => {
-                console.error("Error al salir:", error);
-            });
-        });
-
-        // 3. FUNCIONALIDAD DEL BUSCADOR DE LA TABLA
-        const searchInput = document.getElementById('searchInput');
-        const tablaEquipos = document.getElementById('tablaEquipos');
-
-        if(searchInput && tablaEquipos) {
-            searchInput.addEventListener('keyup', function(e) {
-                const term = e.target.value.toLowerCase();
-                const filas = tablaEquipos.getElementsByTagName('tr');
-                
-                Array.from(filas).forEach(function(fila) {
-                    // Solo busca en el texto de la fila
-                    const textoFila = fila.textContent.toLowerCase();
-                    if(textoFila.indexOf(term) !== -1) {
-                        fila.style.display = '';
-                    } else {
-                        fila.style.display = 'none';
-                    }
-                });
-            });
-        }
-    </script>
-</body>
-</html>
+                <div class="bg-blancoPuro border border-bordeClaro p-6 rounded-2xl shadow-sm border

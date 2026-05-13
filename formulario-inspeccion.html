@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Pre-Inspección - Solutar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { 
+                burgundy: '#881C23', solutarRojo: '#E31E24', mist: '#F4F6F5', 
+                blancoPuro: '#FFFFFF', slate: '#4E5861', subtleBlack: '#25272A', bordeClaro: '#DDE2E1' 
+            }}}
+        }
+    </script>
+    <style>
+        .modal-active { display: flex !important; }
+    </style>
+</head>
+<body class="bg-mist text-slate font-sans antialiased h-screen overflow-y-auto">
+
+    <header class="bg-subtleBlack text-white py-4 px-8 flex justify-between items-center sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <button onclick="window.history.back()" class="text-white/70 hover:text-white transition-colors"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+            <div>
+                <h1 class="text-xl font-black uppercase tracking-tight">Formulario de Pre-Inspección</h1>
+                <p class="text-xs text-white/50">Trazabilidad de Equipos de Alturas</p>
+            </div>
+        </div>
+        <button form="formInspeccion" type="submit" class="bg-solutarRojo hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all text-sm flex items-center gap-2">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Inspección
+        </button>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 md:p-8">
+        <form id="formInspeccion" class="space-y-8 pb-20">
+            
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
+                <div class="bg-slate px-6 py-3 border-b border-bordeClaro text-white">
+                    <h2 class="text-sm font-bold uppercase tracking-widest"><i class="fa-solid fa-clipboard-user mr-2"></i> 1. Información de la Inspección</h2>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+                    
+                    <div class="md:col-span-1">
+                        <label class="block text-xs font-bold text-solutarRojo mb-1 tracking-wider uppercase">Empresa / Cliente</label>
+                        <select id="selectEmpresa" onchange="checkNuevaEmpresa(this.value)" class="w-full border-2 border-slate/20 rounded-lg p-2.5 focus:outline-none focus:border-solutarRojo font-bold bg-white shadow-sm">
+                            <option value="">Seleccione la empresa...</option>
+                            <option value="CYC OBRAS">CYC OBRAS CIVILES</option>
+                            <option value="SOLENIS">SOLENIS COLOMBIA</option>
+                            <option value="nuevo" class="text-solutarRojo font-black">+ -- AGREGAR NUEVA EMPRESA --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">1. Proyecto/Sede</label>
+                        <select class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none focus:border-solutarRojo">
+                            <option value="">Seleccione...</option>
+                            <option>OFICINA MEDELLIN</option>
+                            <option>LA CASCADA</option>
+                            <option>OFICINA BOGOTA</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">2. Fecha de Pre-Inspección</label>
+                        <input type="date" class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none focus:border-solutarRojo">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">36. Pre-Inspector</label>
+                        <input type="text" placeholder="Nombre completo" class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none focus:border-solutarRojo">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">37. Tipo de Pre-Inspección Realizada</label>
+                        <select class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none focus:border-solutarRojo">
+                            <option value="">Seleccione...</option>
+                            <option>Periódica empresa</option>
+                            <option>Inspección extraordinaria</option>
+                            <option>Revisión equipo impactado (Detuvo una caida)</option>
+                            <option>Revisión equipo con evento extraordinario</option>
+                            <option>Revisión prevención y asesoría ARL</option>
+                            <option>Inspeccion previa/filtro para inspeccion fabricante</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
+                <div class="bg-solutarRojo px-6 py-3 border-b border-bordeClaro text-white">
+                    <h2 class="text-sm font-bold uppercase tracking-widest"><i class="fa-solid fa-tag mr-2"></i> 2. Identificación del Equipo</h2>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">3. Fabricante</label>
+                        <select class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none">
+                            <option value="">Seleccione...</option>
+                            <option>INSAFE</option><option>ARMADURA</option><option>YOKE</option><option>EUSSE SEGURIDAD</option><option>ISEIN</option>
+                            <option>SINGING ROCK</option><option>EPI</option><option>3M</option><option>LINK TECH</option><option>SOSEGA</option>
+                            <option>CAMP</option><option>NO IDENTIFICADO</option><option>STEEL PRO</option><option>DINAMIK</option><option>ZUBI OLA</option>
+                            <option>SAFE STEP</option><option>HAWK</option><option>ALTO</option><option>FIRST</option><option>SWINLINE</option>
+                            <option>EP COMERCIAL</option><option>STERLING</option><option>ARSEG</option><option>PETZL</option><option>HERGO</option>
+                            <option>NARA</option><option>DELTAPLUS</option><option>PROSS</option><option>MAVERICK</option><option>ALTPRO</option>
+                            <option>CLIMBING TECHNOLOGY</option><option>SKYLOTEC</option><option>HOLD</option><option>XP</option><option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-subtleBlack mb-1">4. Tipo de Equipo</label>
+                        <select class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none">
+                            <option value="">Seleccione...</option>
+                            <option>Arnés de cuerpo completo 4 argollas</option><option>Arnés de cuerpo completo 5 o mas argollas</option>
+                            <option>Linea de vida vertical portatil</option><option>Mosqueton</option><option>Freno para linea de vida vertical portátil</option>
+                            <option>Eslinga con absorbedor energia</option><option>Eslinga - conector restriccion</option><option>Eslinga conector posicionamiento</option>
+                            <option>Red de seguridad</option><option>Anclaje detencion caidas</option><option>Cuerda para trabajo en alturas - trabajo en suspensión - Rescate alturas</option>
+                            <option>Dispositivo (adaptador) anclaje portátil</option><option>Linea de vida vertical fija</option><option>Linea de vida horizontal portatil</option>
+                            <option>Linea de vida horizontal fija</option><option>Anclaje restriccion caidas</option><option>Anclaje posicionamiento</option>
+                            <option>Conector / Gancho especial</option><option>Gancho seguridad</option><option>Dispositivo retráctil para detención</option>
+                            <option>Freno para linea de vida vertical fija</option><option>Elementos para deslizamiento en linea de vida horizontal</option>
+                            <option>Descendedor cuerrda</option><option>Bloqueador de cuerda</option><option>Polea sencilla</option><option>Polea doble</option><option>Other</option>
+                        </select>
+                    </div>
+
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">5. Longitud (Cuerda/Línea)</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">6. Referencia</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">12. Lote</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">13. Serial</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2 font-bold text-solutarRojo"></div>
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">14. Código Interno</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                    <div><label class="block text-xs font-bold text-subtleBlack mb-1">15. Proveedor Compra</label><input type="text" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+
+                    <div class="border-t border-mist col-span-full pt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div><label class="block text-xs font-bold text-subtleBlack mb-1">7. Fecha Fabricación</label><input type="date" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                        <div><label class="block text-xs font-bold text-subtleBlack mb-1">8. Fecha Fabricación (Solo Año)</label><input type="number" placeholder="YYYY" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                        <div><label class="block text-xs font-bold text-subtleBlack mb-1">9. Fecha Primer Uso</label><input type="date" class="w-full border border-bordeClaro rounded-lg p-2"></div>
+                    </div>
+
+                    <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6 bg-mist p-4 rounded-xl">
+                        <div>
+                            <label class="block text-xs font-bold text-subtleBlack mb-1">10. Vida Útil por Fabricante</label>
+                            <select class="w-full border border-bordeClaro rounded-lg p-2">
+                                <option value="">Seleccione...</option>
+                                <option>ARMADURA: ILIMITADA CRITERIO DE INSPECTOR</option>
+                                <option>INSAFE: ILIMITADA - CRITERIO DE INSPECTOR</option>
+                                <option>EPI: ILIMITADA - CRITERIO DE INSPECTOR</option>
+                                <option>EUSSE: ILIMITADA - CRITERIO DE INSPECTOR</option>
+                                <option>LINK TECH: ILIMITADA - CRITERIO DE INSPECTOR</option>
+                                <option>DINAMIK</option>
+                                <option>PETZL: ILIMITADA METAL - 10 AÑOS PLASTICAS/TEXTILES</option>
+                                <option>SOSEGA: ILIMITADA - CRITERIO DE INSPECTOR</option>
+                                <option>EP COMERCIAL</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-subtleBlack mb-1">11. Estado Vida Útil</label>
+                            <select class="w-full border border-bordeClaro rounded-lg p-2 font-bold bg-white">
+                                <option>VIGENTE</option><option>SUPERADA</option><option>ULTIMO AÑO DE USO</option>
+                                <option>EN 6 MESES VENCE</option><option>EN 5 MESES VENCE</option><option>EN 4 MESES VENCE</option>
+                                <option>EN 3 MESES VENCE</option><option>EN 2 MESES VENCE</option><option>ULTIMO MES USO</option>
+                                <option>VALIDAR</option><option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
+                <div class="bg-slate px-6 py-3 border-b border-bordeClaro text-white">
+                    <h2 class="text-sm font-bold uppercase tracking-widest"><i class="fa-solid fa-list-check mr-2"></i> 3. Evaluación Física y Hallazgos</h2>
+                </div>
+                
+                <div class="p-6 space-y-8">
+                    
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">ETIQUETAS / INFORMACIÓN (Preguntas 16 al 18)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">16. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observación</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">17. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Lote no legible - Retirar</option><option>Serial no legible - Retirar</option><option>Fecha fabricación no legible</option>
+                                    <option>Vida util superada - Retirar</option><option>Etiqueta incompleta</option><option>Etiqueta afectada</option>
+                                    <option>Otra información fabricación importante no legible</option><option>Etiqueta caída - Retirar</option>
+                                    <option>Etiqueta sin protección</option><option>Código interno no asignado</option><option>Código interno no visible</option>
+                                    <option>Hoja de vida no existe</option><option>Etiqueta sucia levemente</option><option>Etiqueta sucia gravemente</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="18. Observaciones etiquetas y elementos que portan información" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">PARTES TEXTILES (Preguntas 19 al 21)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">19. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observacion</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">20. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Reatas o cuerdas con contaminación ácidos - No admite mantenimiento</option>
+                                    <option>Reatas o cuerdas con contaminación ácidos - Validar cristalización</option>
+                                    <option>Reatas o cuerdas con contaminación hidrocarburos</option><option>Reatas o cuerdas con contaminación otros químicos</option>
+                                    <option>Reatas o cuerda con desgaste</option><option>Reatas o cuerdas con estiramiento excesivo</option>
+                                    <option>Reatas o cuerdas con estiramiento leve</option><option>Reatas o cuerda con cortes</option>
+                                    <option>Reatas o cuerda deshilachada</option><option>Reatas o cuerdas quemadura</option>
+                                    <option>Cuerda con alma incompleta completa</option><option>Cuerda con alma deformada</option>
+                                    <option>Cuerda con alma expuesta</option><option>Cuerda con funda estirada</option>
+                                    <option>Absorbedor impactado</option><option>Absorbedor cortado</option><option>Absorbedor deformado</option>
+                                    <option>Absorbedor desprotegido</option><option>Perforacion</option><option>Reatas o cuerdas con suciedad excesiva</option>
+                                    <option>Reatas o cuerdas con suciedad leve</option><option>Decoloración textil leve</option><option>Decoloración textil avanzada</option>
+                                    <option>Reatas o cuerda con signo de rigidez</option><option>Reatas o cuerda con rigidez confirmada</option>
+                                    <option>Reatas o cuerda con signo cristalizacion</option><option>Reatas o cuerda con cristalizada confirmada</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="21. Observaciones partes textiles" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">ESTADO COSTURAS (Preguntas 22 al 24)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">22. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observaciones</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">23. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Con cortes o ruptura</option><option>Con estiramiento excesivo</option><option>Con deshilachado</option>
+                                    <option>Con costura faltante</option><option>Con contaminación Hidrocarburos</option><option>Con cambio de color por contaminación con acido</option>
+                                    <option>Con contaminación otros quimicos</option><option>Con quemadura</option><option>Indicadores de impacto activados</option>
+                                    <option>Reatas o cuerda con signo de rigidez</option><option>Reatas o cuerda con rigidez confirmada</option>
+                                    <option>Costuras con suciedad leve</option><option>Costuras con suciedad excesiva</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="24. Observaciones costuras" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">ELEMENTOS METÁLICOS (Preguntas 25 al 27)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">25. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observacion</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">26. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Deformaciones</option><option>Picadas</option><option>Grietas</option><option>Fisuras</option><option>Desgastes</option>
+                                    <option>Sulfatacion</option><option>Inicio oxidación</option><option>Oxidación avanzada</option><option>Corrosión</option>
+                                    <option>Remaches incompletos</option><option>Remaches deformados</option><option>Resorte desajustados</option>
+                                    <option>Resortes no funcionan correctamente</option><option>Contaminación ácidos</option><option>Contaminación hidrocarburos</option>
+                                    <option>Contaminación otros químicos</option><option>Suciedad - Polvo en exceso</option><option>Suciedad - Polvo leve</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="27. Observaciones elementos metálicos" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">PARTES MÓVILES (Preguntas 28 al 30)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">28. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observacion</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">29. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Deformaciones</option><option>Picadas</option><option>Grietas</option><option>Fisuras</option><option>Desgastes</option>
+                                    <option>Sulfatacion</option><option>Inicio oxidación</option><option>Oxidación avanzada</option><option>Corrosión</option>
+                                    <option>Partes móviles no abren correctamente</option><option>Partes móviles no cierran correctamente</option>
+                                    <option>Partes móviles/funcionales no operan correctamente</option><option>Remaches incompletos</option><option>Remaches deformados</option>
+                                    <option>Resorte desajustados</option><option>Resortes no funcionan correctamente</option><option>Contaminación ácidos</option>
+                                    <option>Contaminación hidrocarburos</option><option>Contaminación otros químicos</option><option>Suciedad - Polvo en exceso</option>
+                                    <option>Suciedad - Polvo leve</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="30. Observaciones partes móviles" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                    <div class="border border-bordeClaro p-5 rounded-xl bg-white">
+                        <h3 class="font-bold text-solutarRojo mb-4 border-b border-bordeClaro pb-2">PARTES PLÁSTICAS Y/O RECUBRIMIENTOS (Preguntas 31 al 33)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate mb-1">31. Estado General</label>
+                                <select class="w-full border rounded-lg p-2 text-sm font-bold">
+                                    <option>Conforme</option><option>Conforme con observacion</option><option>No conforme</option><option>No aplica</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate mb-1">32. Hallazgos y Planes de Acción</label>
+                                <select class="w-full border rounded-lg p-2 text-sm">
+                                    <option value="">Seleccione un hallazgo...</option>
+                                    <option>Deformación o desgaste excesivo</option><option>Con Cortes - Grietas - Fisuras</option><option>Con Perforación</option>
+                                    <option>Con contaminación de ácidos</option><option>Con contaminación hidrocarburos</option><option>Con contaminación otros químicos</option>
+                                    <option>2 Guardacabo o protector cuerda/ linea de vida no presente</option><option>Guardacabo o protector cuerda/ linea de vida con rotura</option>
+                                    <option>Recubrimiento de argollas no presente</option><option>Recubrimiento de argollas con rotura</option><option>Paquete de argollas no presente</option>
+                                    <option>Paquete de argollas con desgaste excesivo</option><option>Paquete de argollas con cortes</option><option>Parqueadero de eslingas reventado</option>
+                                    <option>1 Guardacabo o protector cuerda/ linea de vida no presente</option><option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" placeholder="33. Observaciones partes plásticas y/o recubrimientos" class="w-full border border-bordeClaro rounded-lg p-2 text-sm">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden border-l-8 border-l-solutarRojo">
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    
+                    <div class="space-y-4">
+                        <h2 class="text-lg font-black text-subtleBlack mb-2">Dictamen Final</h2>
+                        <div>
+                            <label class="block text-xs font-bold text-subtleBlack mb-1">34. Veredicto Preliminar para el Estado del Equipo</label>
+                            <select class="w-full border-2 border-subtleBlack rounded-lg p-3 font-bold bg-mist text-solutarRojo focus:outline-none">
+                                <option>CONFORME</option>
+                                <option>CONFORME CON OBSERVACION</option>
+                                <option>CONFORME CON OBSERVACION REQUIERE MANTENIMIENTO PREVENTIVO INTERNO</option>
+                                <option>CONFORME CON OBSERVACION REQUIERE MANTENIMIENTO CORRECTIVO INTERNO</option>
+                                <option>CONFORME CON LIMITACIONES</option>
+                                <option>NO CONFORME</option>
+                                <option>NO CONFORME, VIDA UTIL SUPERADA</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO PREVENTIVO INTERNO</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO CORRECTIVO INTERNO</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO POR PERSONA AVALADA POR FABRICANTE</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO PREVENTIVO POR FABRICANTE</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE MANTENIMIENTO CORRECTIVO POR FABRICANTE</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR COORDINADOR ALTURAS</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR FABRICANTE O PERSONAL AVALADA FABRICANTE</option>
+                                <option>NO CONFORME PROVISIONAL, REQUIERE INSPECCION POR PERSONA CALIFICADA</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-subtleBlack mb-1">35. Observaciones Adicionales</label>
+                            <textarea rows="4" class="w-full border border-bordeClaro rounded-lg p-2 focus:outline-none focus:border-solutarRojo"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-mist p-6 rounded-xl border-2 border-dashed border-slate/40 flex flex-col items-center justify-center text-center h-full">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-solutarRojo text-2xl shadow-sm mb-3">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3 class="font-bold text-subtleBlack">Registro Fotográfico</h3>
+                        <p class="text-xs text-slate mb-4">Sube la evidencia del estado del equipo (Máx 3 fotos)</p>
+                        
+                        <input type="file" id="fotoEvidencia" accept="image/*" capture="environment" multiple class="hidden">
+                        <button type="button" onclick="document.getElementById('fotoEvidencia').click()" class="bg-subtleBlack hover:bg-black text-white px-5 py-2 rounded-lg font-bold text-sm shadow-md transition-all">
+                            Subir Fotos / Tomar Foto
+                        </button>
+                        <p class="text-[10px] text-slate/50 mt-3 font-mono" id="fileNamer">Ningún archivo seleccionado</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </main>
+
+    <div id="modalEmpresa" class="fixed inset-0 bg-subtleBlack/80 backdrop-blur-sm z-[60] hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="bg-solutarRojo p-4 text-white flex justify-between items-center">
+                <h3 class="font-black uppercase tracking-tight"><i class="fa-solid fa-building-circle-plus mr-2"></i> Registrar Nueva Empresa</h3>
+                <button onclick="cerrarModal()" class="text-white/70 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black text-slate uppercase mb-1">Razón Social / Nombre Empresa</label>
+                        <input type="text" id="new_razon" class="w-full border border-bordeClaro rounded-lg p-2.5 focus:border-solutarRojo focus:outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate uppercase mb-1">NIT</label>
+                        <input type="text" id="new_nit" placeholder="900.000.000-0" class="w-full border border-bordeClaro rounded-lg p-2.5 focus:border-solutarRojo focus:outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate uppercase mb-1">Número Telefónico</label>
+                        <input type="tel" id="new_tel" placeholder="300..." class="w-full border border-bordeClaro rounded-lg p-2.5 focus:border-solutarRojo focus:outline-none text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black text-slate uppercase mb-1">Dirección Principal</label>
+                        <input type="text" id="new_dir" class="w-full border border-bordeClaro rounded-lg p-2.5 focus:border-solutarRojo focus:outline-none text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black text-slate uppercase mb-1">Correo Electrónico de Contacto</label>
+                        <input type="email" id="new_email" placeholder="ejemplo@empresa.com" class="w-full border border-bordeClaro rounded-lg p-2.5 focus:border-solutarRojo focus:outline-none text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-mist border-t border-bordeClaro flex gap-3">
+                <button onclick="cerrarModal()" class="flex-1 py-3 text-sm font-bold text-slate hover:bg-slate/10 rounded-xl transition-all">Cancelar</button>
+                <button onclick="guardarNuevaEmpresa()" class="flex-1 py-3 text-sm font-black bg-solutarRojo text-white rounded-xl shadow-lg hover:bg-red-700 transition-all">GUARDAR EMPRESA</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal logic
+        const modal = document.getElementById('modalEmpresa');
+        const select = document.getElementById('selectEmpresa');
+
+        function checkNuevaEmpresa(val) {
+            if (val === 'nuevo') {
+                modal.classList.add('modal-active');
+            }
+        }
+
+        function cerrarModal() {
+            modal.classList.remove('modal-active');
+            select.value = ""; 
+        }
+
+        function guardarNuevaEmpresa() {
+            const nombre = document.getElementById('new_razon').value;
+            const nit = document.getElementById('new_nit').value;
+
+            if(!nombre || !nit) {
+                alert("Por favor ingrese al menos el nombre y el NIT.");
+                return;
+            }
+
+            const option = document.createElement("option");
+            option.text = nombre.toUpperCase();
+            option.value = nombre;
+            select.add(option, select.options[1]);
+            select.value = nombre;
+
+            alert("Empresa " + nombre + " registrada con éxito.");
+            cerrarModal();
+        }
+
+        // Photo logic
+        document.getElementById('fotoEvidencia').addEventListener('change', function(e) {
+            const fileName = e.target.files.length > 0 ? e.target.files.length + " imagen(es) seleccionada(s)" : "Ningún archivo seleccionado";
+            document.getElementById('fileNamer').textContent = fileName;
+        });
+
+        // Submit logic
+        document.getElementById('formInspeccion').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("¡Inspección guardada exitosamente!");
+            window.history.back();
+        });
+    </script>
+</body>
+</html>
