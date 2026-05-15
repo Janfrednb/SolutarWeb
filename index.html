@@ -43,11 +43,13 @@
 <body class="bg-slate text-mist font-sans antialiased scroll-smooth">
 
     <nav class="bg-blancoPuro/95 backdrop-blur-md border-b border-bordeClaro fixed w-full z-50 shadow-lg shadow-black/5">
-        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            <img src="logoSolutar.png" alt="Logo Solutar" class="h-20 md:h-24 object-contain">
-           <div class="flex gap-4 items-center">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+            <img src="logoSolutar.png" alt="Logo Solutar" class="h-20 md:h-40 object-contain">
+            <div class="flex gap-4 items-center">
                 <button onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})" class="hidden md:block text-slate hover:text-solutarRojo font-bold transition-colors mr-4">Contacto</button>
-                <button onclick="toggleLoginModal()" class="px-6 py-2.5 font-bold text-white rounded bg-solutarRojo hover:bg-red-700 transition-all shadow-md shadow-red-600/40"><i class="fa-solid fa-user-lock mr-2"></i> Acceso </button>
+                <button onclick="toggleLoginModal()" class="px-6 py-2.5 font-bold text-white rounded bg-solutarRojo hover:bg-red-700 transition-all shadow-md shadow-red-600/40">
+    <i class="fa-solid fa-user-lock mr-2"></i> Acceso
+            </button>
             </div>
         </div>
     </nav>
@@ -276,7 +278,7 @@
     <section id="contacto" class="bg-slate py-24 px-6 relative border-t border-slate scroll-mt-28">
         <div class="max-w-4xl mx-auto relative z-10 text-center">
             <h2 class="text-4xl font-extrabold mb-6 text-white">Ponte en <span class="text-solutarRojo">Contacto</span></h2>
-            <p class="text-mist/90 text-lg mb-12">¿Necesitas estandarizar tus tareas críticas o quieres implementar nuestro software en tu operación? Estamos listos para asesorarte.</p>
+            <p class="text-mist/90 text-lg mb-12">¿Necesitas estandarizar tus tareas críticas o quieres implementar nuestro software en tu operation? Estamos listos para asesorarte.</p>
 
             <div class="grid md:grid-cols-2 gap-8">
                 <a href="https://wa.me/573147479180?text=Hola%20equipo%20Solutar,%20me%20gustaría%20recibir%20asesoría%20sobre%20sus%20servicios." target="_blank" class="block bg-blancoPuro border border-bordeClaro p-8 rounded-2xl hover:border-[#25D366] transition-all group shadow-2xl cursor-pointer transform hover:-translate-y-2.5 shadow-black/10">
@@ -320,8 +322,8 @@
     <div id="loginModal" class="hidden fixed inset-0 bg-subtleBlack/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
         <div class="bg-blancoPuro border border-bordeClaro rounded-3xl w-full max-w-md p-8 relative shadow-2xl">
             <button onclick="toggleLoginModal()" class="absolute top-5 right-5 text-slate hover:text-burgundy transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <div class="text-center mb-9"><img src="logoSolutar.png" alt="Logo Solutar" class="h-20 mx-auto mb-4 object-contain"><p class="text-slate text-sm font-medium">Ingreso al Mapa de Estandarización</p></div>
-            <form id="loginForm" onsubmit="iniciarSesion(event)" class="space-y-6">
+            <div class="text-center mb-9"><img src="logoSolutar.png" alt="Logo Solutar" class="h-20 mx-auto mb-4 object-contain"><p class="text-slate text-sm font-medium">Ingreso al Sistema Solutar</p></div>
+            <form id="loginForm" onsubmit="iniciarSesionSimulada(event)" class="space-y-6">
                 <div><label class="block text-subtleBlack text-sm font-bold mb-2 uppercase tracking-wide">Correo Corporativo</label><input type="email" id="email" class="w-full bg-mist border border-bordeClaro rounded-xl text-subtleBlack px-4 py-3 focus:outline-none focus:border-burgundy shadow-inner" required></div>
                 <div><label class="block text-subtleBlack text-sm font-bold mb-2 uppercase tracking-wide">Contraseña</label><input type="password" id="password" class="w-full bg-mist border border-bordeClaro rounded-xl text-subtleBlack px-4 py-3 focus:outline-none focus:border-burgundy shadow-inner" required></div>
                 <button type="submit" id="btnIngresar" class="w-full bg-burgundy hover:bg-red-900 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-md shadow-burgundy/20 uppercase tracking-wider text-sm">Ingresar <i class="fa-solid fa-arrow-right ml-2"></i></button>
@@ -418,28 +420,25 @@
 
         window.cerrarBrochure = () => { modalBrochure.classList.add('hidden'); document.body.style.overflow = 'auto'; };
         modalBrochure.addEventListener('click', (e) => { if (e.target === modalBrochure) cerrarBrochure(); });
-    </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        const firebaseConfig = { apiKey: "AIzaSyDif_whhHFTQvtBsXW4sKerHlCafSXKgPA", authDomain: "solutar-gestion.firebaseapp.com", projectId: "solutar-gestion", storageBucket: "solutar-gestion.firebasestorage.app", messagingSenderId: "472091356051", appId: "1:472091356051:web:9ddeda6a8aece01ec19666" };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        window.iniciarSesion = function(event) {
+
+        // Función simulada para la demo de hoy (Redirige al Dashboard Admin)
+        window.iniciarSesionSimulada = function(event) {
             event.preventDefault();
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
             const btn = document.getElementById('btnIngresar');
-            const msjError = document.getElementById('msjError');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando...'; btn.disabled = true; msjError.classList.add('hidden');
-            signInWithEmailAndPassword(auth, email, pass).then(() => {
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Permitido'; btn.classList.replace('bg-burgundy', 'bg-green-600');
-                setTimeout(() => { window.location.href = "mapa-estandarizacion.html"; }, 1000);
-            }).catch(() => {
-                btn.innerHTML = 'Ingresar <i class="fa-solid fa-arrow-right ml-2"></i>'; btn.disabled = false;
-                msjError.innerHTML = "Credenciales incorrectas."; msjError.classList.remove('hidden');
-            });
-        }
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando Acceso...'; 
+            btn.disabled = true; 
+            
+            // Simula un tiempo de carga y redirige
+            setTimeout(() => { 
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Permitido'; 
+                btn.classList.replace('bg-burgundy', 'bg-green-600');
+                
+                // Redirige al panel de control de Kevin
+                setTimeout(() => {
+                    window.location.href = "admin.html"; 
+                }, 500);
+            }, 1000);
+        };
     </script>
 </body>
 </html>

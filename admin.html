@@ -3,59 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Solutar Central</title>
+    <title>Torre de Control - Solutar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        burgundy: '#881C23',      
-                        solutarRojo: '#E31E24',   
-                        mist: '#F4F6F5',          
-                        blancoPuro: '#FFFFFF',      
-                        slate: '#4E5861',         
-                        subtleBlack: '#25272A',   
-                        bordeClaro: '#DDE2E1'      
-                    }
-                }
-            }
+            theme: { extend: { colors: { 
+                burgundy: '#881C23', solutarRojo: '#E31E24', mist: '#F4F6F5', 
+                blancoPuro: '#FFFFFF', slate: '#4E5861', subtleBlack: '#25272A', bordeClaro: '#DDE2E1' 
+            }}}
         }
     </script>
 </head>
 <body class="bg-mist text-slate font-sans antialiased h-screen flex overflow-hidden">
 
-    <aside class="w-64 bg-slate text-mist flex flex-col justify-between hidden md:flex shadow-2xl z-20">
+    <aside class="w-64 bg-subtleBlack text-mist flex flex-col justify-between hidden md:flex border-r border-slate/20 shadow-xl z-20">
         <div>
-            <div class="p-6 border-b border-subtleBlack/20 flex justify-center bg-blancoPuro">
-                <img src="logoSolutar.png" alt="Solutar Logo" class="h-12 object-contain">
+            <div class="p-6 border-b border-white/10 flex justify-center bg-blancoPuro">
+                <img src="logoSolutar.png" alt="Solutar Logo" class="h-16 md:h-40 object-contain drop-shadow-sm">
             </div>
             <div class="p-6">
-                <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Administración</p>
+                <p class="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Panel de Control General</p>
                 <nav class="space-y-2">
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 text-white font-bold border border-white/20 transition-all">
-                        <i class="fa-solid fa-users"></i> Clientes (Empresas)
+                    <a href="admin.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-solutarRojo text-white font-bold shadow-sm transition-all">
+                        <i class="fa-solid fa-chart-pie"></i> Vista General
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all">
-                        <i class="fa-solid fa-tv"></i> Alertas VAR SST <span class="bg-solutarRojo text-white text-[10px] px-2 py-0.5 rounded-full font-bold ml-auto animate-pulse">1</span>
+                    <a href="mapa-estandarizacion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-clipboard-check"></i> Inventario Global
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all">
-                        <i class="fa-solid fa-qrcode"></i> Generador QR
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-tv"></i> Gestión VAR SST
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-file-shield"></i> Auditorías RUC
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-mist/70 hover:bg-white/10 hover:text-white transition-all">
+                        <i class="fa-solid fa-building-user"></i> Gestión Clientes
                     </a>
                 </nav>
             </div>
         </div>
-        <div class="p-6 border-t border-subtleBlack/20 bg-black/20">
+        <div class="p-6 border-t border-white/10 bg-black/20">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-blancoPuro flex items-center justify-center text-slate font-black"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="w-10 h-10 rounded-full bg-solutarRojo flex items-center justify-center text-white font-black shadow-lg"><i class="fa-solid fa-user-tie"></i></div>
                 <div>
-                    <p class="text-sm font-bold text-white leading-tight">Kevin / José</p>
-                    <p class="text-xs text-white/50">SuperAdmin</p>
+                    <p class="text-sm font-bold text-white leading-tight">Kevin Román</p>
+                    <p class="text-[10px] text-solutarRojo font-black uppercase tracking-wider">Super Admin</p>
                 </div>
             </div>
-            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-white/50 hover:text-white transition-colors">
+            <button onclick="window.location.href='index.html'" class="w-full py-2 text-sm text-center text-mist/50 hover:text-white transition-colors">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
             </button>
         </div>
@@ -63,78 +59,82 @@
 
     <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-mist">
         
-        <header class="bg-blancoPuro border-b border-bordeClaro py-4 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+        <header class="bg-blancoPuro border-b border-bordeClaro py-5 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
             <div>
-                <h1 class="text-2xl font-black text-subtleBlack tracking-tight">Centro de Control Solutar</h1>
-                <p class="text-sm text-slate font-medium">Gestión de Clientes y Alertas</p>
+                <h2 class="text-2xl font-black text-subtleBlack tracking-tight">Torre de Control 👋</h2>
+                <p class="text-sm text-slate font-medium">Indicadores en tiempo real de todos los clientes</p>
             </div>
-            <button class="bg-subtleBlack hover:bg-black text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition-all text-sm">
-                <i class="fa-solid fa-plus mr-1"></i> Nuevo Cliente
-            </button>
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-slate hover:text-solutarRojo transition-colors">
+                    <i class="fa-solid fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 w-3 h-3 bg-solutarRojo rounded-full border-2 border-white"></span>
+                </button>
+            </div>
         </header>
 
-        <div class="p-8">
+        <div class="p-8 space-y-8">
             
-            <div class="bg-solutarRojo/10 border-l-4 border-solutarRojo p-6 rounded-2xl mb-8 flex justify-between items-center shadow-sm">
-                <div class="flex gap-4 items-center">
-                    <div class="w-12 h-12 rounded-full bg-solutarRojo text-white flex items-center justify-center text-xl shadow-lg animate-bounce">
-                        <i class="fa-solid fa-bell"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-solutarRojo font-black text-lg">VAR SST ACTIVADO - ¡Requiere Atención!</h3>
-                        <p class="text-subtleBlack text-sm font-medium">La empresa <strong>CYC Obras</strong> reportó una ausencia de línea de vida hace 5 minutos.</p>
-                    </div>
+            <div class="bg-red-50 border-l-4 border-solutarRojo p-4 rounded-r-lg shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-solutarRojo font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Tienes 2 reportes VAR críticos sin atender</h3>
+                    <p class="text-xs text-red-700 mt-1">CYC Obras Civiles y Solenis han reportado condiciones inseguras en las últimas 24 horas.</p>
                 </div>
-                <button class="bg-solutarRojo text-white font-bold px-6 py-2 rounded-lg hover:bg-red-800 transition-colors shadow-md">
-                    Atender VAR
+                <button class="bg-solutarRojo text-white px-5 py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition-all shadow-md whitespace-nowrap">Gestionar VAR</button>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-black text-slate uppercase tracking-widest mb-4">Indicadores de Acción (KPIs)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="bg-blancoPuro p-6 rounded-2xl shadow-sm border border-bordeClaro relative overflow-hidden group hover:border-yellow-500 transition-colors">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-full flex items-start justify-end p-3"><i class="fa-solid fa-stopwatch text-yellow-600 text-xl"></i></div>
+                        <p class="text-slate text-xs font-bold uppercase mb-1">Por Vencer (30 Días)</p>
+                        <p class="text-4xl font-black text-subtleBlack mb-2">12</p>
+                        <div class="text-[10px] text-yellow-600 font-bold bg-yellow-50 inline-block px-2 py-1 rounded">💰 Oportunidad de recertificación</div>
+                    </div>
+
+                    <div class="bg-blancoPuro p-6 rounded-2xl shadow-sm border border-bordeClaro relative overflow-hidden group hover:border-solutarRojo transition-colors">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-red-100 rounded-bl-full flex items-start justify-end p-3"><i class="fa-solid fa-ban text-solutarRojo text-xl"></i></div>
+                        <p class="text-slate text-xs font-bold uppercase mb-1">Equipos Rechazados</p>
+                        <p class="text-4xl font-black text-subtleBlack mb-2">5</p>
+                        <div class="text-[10px] text-solutarRojo font-bold bg-red-50 inline-block px-2 py-1 rounded">⚠️ Requieren reposición inmediata</div>
+                    </div>
+
+                    <div class="bg-blancoPuro p-6 rounded-2xl shadow-sm border border-bordeClaro relative overflow-hidden group hover:border-blue-500 transition-colors">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-blue-100 rounded-bl-full flex items-start justify-end p-3"><i class="fa-solid fa-file-shield text-blue-600 text-xl"></i></div>
+                        <p class="text-slate text-xs font-bold uppercase mb-1">Auditorías RUC Pend.</p>
+                        <p class="text-4xl font-black text-subtleBlack mb-2">3</p>
+                        <div class="text-[10px] text-blue-600 font-bold bg-blue-50 inline-block px-2 py-1 rounded">📅 Agendadas para este mes</div>
+                    </div>
+
+                    <div class="bg-blancoPuro p-6 rounded-2xl shadow-sm border border-bordeClaro relative overflow-hidden group hover:border-green-500 transition-colors">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-green-100 rounded-bl-full flex items-start justify-end p-3"><i class="fa-solid fa-building-user text-green-600 text-xl"></i></div>
+                        <p class="text-slate text-xs font-bold uppercase mb-1">Clientes Activos</p>
+                        <p class="text-4xl font-black text-subtleBlack mb-2">18</p>
+                        <div class="text-[10px] text-green-600 font-bold bg-green-50 inline-block px-2 py-1 rounded">📈 +2 Nuevos este mes</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button onclick="window.location.href='mapa-estandarizacion.html'" class="bg-subtleBlack hover:bg-black text-white p-6 rounded-2xl flex items-center justify-between group transition-all shadow-lg">
+                    <div class="text-left">
+                        <h4 class="text-lg font-black tracking-wide"><i class="fa-solid fa-plus-circle text-solutarRojo mr-2"></i> Nueva Inspección de Equipo</h4>
+                        <p class="text-xs text-white/50 mt-1">Ir al módulo de inventario para registrar</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-2xl text-white/20 group-hover:text-solutarRojo group-hover:translate-x-2 transition-all"></i>
+                </button>
+                
+                <button class="bg-white border border-bordeClaro hover:border-solutarRojo p-6 rounded-2xl flex items-center justify-between group transition-all shadow-sm">
+                    <div class="text-left">
+                        <h4 class="text-lg font-black text-subtleBlack tracking-wide"><i class="fa-solid fa-file-pdf text-burgundy mr-2"></i> Generar Reporte Mensual</h4>
+                        <p class="text-xs text-slate mt-1">Descargar métricas consolidadas en PDF</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-2xl text-slate/20 group-hover:text-solutarRojo group-hover:translate-x-2 transition-all"></i>
                 </button>
             </div>
 
-            <div class="bg-blancoPuro border border-bordeClaro rounded-2xl shadow-sm overflow-hidden">
-                <div class="p-6 border-b border-bordeClaro flex justify-between items-center bg-mist/50">
-                    <h2 class="text-lg font-bold text-subtleBlack"><i class="fa-solid fa-building text-slate mr-2"></i> Directorio de Clientes</h2>
-                    <input type="text" placeholder="Buscar empresa..." class="border border-bordeClaro rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-slate">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-mist text-slate text-xs uppercase tracking-wider">
-                                <th class="p-4 border-b border-bordeClaro font-bold">Empresa / NIT</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Contacto</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold">Equipos</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold text-center">Estado SST</th>
-                                <th class="p-4 border-b border-bordeClaro font-bold text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
-                                <td class="p-4">
-                                    <p class="font-bold text-subtleBlack">CYC Obras Civiles</p>
-                                    <p class="text-xs text-slate font-mono">NIT: 900.123.456-7</p>
-                                </td>
-                                <td class="p-4 font-medium text-slate">Ing. Carlos Yépez<br><span class="text-xs text-slate/70">310 555 1234</span></td>
-                                <td class="p-4 text-slate font-bold">142 Activos</td>
-                                <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 font-bold px-3 py-1 rounded-full text-xs">VAR Pendiente</span></td>
-                                <td class="p-4 text-center">
-                                    <button class="bg-mist border border-bordeClaro text-slate hover:text-white hover:bg-slate px-3 py-1.5 rounded transition-colors text-xs font-bold mr-2"><i class="fa-solid fa-eye"></i> Ver Panel</button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-mist/50 transition-colors border-b border-bordeClaro">
-                                <td class="p-4">
-                                    <p class="font-bold text-subtleBlack">Solenis Colombia</p>
-                                    <p class="text-xs text-slate font-mono">NIT: 890.987.654-1</p>
-                                </td>
-                                <td class="p-4 font-medium text-slate">Maria Fernanda L.<br><span class="text-xs text-slate/70">320 444 9876</span></td>
-                                <td class="p-4 text-slate font-bold">85 Activos</td>
-                                <td class="p-4 text-center"><span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs">Al día (100%)</span></td>
-                                <td class="p-4 text-center">
-                                    <button class="bg-mist border border-bordeClaro text-slate hover:text-white hover:bg-slate px-3 py-1.5 rounded transition-colors text-xs font-bold mr-2"><i class="fa-solid fa-eye"></i> Ver Panel</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </main>
 
